@@ -49,7 +49,7 @@
     T.chapters[0].scenes[2],  // Torre Eiffel
     T.chapters[8].scenes[0],  // Veneza
     T.chapters[6].scenes[1],  // Titlis
-    T.chapters[13].scenes[1]  // Praga
+    T.chapters[12].scenes[1]  // Praga
   ];
   {
     const s = el("section", "slide slide-hero");
@@ -158,13 +158,13 @@
   {
     const s = el("section", "slide");
     s.dataset.kind = "end";
-    s.appendChild(stageFor([T.chapters[9].scenes[0]], "#A66B47"));
+    s.appendChild(stageFor([T.chapters[13].scenes[0]], "#A66B47"));
     s.appendChild(el("div", "end", `
       <p>${esc(T.meta.dedication)}</p>
       <span>${T.meta.start} a ${T.meta.end} de ${T.meta.month} de ${T.meta.year}</span>
     `));
     deck.appendChild(s);
-    slides.push({ node: s, kind: "end", scenes: [T.chapters[9].scenes[0]], accent: "#A66B47", audio: "vienna" });
+    slides.push({ node: s, kind: "end", scenes: [T.chapters[13].scenes[0]], accent: "#A66B47", audio: "vienna" });
   }
 
   // trilho
@@ -411,5 +411,5 @@
   showScene(0);
 
   // busca as fotos da capa e das primeiras etapas assim que a página abre
-  [1, 9, 7, 14, 2, 3].forEach((n, k) => setTimeout(() => warm(n), k * 260));
+  [1, 9, 7, 13, 2, 3].forEach((n, k) => setTimeout(() => warm(n), k * 260));
 })();

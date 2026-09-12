@@ -118,21 +118,9 @@ window.TRIP = {
       ]
     },
     {
-      id: "vienna", n: "10", city: "Viena", country: "Áustria", cc: "at",
-      accent: "#A66B47", days: "DIAS 09, 14 E 15", dates: "16, 21 e 22 de abril",
-      leg: { mode: "Nightjet", label: "Veneza → Viena, dormindo a bordo", time: "21:05 → 08:00", dur: "11h", via: ["Treviso", "Pordenone", "Udine", "Villach"], night: true },
-      sleep: "cabine privativa no trem",
-      intro: "Viena aparece três vezes: na chegada do trem noturno, e depois no fim, para as duas últimas noites. Palácios imperiais, cafés com mármore e bolo, e o melhor transporte público da rota.",
-      scenes: [
-        { name: "Innere Stadt", time: "1h30", note: "O centro imperial dentro do anel das antigas muralhas: a catedral de Santo Estêvão com o telhado em losangos, a Hofburg e a Graben.", art: { kind: "stephansdom", sky: "morning", water: false } },
-        { name: "Schönbrunn", time: "2h30", note: "A residência de verão dos Habsburgo, com 1.441 salas e um jardim que sobe até a Gloriette. Escolhemos o palácio ou o parque, conforme a hora.", art: { kind: "schoenbrunn", sky: "noon", water: false } },
-        { name: "Belvedere", time: "2h", note: "Dois palácios barrocos ligados por jardins em terraço. Dentro está O Beijo, de Klimt — e é bem menor do que se imagina.", art: { kind: "baroque-garden", sky: "gold", water: false } }
-      ]
-    },
-    {
-      id: "budapest", n: "11", city: "Budapeste", country: "Hungria", cc: "hu",
+      id: "budapest", n: "10", city: "Budapeste", country: "Hungria", cc: "hu",
       accent: "#B8903B", days: "DIAS 09–11", dates: "16 a 18 de abril",
-      leg: { mode: "Railjet", label: "Viena → Budapeste", time: "19:00 → 21:40", dur: "2h40", via: ["Győr"] },
+      leg: { mode: "Nightjet + Railjet", label: "Veneza → Viena → Budapeste", time: "21:05 → 21:40 do dia seguinte", dur: "11h + 2h40", via: ["Udine", "Villach", "Viena, só de passagem", "Győr"], night: true },
       sleep: "Budapeste (duas noites)",
       intro: "São duas cidades que o Danúbio separou: Buda sobe pelas colinas, Pest se espalha em avenidas. Temos um dia cheio sem deslocamento nenhum — o segundo respiro da viagem.",
       scenes: [
@@ -142,7 +130,7 @@ window.TRIP = {
       ]
     },
     {
-      id: "bratislava", n: "12", city: "Bratislava", country: "Eslováquia", cc: "sk",
+      id: "bratislava", n: "11", city: "Bratislava", country: "Eslováquia", cc: "sk",
       accent: "#6B8398", days: "DIA 11", dates: "domingo, 18 de abril",
       leg: { mode: "trem", label: "Budapeste → Bratislava", time: "07:10 → 09:40", dur: "2h30", via: ["Vác", "Szob", "Štúrovo", "Nové Zámky"] },
       sleep: "no trem, rumo à Cracóvia",
@@ -154,7 +142,7 @@ window.TRIP = {
       ]
     },
     {
-      id: "krakow", n: "13", city: "Cracóvia", sub: "+ Wieliczka", country: "Polônia", cc: "pl",
+      id: "krakow", n: "12", city: "Cracóvia", sub: "+ Wieliczka", country: "Polônia", cc: "pl",
       accent: "#9A5762", days: "DIA 12", dates: "segunda, 19 de abril",
       leg: { mode: "EuroNight", label: "Bratislava → Cracóvia, cabine com duas camas", time: "21:58 → 07:15", dur: "9h17", via: ["Břeclav", "Bohumín", "Ostrava"], night: true },
       sleep: "no trem, rumo a Praga",
@@ -166,7 +154,7 @@ window.TRIP = {
       ]
     },
     {
-      id: "prague", n: "14", city: "Praga", country: "Tchéquia", cc: "cz",
+      id: "prague", n: "13", city: "Praga", country: "Tchéquia", cc: "cz",
       accent: "#B3603C", days: "DIAS 13–14", dates: "20 e 21 de abril",
       leg: { mode: "EuroNight", label: "Cracóvia → Praga, cabine privativa", time: "21:00 → 07:00", dur: "10h", via: ["Bohumín", "Ostrava", "Olomouc", "Pardubice"], night: true },
       sleep: "Praga",
@@ -175,6 +163,18 @@ window.TRIP = {
         { name: "Ponte Carlos", time: "1h", note: "Ao amanhecer a ponte do século XIV fica quase vazia, e dá para ver as trinta estátuas e as torres sem ninguém na frente. Algumas horas depois é impossível.", art: { kind: "charlesbridge", sky: "dawn", water: true } },
         { name: "Castelo e Malá Strana", time: "2h30", note: "O maior complexo de castelo do mundo, com a Catedral de São Vito no meio e as vielas de Malá Strana descendo até o rio.", art: { kind: "praguecastle", sky: "noon", water: true } },
         { name: "Cidade Velha", time: "2h", note: "O Relógio Astronômico de 1410 ainda funcionando, com os apóstolos desfilando a cada hora, e as duas torres desiguais do Týn atrás da praça.", art: { kind: "astroclock", sky: "dusk", water: false } }
+      ]
+    },
+    {
+      id: "vienna", n: "14", city: "Viena", country: "Áustria", cc: "at",
+      accent: "#A66B47", days: "DIAS 14–15", dates: "21 e 22 de abril",
+      leg: { mode: "Railjet", label: "Praga → Viena", time: "13:00 → 17:00", dur: "4h", via: ["Pardubice", "Brno", "Břeclav"] },
+      sleep: "Viena, a última noite",
+      intro: "A viagem fecha onde ela tem que fechar: palácios imperiais, cafés de mármore e a última noite antes de voltar. Guardamos Viena inteira para o fim, sem pressa de trem no dia seguinte.",
+      scenes: [
+        { name: "Innere Stadt", time: "1h30", note: "O centro imperial dentro do anel das antigas muralhas: a catedral de Santo Estêvão com o telhado em losangos, a Hofburg e a Graben.", art: { kind: "stephansdom", sky: "morning", water: false } },
+        { name: "Schönbrunn", time: "2h30", note: "A residência de verão dos Habsburgo, com 1.441 salas e um jardim que sobe até a Gloriette. Escolhemos o palácio ou o parque, conforme a hora.", art: { kind: "schoenbrunn", sky: "noon", water: false } },
+        { name: "Belvedere", time: "2h", note: "Dois palácios barrocos ligados por jardins em terraço. Dentro está O Beijo, de Klimt — e é bem menor do que se imagina.", art: { kind: "baroque-garden", sky: "gold", water: false } }
       ]
     }
   ],
@@ -187,12 +187,12 @@ window.TRIP = {
     { d: "13", wd: "ter", place: "Monte Titlis", detail: "Dia inteiro na montanha: Engelberg, teleféricos e a neve a 3.020 m.", route: "Engelberg · Titlis", sleep: "Lucerna" },
     { d: "14", wd: "qua", place: "Lucerna → Milão", detail: "Travessia dos Alpes pelo Gotthard; Duomo e Navigli à tarde.", route: "Bellinzona · Lugano · Como", sleep: "Milão" },
     { d: "15", wd: "qui", place: "Milão → Veneza → trem noturno", detail: "Rialto e San Marco, e às 21:05 o Nightjet para a Áustria.", route: "Verona · Vicenza · Pádua", sleep: "cabine no trem", night: true },
-    { d: "16", wd: "sex", place: "Viena → Budapeste", detail: "Acordamos em Viena, centro imperial de dia, Railjet à noite.", route: "Győr", sleep: "Budapeste" },
+    { d: "16", wd: "sex", place: "Chegada a Viena → Budapeste", detail: "O noturno desembarca em Viena de manhã; seguimos de Railjet à noite.", route: "Udine · Villach · Viena", sleep: "Budapeste" },
     { d: "17", wd: "sáb", place: "Budapeste", detail: "Sem trem nenhum: colina do castelo, Parlamento e termas à noite.", route: "Buda · Pest", sleep: "Budapeste" },
     { d: "18", wd: "dom", place: "Budapeste → Bratislava → trem noturno", detail: "Dia a pé na capital eslovaca; EuroNight das 21:58 para a Polônia.", route: "Štúrovo · Břeclav · Ostrava", sleep: "cabine no trem", night: true },
     { d: "19", wd: "seg", place: "Cracóvia + Wieliczka", detail: "Rynek e Wawel de manhã, mina de sal à tarde, noturno para Praga.", route: "Olomouc · Pardubice", sleep: "cabine no trem", night: true },
     { d: "20", wd: "ter", place: "Praga", detail: "Ponte Carlos ao amanhecer, castelo e Malá Strana o resto do dia.", route: "Praga", sleep: "Praga" },
-    { d: "21", wd: "qua", place: "Praga → Viena", detail: "Cidade Velha e o relógio pela manhã; Railjet à tarde para a última noite.", route: "Brno · Břeclav", sleep: "Viena" },
+    { d: "21", wd: "qua", place: "Praga → Viena", detail: "Cidade Velha e o relógio pela manhã; Railjet à tarde, e Viena é toda nossa.", route: "Pardubice · Brno · Břeclav", sleep: "Viena" },
     { d: "22", wd: "qui", place: "Viena → casa", detail: "Um último café vienense e o voo de volta às 09:25.", route: "Viena · VIE", sleep: "—" }
   ],
   countries: [
