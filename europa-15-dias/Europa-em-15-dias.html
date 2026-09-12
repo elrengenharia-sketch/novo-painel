@@ -49,13 +49,25 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;display:block;
 }
-.stage canvas{z-index:1}
+.stage .art{z-index:1;animation:drift 30s ease-in-out infinite alternate}
+.stage .motion{z-index:2;opacity:1;transition:opacity 1.2s ease;pointer-events:none}
+.stage.has-photo .motion{opacity:0}
+.stage.has-photo .art{animation:none}
 .stage img{
-  z-index:2;opacity:0;transform:scale(1.08);
-  transition:opacity 1.6s ease,transform 9s linear;
+  z-index:3;opacity:0;
+  animation:none;transform:scale(1.12);
+  transition:opacity 1.8s ease,transform 1.8s ease;
 }
-.stage img.is-on{opacity:1;transform:scale(1)}
-.stage img.is-out{opacity:0;transform:scale(1.03);transition:opacity 1.6s ease}
+.stage img.is-on{opacity:1;transform:scale(1);animation:kenburns 24s ease-out forwards}
+.stage img.is-out{opacity:0;animation:none;transition:opacity 1.4s ease}
+@keyframes drift{
+  0%{transform:scale(1.06) translate3d(-1.2%,-0.8%,0)}
+  100%{transform:scale(1.12) translate3d(1.4%,1%,0)}
+}
+@keyframes kenburns{
+  0%{transform:scale(1) translate3d(0,0,0)}
+  100%{transform:scale(1.13) translate3d(-1.6%,-1.2%,0)}
+}
 .scrim{
   position:absolute;inset:0;z-index:3;pointer-events:none;
   background:
@@ -114,6 +126,27 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     radial-gradient(120% 90% at 82% 60%,rgba(7,9,14,.86) 0%,rgba(7,9,14,0) 62%);
 }
 .panel{max-width:min(560px,92vw);pointer-events:auto}
+.panel>*,.hero-wrap>*,.end>*{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .85s ease,transform .85s cubic-bezier(.2,.75,.3,1);
+}
+.slide.is-on .panel>*,.slide.is-on .hero-wrap>*,.slide.is-on .end>*{opacity:1;transform:none}
+.slide.is-on .panel>*:nth-child(1),.slide.is-on .hero-wrap>*:nth-child(1),.slide.is-on .end>*:nth-child(1){transition-delay:.18s}
+.slide.is-on .panel>*:nth-child(2),.slide.is-on .hero-wrap>*:nth-child(2),.slide.is-on .end>*:nth-child(2){transition-delay:.28s}
+.slide.is-on .panel>*:nth-child(3),.slide.is-on .hero-wrap>*:nth-child(3){transition-delay:.38s}
+.slide.is-on .panel>*:nth-child(4),.slide.is-on .hero-wrap>*:nth-child(4){transition-delay:.48s}
+.slide.is-on .panel>*:nth-child(5),.slide.is-on .hero-wrap>*:nth-child(5){transition-delay:.58s}
+.slide.is-on .panel>*:nth-child(6),.slide.is-on .hero-wrap>*:nth-child(6){transition-delay:.68s}
+.slide.is-on .scene-hud{animation:rise .9s .5s both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.scene-row{animation:none}
+.slide.is-on .scenes li{animation:slot .7s both}
+.slide.is-on .scenes li:nth-child(1){animation-delay:.52s}
+.slide.is-on .scenes li:nth-child(2){animation-delay:.60s}
+.slide.is-on .scenes li:nth-child(3){animation-delay:.68s}
+@keyframes slot{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.slide[data-side="right"] .scenes li{animation-name:slotR}
+@keyframes slotR{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
 .ch-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .slide[data-side="right"] .ch-head{justify-content:flex-end}
 .ch-n{font-family:var(--data);font-size:11px;color:var(--brass);letter-spacing:.14em}
@@ -653,6 +686,105 @@ window.TRIP = {
   });
 })();
 
+/* ===== photos-live.js ===== */
+// Resolve as fotografias consultando a API do Wikimedia Commons no momento da exibição.
+// Assim os endereços e os créditos vêm da fonte, em vez de dependerem de nomes fixos.
+// Onde a rede ou a política da página bloqueia a consulta, nada acontece:
+// a cena desenhada em Canvas permanece no lugar.
+(function () {
+  "use strict";
+
+  const API = "https://commons.wikimedia.org/w/api.php";
+
+  const TERMS = {
+    paris: ["Île de la Cité Paris Seine", "Louvre Palace courtyard Paris", "Eiffel Tower from Trocadéro"],
+    brussels: ["Grand-Place Brussels guildhalls", "Galeries Royales Saint-Hubert Brussels", "Mont des Arts Brussels view"],
+    amsterdam: ["Jordaan canal Amsterdam houses", "Amsterdam canal cruise boat", "Museumplein Rijksmuseum Amsterdam"],
+    cologne: ["Cologne Cathedral exterior Rhine", "Cologne Altstadt old town houses", "Hohenzollern Bridge Cologne night"],
+    luxembourg: ["Chemin de la Corniche Luxembourg City", "Bock Casemates Luxembourg", "Grund Luxembourg City Alzette"],
+    strasbourg: ["Strasbourg Cathedral facade", "Petite France Strasbourg canal", "Barrage Vauban Strasbourg"],
+    lucerne: ["Kapellbrücke Chapel Bridge Lucerne", "Mount Titlis snow Switzerland", "Lake Lucerne Alps panorama"],
+    italy: ["Milan Cathedral Duomo facade", "Galleria Vittorio Emanuele II Milan interior", "Grand Canal Venice Rialto"],
+    vienna: ["St Stephen's Cathedral Vienna", "Schönbrunn Palace Vienna garden", "Belvedere Palace Vienna"],
+    budapest: ["Fisherman's Bastion Buda Castle Budapest", "Hungarian Parliament Building Danube Budapest", "Széchenyi Thermal Bath Budapest"],
+    bratislava: ["Bratislava old town Michael's Gate", "Bratislava Castle Danube", "SNP Bridge Danube Bratislava"],
+    krakow: ["Main Market Square Kraków Cloth Hall", "Wawel Castle Kraków Vistula", "Wieliczka Salt Mine Saint Kinga Chapel"],
+    prague: ["Charles Bridge Prague", "Prague Castle Malá Strana panorama", "Prague Astronomical Clock Old Town Square"]
+  };
+
+  const REJECT = /(map|mapa|plan|diagram|logo|coat of arms|flag|seal|icon|chart|graph|drawing|engraving|\.svg|\.png)/i;
+
+  const strip = (html) => {
+    const d = document.createElement("div");
+    d.innerHTML = html || "";
+    return (d.textContent || "").replace(/\s+/g, " ").trim();
+  };
+
+  let blocked = false;
+
+  async function search(term) {
+    if (blocked) return null;
+    const url = API + "?" + new URLSearchParams({
+      action: "query", format: "json", origin: "*",
+      generator: "search", gsrsearch: term + " filetype:bitmap",
+      gsrnamespace: "6", gsrlimit: "8",
+      prop: "imageinfo", iiprop: "url|size|extmetadata", iiurlwidth: "1600"
+    });
+    let data;
+    try {
+      const res = await fetch(url, { mode: "cors" });
+      if (!res.ok) return null;
+      data = await res.json();
+    } catch (e) {
+      blocked = true; // CSP ou rede indisponível — desiste de vez
+      return null;
+    }
+    const pages = data && data.query && data.query.pages;
+    if (!pages) return null;
+
+    const list = Object.values(pages)
+      .filter((p) => p.imageinfo && p.imageinfo[0])
+      .map((p) => ({ title: p.title, i: p.imageinfo[0], idx: p.index || 99 }))
+      .filter((p) => !REJECT.test(p.title))
+      .filter((p) => p.i.width && p.i.height && p.i.width >= p.i.height * 1.15)
+      .sort((a, b) => a.idx - b.idx);
+
+    const hit = list[0];
+    if (!hit) return null;
+    const meta = hit.i.extmetadata || {};
+    return {
+      src: hit.i.thumburl || hit.i.url,
+      by: strip(meta.Artist && meta.Artist.value) || "Wikimedia Commons",
+      lic: strip(meta.LicenseShortName && meta.LicenseShortName.value) || "CC",
+      href: hit.i.descriptionurl || "https://commons.wikimedia.org/"
+    };
+  }
+
+  const done = {};
+
+  async function resolveChapter(ch, onScene) {
+    if (blocked || done[ch.id]) return;
+    done[ch.id] = true;
+    const terms = TERMS[ch.id] || [];
+    for (let i = 0; i < ch.scenes.length; i++) {
+      const term = terms[i];
+      if (!term) continue;
+      const found = await search(term);
+      if (!found) continue;
+      const sc = ch.scenes[i];
+      sc.photo = found.src;
+      sc.credit = found;
+      if (onScene) onScene(ch, i, sc);
+      if (blocked) return;
+    }
+  }
+
+  window.LivePhotos = {
+    get blocked() { return blocked; },
+    resolveChapter: resolveChapter
+  };
+})();
+
 /* ===== scenes.js ===== */
 // Motor de cenas: desenha cada atração como estudo de luz e silhueta.
 // Serve de camada-base sob a fotografia e assume sozinho quando a foto não carrega.
@@ -1138,6 +1270,201 @@ window.TRIP = {
   window.SceneArt = { draw: draw };
 })();
 
+/* ===== motion.js ===== */
+// Camada viva sobre a cena: luz que desloca, água que cintila, partículas.
+// Um único loop de animação serve o slide visível; os demais ficam parados.
+(function () {
+  "use strict";
+
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function rnd(seed) {
+    let s = seed >>> 0;
+    return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296);
+  }
+
+  // que partículas cada céu pede
+  function kindOf(sky) {
+    if (sky === "night") return "stars";
+    if (sky === "alpine") return "snow";
+    if (sky === "interior" || sky === "underground") return "dust";
+    if (sky === "dawn" || sky === "gold" || sky === "dusk") return "embers";
+    return "haze";
+  }
+
+  const TONE = {
+    stars:  "rgba(214,228,255,",
+    snow:   "rgba(255,255,255,",
+    dust:   "rgba(210,178,120,",
+    embers: "rgba(255,208,150,",
+    haze:   "rgba(255,250,240,"
+  };
+
+  function Field(canvas, scene) {
+    this.c = canvas;
+    this.ctx = canvas.getContext("2d");
+    this.scene = scene;
+    this.art = scene.art || {};
+    this.kind = kindOf(this.art.sky);
+    this.r = rnd(scene.name.length * 7919 + (this.art.kind || "").length * 104729);
+    this.parts = [];
+    this.t = 0;
+    this.size();
+  }
+
+  Field.prototype.size = function () {
+    const box = this.c.getBoundingClientRect();
+    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.W = Math.max(2, Math.round(box.width));
+    this.H = Math.max(2, Math.round(box.height));
+    this.c.width = this.W * this.dpr;
+    this.c.height = this.H * this.dpr;
+    this.ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    this.horizon = (this.art.sky === "interior" || this.art.sky === "underground")
+      ? this.H * 0.9 : this.H * (this.art.water ? 0.62 : 0.74);
+    this.seed();
+  };
+
+  Field.prototype.seed = function () {
+    const n = this.kind === "haze" ? 26 : this.kind === "stars" ? 70 : 46;
+    this.parts = [];
+    for (let i = 0; i < n; i++) {
+      const top = this.kind === "stars" ? this.horizon * 0.86 : this.H;
+      this.parts.push({
+        x: this.r() * this.W,
+        y: this.r() * top,
+        z: 0.3 + this.r() * 0.7,
+        p: this.r() * 6.28,
+        s: 0.4 + this.r() * 1.5
+      });
+    }
+    // faixas de brilho na água
+    this.glints = [];
+    if (this.art.water) {
+      for (let i = 0; i < 30; i++) {
+        this.glints.push({
+          y: this.r(),
+          x: this.r(),
+          w: 0.04 + this.r() * 0.24,
+          p: this.r() * 6.28,
+          sp: 0.25 + this.r() * 0.7
+        });
+      }
+    }
+  };
+
+  Field.prototype.frame = function (dt) {
+    const ctx = this.ctx, W = this.W, H = this.H;
+    this.t += dt;
+    const t = this.t;
+    ctx.clearRect(0, 0, W, H);
+
+    // bruma de luz que passeia devagar
+    const gx = W * (0.5 + Math.sin(t * 0.045) * 0.34);
+    const gy = this.horizon - H * (0.16 + Math.cos(t * 0.031) * 0.07);
+    const g = ctx.createRadialGradient(gx, gy, 0, gx, gy, H * 0.62);
+    const warm = this.art.sky === "night" ? "rgba(150,185,255," : "rgba(255,226,178,";
+    g.addColorStop(0, warm + (0.2 + Math.sin(t * 0.12) * 0.05) + ")");
+    g.addColorStop(0.5, warm + "0.05)");
+    g.addColorStop(1, warm + "0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, W, this.horizon + 4);
+
+    // água: cintilância horizontal
+    if (this.art.water) {
+      const top = this.horizon, span = H - top;
+      ctx.save();
+      ctx.beginPath(); ctx.rect(0, top, W, span); ctx.clip();
+      for (let i = 0; i < this.glints.length; i++) {
+        const q = this.glints[i];
+        const y = top + span * Math.pow(q.y, 1.4);
+        const wob = Math.sin(t * q.sp + q.p);
+        const x = (q.x * W + wob * W * 0.04 + W) % W;
+        const w = W * q.w * (0.7 + 0.3 * Math.abs(wob));
+        const a = 0.05 + 0.14 * (0.5 + 0.5 * Math.sin(t * q.sp * 1.7 + q.p));
+        ctx.fillStyle = "rgba(255,244,224," + (a * (0.35 + q.y)) + ")";
+        ctx.fillRect(x - w / 2, y, w, Math.max(1, H * 0.0035));
+      }
+      ctx.restore();
+    }
+
+    // partículas
+    const tone = TONE[this.kind];
+    for (let i = 0; i < this.parts.length; i++) {
+      const p = this.parts[i];
+      let x = p.x, y = p.y, a = 0;
+
+      if (this.kind === "stars") {
+        a = 0.25 + 0.6 * Math.abs(Math.sin(t * (0.4 + p.z) + p.p));
+        a *= 1 - y / (this.horizon * 0.9);
+      } else if (this.kind === "snow") {
+        p.y += dt * 16 * p.z;
+        p.x += Math.sin(t * 0.6 + p.p) * dt * 12 * p.z;
+        if (p.y > H) { p.y = -8; p.x = this.r() * W; }
+        x = p.x; y = p.y; a = 0.28 * p.z;
+      } else if (this.kind === "dust") {
+        p.y -= dt * 4 * p.z;
+        p.x += Math.sin(t * 0.25 + p.p) * dt * 7;
+        if (p.y < -8) { p.y = H + 8; p.x = this.r() * W; }
+        x = p.x; y = p.y;
+        a = (0.1 + 0.16 * Math.abs(Math.sin(t * 0.5 + p.p))) * p.z;
+      } else if (this.kind === "embers") {
+        p.y -= dt * 7 * p.z;
+        p.x += Math.sin(t * 0.4 + p.p) * dt * 9;
+        if (p.y < -8) { p.y = H + 8; p.x = this.r() * W; }
+        x = p.x; y = p.y;
+        a = (0.08 + 0.2 * Math.abs(Math.sin(t * 0.7 + p.p))) * p.z;
+      } else {
+        p.x += dt * 5 * p.z;
+        if (p.x > W + 20) { p.x = -20; p.y = this.r() * this.horizon; }
+        x = p.x; y = p.y + Math.sin(t * 0.3 + p.p) * 4;
+        a = 0.05 * p.z;
+      }
+
+      if (a <= 0.004) continue;
+      const s = p.s * (this.kind === "haze" ? 9 : 1.5) * p.z;
+      ctx.fillStyle = tone + a.toFixed(3) + ")";
+      if (this.kind === "haze") {
+        ctx.beginPath(); ctx.ellipse(x, y, s * 3, s, 0, 0, 6.3); ctx.fill();
+      } else {
+        ctx.beginPath(); ctx.arc(x, y, s, 0, 6.3); ctx.fill();
+      }
+    }
+  };
+
+  // ---- orquestração --------------------------------------------------------
+
+  let fields = new Map(), active = null, raf = null, last = 0;
+
+  function loop(now) {
+    raf = requestAnimationFrame(loop);
+    const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+    last = now;
+    if (active) active.frame(dt);
+  }
+
+  const Motion = {
+    attach: function (canvas, scene) {
+      const f = new Field(canvas, scene);
+      fields.set(canvas, f);
+      return f;
+    },
+    play: function (canvas, scene) {
+      if (reduce) { active = null; return; }
+      let f = fields.get(canvas);
+      if (!f || f.scene !== scene) { f = this.attach(canvas, scene); }
+      f.size();
+      active = f;
+      if (!raf) { last = performance.now(); raf = requestAnimationFrame(loop); }
+    },
+    pause: function () { if (raf) { cancelAnimationFrame(raf); raf = null; } },
+    resume: function () { if (!raf && active) { last = performance.now(); raf = requestAnimationFrame(loop); } },
+    resize: function () { fields.forEach((f) => f.size()); }
+  };
+
+  window.Motion = Motion;
+})();
+
 /* ===== audio.js ===== */
 // Ambiente sonoro sintetizado: um acorde e uma textura por capítulo.
 // Sem arquivos externos — funciona offline e só começa depois de um gesto do usuário.
@@ -1345,21 +1672,20 @@ window.TRIP = {
 
   function stageFor(scenes, accent) {
     const stage = el("div", "stage");
-    const canvas = el("canvas");
-    canvas.setAttribute("aria-hidden", "true");
-    stage.appendChild(canvas);
+    const art = el("canvas", "art");
+    art.setAttribute("aria-hidden", "true");
+    stage.appendChild(art);
+    const mo = el("canvas", "motion");
+    mo.setAttribute("aria-hidden", "true");
+    stage.appendChild(mo);
     scenes.forEach((sc, i) => {
       const img = el("img");
       img.alt = sc.name;
       img.decoding = "async";
-      img.loading = i === 0 ? "eager" : "lazy";
       img.dataset.i = i;
-      if (sc.photo) {
-        img.addEventListener("error", () => { img.dataset.failed = "1"; }, { once: true });
-        img.src = sc.photo;
-      } else {
-        img.dataset.failed = "1";
-      }
+      img.addEventListener("error", () => { img.dataset.failed = "1"; sync(); });
+      img.addEventListener("load", () => { delete img.dataset.failed; sync(); });
+      if (sc.photo) img.src = sc.photo; else img.dataset.failed = "1";
       stage.appendChild(img);
     });
     const tint = el("div", "tint");
@@ -1488,10 +1814,61 @@ window.TRIP = {
     const i = at == null ? (slide === slides[idx] ? scene : 0) : at;
     const sc = slide.scenes[i] || slide.scenes[0];
     if (!sc || !window.SceneArt) return;
-    const canvas = slide.node.querySelector("canvas");
+    const canvas = slide.node.querySelector("canvas.art");
     if (canvas) {
       try { window.SceneArt.draw(canvas, sc, slide.accent); } catch (e) {}
     }
+  }
+
+  // a foto da cena atual chegou (ou falhou): mostra ou esconde a camada viva
+  function sync() {
+    const slide = slides[idx];
+    if (!slide || !slide.scenes.length) return;
+    const stage = slide.node.querySelector(".stage");
+    const img = slide.node.querySelector('.stage img[data-i="' + scene + '"]');
+    const shown = !!(img && !img.dataset.failed && img.getAttribute("src"));
+    if (stage) stage.classList.toggle("has-photo", shown);
+    slide.node.querySelectorAll(".stage img").forEach((im) => {
+      const on = Number(im.dataset.i) === scene && !im.dataset.failed;
+      im.classList.toggle("is-on", on);
+      im.classList.toggle("is-out", !on);
+    });
+    const hud = slide.node.querySelector(".scene-hud .credit");
+    const cr = slide.scenes[scene] && slide.scenes[scene].credit;
+    if (hud && shown && cr && hud.tagName === "SPAN") writeCredit(slide, cr);
+  }
+
+  function writeCredit(slide, cr) {
+    const old = slide.node.querySelector(".scene-hud .credit");
+    if (!old) return;
+    const a = el("a", "credit");
+    a.href = cr.href; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "Foto: " + cr.by + " · " + cr.lic + " · Wikimedia Commons";
+    old.replaceWith(a);
+  }
+
+  // aplica em todos os slides as fotos que o Commons já devolveu
+  function refreshAll() {
+    slides.forEach((s) => {
+      s.scenes.forEach((sc, i) => {
+        if (!sc.photo) return;
+        const im = s.node.querySelector('.stage img[data-i="' + i + '"]');
+        if (im && im.getAttribute("src") !== sc.photo) {
+          delete im.dataset.failed;
+          im.src = sc.photo;
+        }
+      });
+    });
+    sync();
+  }
+
+  function warm(n) {
+    const s = slides[n];
+    if (!s || !s.ch || !window.LivePhotos) return;
+    window.LivePhotos.resolveChapter(s.ch, function (ch, i) {
+      refreshAll();
+      if (slides[idx] === s && i === scene) showScene(scene, false);
+    });
   }
 
   function showScene(n, restart) {
@@ -1501,12 +1878,14 @@ window.TRIP = {
     const sc = slide.scenes[scene];
 
     paintCanvas(slide);
+    if (window.Motion) window.Motion.play(slide.node.querySelector("canvas.motion"), sc);
 
-    slide.node.querySelectorAll(".stage img").forEach((img) => {
-      const on = Number(img.dataset.i) === scene && !img.dataset.failed;
-      img.classList.toggle("is-on", on);
-      img.classList.toggle("is-out", !on);
-    });
+    const cur = slide.node.querySelector('.stage img[data-i="' + scene + '"]');
+    if (cur && sc.photo && cur.getAttribute("src") !== sc.photo) {
+      delete cur.dataset.failed;
+      cur.src = sc.photo;
+    }
+    sync();
 
     slide.node.querySelectorAll(".scene-row").forEach((row, i) => {
       row.classList.toggle("is-live", i === scene);
@@ -1558,8 +1937,9 @@ window.TRIP = {
     if (window.Ambience) window.Ambience.setChapter(slide.audio);
 
     if (slide.scenes.length) showScene(0);
-    else clearTimeout(timer);
+    else { clearTimeout(timer); if (window.Motion) window.Motion.pause(); }
 
+    warm(idx); warm(idx + 1);
     if (idx > 0 && hint) hint.style.opacity = "0";
   }
 
@@ -1643,11 +2023,15 @@ window.TRIP = {
   let rt = null;
   window.addEventListener("resize", () => {
     clearTimeout(rt);
-    rt = setTimeout(() => slides.forEach((s) => { if (s.scenes.length) paintCanvas(s); }), 180);
+    rt = setTimeout(() => {
+      slides.forEach((s) => { if (s.scenes.length) paintCanvas(s); });
+      if (window.Motion) window.Motion.resize();
+    }, 180);
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) clearTimeout(timer); else arm();
+    if (document.hidden) { clearTimeout(timer); if (window.Motion) window.Motion.pause(); }
+    else { arm(); if (window.Motion) window.Motion.resume(); }
   });
 
   // estado inicial
@@ -1656,6 +2040,9 @@ window.TRIP = {
   document.getElementById("prev").disabled = true;
   slides.forEach((s) => { if (s.scenes.length) paintCanvas(s); });
   showScene(0);
+
+  // busca as fotos da capa e das primeiras etapas assim que a página abre
+  [13, 8, 10, 7, 1, 2].forEach((n, k) => setTimeout(() => warm(n), k * 260));
 })();
 
 </script>

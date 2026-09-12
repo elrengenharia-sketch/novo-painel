@@ -40,13 +40,25 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;display:block;
 }
-.stage canvas{z-index:1}
+.stage .art{z-index:1;animation:drift 30s ease-in-out infinite alternate}
+.stage .motion{z-index:2;opacity:1;transition:opacity 1.2s ease;pointer-events:none}
+.stage.has-photo .motion{opacity:0}
+.stage.has-photo .art{animation:none}
 .stage img{
-  z-index:2;opacity:0;transform:scale(1.08);
-  transition:opacity 1.6s ease,transform 9s linear;
+  z-index:3;opacity:0;
+  animation:none;transform:scale(1.12);
+  transition:opacity 1.8s ease,transform 1.8s ease;
 }
-.stage img.is-on{opacity:1;transform:scale(1)}
-.stage img.is-out{opacity:0;transform:scale(1.03);transition:opacity 1.6s ease}
+.stage img.is-on{opacity:1;transform:scale(1);animation:kenburns 24s ease-out forwards}
+.stage img.is-out{opacity:0;animation:none;transition:opacity 1.4s ease}
+@keyframes drift{
+  0%{transform:scale(1.06) translate3d(-1.2%,-0.8%,0)}
+  100%{transform:scale(1.12) translate3d(1.4%,1%,0)}
+}
+@keyframes kenburns{
+  0%{transform:scale(1) translate3d(0,0,0)}
+  100%{transform:scale(1.13) translate3d(-1.6%,-1.2%,0)}
+}
 .scrim{
   position:absolute;inset:0;z-index:3;pointer-events:none;
   background:
@@ -105,6 +117,27 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
     radial-gradient(120% 90% at 82% 60%,rgba(7,9,14,.86) 0%,rgba(7,9,14,0) 62%);
 }
 .panel{max-width:min(560px,92vw);pointer-events:auto}
+.panel>*,.hero-wrap>*,.end>*{
+  opacity:0;transform:translateY(22px);
+  transition:opacity .85s ease,transform .85s cubic-bezier(.2,.75,.3,1);
+}
+.slide.is-on .panel>*,.slide.is-on .hero-wrap>*,.slide.is-on .end>*{opacity:1;transform:none}
+.slide.is-on .panel>*:nth-child(1),.slide.is-on .hero-wrap>*:nth-child(1),.slide.is-on .end>*:nth-child(1){transition-delay:.18s}
+.slide.is-on .panel>*:nth-child(2),.slide.is-on .hero-wrap>*:nth-child(2),.slide.is-on .end>*:nth-child(2){transition-delay:.28s}
+.slide.is-on .panel>*:nth-child(3),.slide.is-on .hero-wrap>*:nth-child(3){transition-delay:.38s}
+.slide.is-on .panel>*:nth-child(4),.slide.is-on .hero-wrap>*:nth-child(4){transition-delay:.48s}
+.slide.is-on .panel>*:nth-child(5),.slide.is-on .hero-wrap>*:nth-child(5){transition-delay:.58s}
+.slide.is-on .panel>*:nth-child(6),.slide.is-on .hero-wrap>*:nth-child(6){transition-delay:.68s}
+.slide.is-on .scene-hud{animation:rise .9s .5s both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.scene-row{animation:none}
+.slide.is-on .scenes li{animation:slot .7s both}
+.slide.is-on .scenes li:nth-child(1){animation-delay:.52s}
+.slide.is-on .scenes li:nth-child(2){animation-delay:.60s}
+.slide.is-on .scenes li:nth-child(3){animation-delay:.68s}
+@keyframes slot{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.slide[data-side="right"] .scenes li{animation-name:slotR}
+@keyframes slotR{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
 .ch-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
 .slide[data-side="right"] .ch-head{justify-content:flex-end}
 .ch-n{font-family:var(--data);font-size:11px;color:var(--brass);letter-spacing:.14em}
@@ -369,6 +402,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 <script src="data.js"></script>
 <script src="photos.js"></script>
+<script src="photos-live.js"></script>
 <script src="scenes.js"></script>
+<script src="motion.js"></script>
 <script src="audio.js"></script>
 <script src="app.js"></script>

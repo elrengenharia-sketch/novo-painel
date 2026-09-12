@@ -21,21 +21,20 @@
 
   function stageFor(scenes, accent) {
     const stage = el("div", "stage");
-    const canvas = el("canvas");
-    canvas.setAttribute("aria-hidden", "true");
-    stage.appendChild(canvas);
+    const art = el("canvas", "art");
+    art.setAttribute("aria-hidden", "true");
+    stage.appendChild(art);
+    const mo = el("canvas", "motion");
+    mo.setAttribute("aria-hidden", "true");
+    stage.appendChild(mo);
     scenes.forEach((sc, i) => {
       const img = el("img");
       img.alt = sc.name;
       img.decoding = "async";
-      img.loading = i === 0 ? "eager" : "lazy";
       img.dataset.i = i;
-      if (sc.photo) {
-        img.addEventListener("error", () => { img.dataset.failed = "1"; }, { once: true });
-        img.src = sc.photo;
-      } else {
-        img.dataset.failed = "1";
-      }
+      img.addEventListener("error", () => { img.dataset.failed = "1"; sync(); });
+      img.addEventListener("load", () => { delete img.dataset.failed; sync(); });
+      if (sc.photo) img.src = sc.photo; else img.dataset.failed = "1";
       stage.appendChild(img);
     });
     const tint = el("div", "tint");
@@ -164,10 +163,61 @@
     const i = at == null ? (slide === slides[idx] ? scene : 0) : at;
     const sc = slide.scenes[i] || slide.scenes[0];
     if (!sc || !window.SceneArt) return;
-    const canvas = slide.node.querySelector("canvas");
+    const canvas = slide.node.querySelector("canvas.art");
     if (canvas) {
       try { window.SceneArt.draw(canvas, sc, slide.accent); } catch (e) {}
     }
+  }
+
+  // a foto da cena atual chegou (ou falhou): mostra ou esconde a camada viva
+  function sync() {
+    const slide = slides[idx];
+    if (!slide || !slide.scenes.length) return;
+    const stage = slide.node.querySelector(".stage");
+    const img = slide.node.querySelector('.stage img[data-i="' + scene + '"]');
+    const shown = !!(img && !img.dataset.failed && img.getAttribute("src"));
+    if (stage) stage.classList.toggle("has-photo", shown);
+    slide.node.querySelectorAll(".stage img").forEach((im) => {
+      const on = Number(im.dataset.i) === scene && !im.dataset.failed;
+      im.classList.toggle("is-on", on);
+      im.classList.toggle("is-out", !on);
+    });
+    const hud = slide.node.querySelector(".scene-hud .credit");
+    const cr = slide.scenes[scene] && slide.scenes[scene].credit;
+    if (hud && shown && cr && hud.tagName === "SPAN") writeCredit(slide, cr);
+  }
+
+  function writeCredit(slide, cr) {
+    const old = slide.node.querySelector(".scene-hud .credit");
+    if (!old) return;
+    const a = el("a", "credit");
+    a.href = cr.href; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = "Foto: " + cr.by + " · " + cr.lic + " · Wikimedia Commons";
+    old.replaceWith(a);
+  }
+
+  // aplica em todos os slides as fotos que o Commons já devolveu
+  function refreshAll() {
+    slides.forEach((s) => {
+      s.scenes.forEach((sc, i) => {
+        if (!sc.photo) return;
+        const im = s.node.querySelector('.stage img[data-i="' + i + '"]');
+        if (im && im.getAttribute("src") !== sc.photo) {
+          delete im.dataset.failed;
+          im.src = sc.photo;
+        }
+      });
+    });
+    sync();
+  }
+
+  function warm(n) {
+    const s = slides[n];
+    if (!s || !s.ch || !window.LivePhotos) return;
+    window.LivePhotos.resolveChapter(s.ch, function (ch, i) {
+      refreshAll();
+      if (slides[idx] === s && i === scene) showScene(scene, false);
+    });
   }
 
   function showScene(n, restart) {
@@ -177,12 +227,14 @@
     const sc = slide.scenes[scene];
 
     paintCanvas(slide);
+    if (window.Motion) window.Motion.play(slide.node.querySelector("canvas.motion"), sc);
 
-    slide.node.querySelectorAll(".stage img").forEach((img) => {
-      const on = Number(img.dataset.i) === scene && !img.dataset.failed;
-      img.classList.toggle("is-on", on);
-      img.classList.toggle("is-out", !on);
-    });
+    const cur = slide.node.querySelector('.stage img[data-i="' + scene + '"]');
+    if (cur && sc.photo && cur.getAttribute("src") !== sc.photo) {
+      delete cur.dataset.failed;
+      cur.src = sc.photo;
+    }
+    sync();
 
     slide.node.querySelectorAll(".scene-row").forEach((row, i) => {
       row.classList.toggle("is-live", i === scene);
@@ -234,8 +286,9 @@
     if (window.Ambience) window.Ambience.setChapter(slide.audio);
 
     if (slide.scenes.length) showScene(0);
-    else clearTimeout(timer);
+    else { clearTimeout(timer); if (window.Motion) window.Motion.pause(); }
 
+    warm(idx); warm(idx + 1);
     if (idx > 0 && hint) hint.style.opacity = "0";
   }
 
@@ -319,11 +372,15 @@
   let rt = null;
   window.addEventListener("resize", () => {
     clearTimeout(rt);
-    rt = setTimeout(() => slides.forEach((s) => { if (s.scenes.length) paintCanvas(s); }), 180);
+    rt = setTimeout(() => {
+      slides.forEach((s) => { if (s.scenes.length) paintCanvas(s); });
+      if (window.Motion) window.Motion.resize();
+    }, 180);
   });
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) clearTimeout(timer); else arm();
+    if (document.hidden) { clearTimeout(timer); if (window.Motion) window.Motion.pause(); }
+    else { arm(); if (window.Motion) window.Motion.resume(); }
   });
 
   // estado inicial
@@ -332,4 +389,7 @@
   document.getElementById("prev").disabled = true;
   slides.forEach((s) => { if (s.scenes.length) paintCanvas(s); });
   showScene(0);
+
+  // busca as fotos da capa e das primeiras etapas assim que a página abre
+  [13, 8, 10, 7, 1, 2].forEach((n, k) => setTimeout(() => warm(n), k * 260));
 })();
