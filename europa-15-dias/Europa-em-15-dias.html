@@ -1,0 +1,1664 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#07090E">
+<style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Europa em 15 dias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,900&family=Martian+Mono:wght@400;600&display=swap">
+
+<style>
+:root{
+  --ink:#07090E; --ink2:#0E131C; --ink3:#161D28;
+  --bone:#EDE5D6; --bone-dim:#9E9689; --bone-faint:#5E5B55;
+  --brass:#C9A24B; --signal:#A8352C;
+  --accent:#3F7BA8;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --data:"Martian Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --pad:clamp(18px,4vw,56px);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;background:var(--ink);color:var(--bone);
+  font-family:var(--body);font-size:16px;line-height:1.5;
+  overflow:hidden;-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;overscroll-behavior:none;
+}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+
+/* ---------- deck ---------- */
+.deck{position:fixed;inset:0}
+.slide{
+  position:absolute;inset:0;opacity:0;visibility:hidden;
+  transition:opacity .9s ease,visibility .9s;
+  display:grid;
+}
+.slide.is-on{opacity:1;visibility:visible}
+
+/* ---------- palco de imagem ---------- */
+.stage{position:absolute;inset:0;overflow:hidden;background:var(--ink2)}
+.stage canvas,.stage img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
+}
+.stage canvas{z-index:1}
+.stage img{
+  z-index:2;opacity:0;transform:scale(1.08);
+  transition:opacity 1.6s ease,transform 9s linear;
+}
+.stage img.is-on{opacity:1;transform:scale(1)}
+.stage img.is-out{opacity:0;transform:scale(1.03);transition:opacity 1.6s ease}
+.scrim{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:
+    linear-gradient(to top,rgba(7,9,14,.94) 0%,rgba(7,9,14,.55) 30%,rgba(7,9,14,.1) 58%,rgba(7,9,14,.5) 100%),
+    radial-gradient(120% 90% at 18% 60%,rgba(7,9,14,.86) 0%,rgba(7,9,14,0) 62%);
+}
+.tint{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:soft-light;opacity:.5;background:var(--accent)}
+
+/* ---------- capa ---------- */
+.hero-wrap{
+  position:relative;z-index:4;height:100%;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:var(--pad);padding-block:var(--pad);gap:clamp(14px,2vh,26px);
+}
+.eyebrow{
+  font-family:var(--data);font-size:clamp(9px,1.1vw,11px);
+  letter-spacing:.28em;text-transform:uppercase;color:var(--brass);margin:0;
+}
+.hero-title{
+  font-family:var(--display);font-variation-settings:"opsz" 144,"SOFT" 40;
+  font-weight:300;font-size:clamp(52px,12vw,168px);line-height:.84;
+  letter-spacing:-.03em;margin:0;text-wrap:balance;
+}
+.hero-title em{font-style:normal;font-weight:900;display:block}
+.hero-copy{max-width:44ch;color:var(--bone-dim);font-size:clamp(14px,1.6vw,19px);margin:0}
+.hero-meta{display:flex;flex-wrap:wrap;gap:clamp(18px,4vw,52px);margin-top:clamp(6px,1.5vh,18px)}
+.hero-meta div{display:flex;flex-direction:column;gap:2px}
+.hero-meta strong{font-family:var(--data);font-size:clamp(18px,2.6vw,30px);font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.hero-meta span{font-family:var(--data);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone-faint)}
+.start{
+  align-self:flex-start;margin-top:clamp(10px,2vh,22px);
+  display:inline-flex;align-items:center;gap:14px;
+  padding:16px 30px;border-radius:999px;
+  background:var(--bone);color:var(--ink);
+  font-family:var(--data);font-size:12px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;
+  transition:transform .25s,box-shadow .25s;
+  box-shadow:0 10px 40px -12px rgba(237,229,214,.5);
+}
+.start:active{transform:scale(.97)}
+.start .dot{width:7px;height:7px;border-radius:50%;background:var(--signal);
+  animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ---------- capítulo ---------- */
+.chapter-body{
+  position:relative;z-index:4;height:100%;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:var(--pad);padding-block:var(--pad);
+  pointer-events:none;
+}
+.slide[data-side="right"] .chapter-body{align-items:flex-end;text-align:right}
+.slide[data-side="right"] .scrim{
+  background:
+    linear-gradient(to top,rgba(7,9,14,.94) 0%,rgba(7,9,14,.55) 30%,rgba(7,9,14,.1) 58%,rgba(7,9,14,.5) 100%),
+    radial-gradient(120% 90% at 82% 60%,rgba(7,9,14,.86) 0%,rgba(7,9,14,0) 62%);
+}
+.panel{max-width:min(560px,92vw);pointer-events:auto}
+.ch-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.slide[data-side="right"] .ch-head{justify-content:flex-end}
+.ch-n{font-family:var(--data);font-size:11px;color:var(--brass);letter-spacing:.14em}
+.ch-country{font-family:var(--data);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--bone-dim)}
+.ch-dates{
+  font-family:var(--data);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink);background:var(--brass);padding:4px 10px;border-radius:3px;
+}
+.ch-city{
+  font-family:var(--display);font-variation-settings:"opsz" 144;
+  font-weight:300;font-size:clamp(40px,8.4vw,104px);line-height:.88;
+  letter-spacing:-.03em;margin:.14em 0 .1em;text-wrap:balance;
+}
+.ch-city em{font-style:normal;font-weight:900;font-size:.52em;display:block;color:var(--brass)}
+.ch-intro{color:var(--bone-dim);font-size:clamp(13px,1.5vw,17px);max-width:52ch;margin:0 0 clamp(14px,2.4vh,26px)}
+.slide[data-side="right"] .ch-intro{margin-left:auto}
+
+/* lista de cenas — o texto que acompanha a imagem */
+.scenes{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;
+  border-top:1px solid rgba(237,229,214,.14)}
+.scene-row{
+  display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline;
+  padding:11px 14px;border-bottom:1px solid rgba(237,229,214,.1);
+  border-left:2px solid transparent;
+  opacity:.42;transition:opacity .5s,background .5s,border-color .5s,padding .4s;
+  text-align:left;width:100%;
+}
+.slide[data-side="right"] .scene-row{
+  border-left:0;border-right:2px solid transparent;text-align:right;
+  grid-template-columns:1fr auto;direction:rtl;
+}
+.slide[data-side="right"] .scene-row>*{direction:ltr}
+.scene-row.is-live{
+  opacity:1;background:rgba(237,229,214,.07);
+  border-left-color:var(--accent);padding-left:20px;
+}
+.slide[data-side="right"] .scene-row.is-live{
+  border-right-color:var(--accent);padding-left:14px;padding-right:20px;
+}
+.scene-time{
+  font-family:var(--data);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--brass);white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.scene-name{font-family:var(--display);font-weight:600;font-size:clamp(15px,1.9vw,21px);
+  letter-spacing:-.01em;grid-column:2;line-height:1.2}
+.slide[data-side="right"] .scene-name{grid-column:1}
+.scene-note{
+  grid-column:2;font-size:13px;color:var(--bone-dim);line-height:1.45;
+  max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .6s ease,opacity .5s,margin .5s;
+}
+.slide[data-side="right"] .scene-note{grid-column:1}
+.scene-row.is-live .scene-note{max-height:9em;opacity:1;margin-top:5px}
+
+.transit{
+  display:flex;gap:12px;align-items:flex-start;margin-top:clamp(12px,2vh,20px);
+  font-size:12.5px;color:var(--bone-faint);max-width:54ch;
+}
+.slide[data-side="right"] .transit{margin-left:auto;flex-direction:row-reverse;text-align:right}
+.transit b{
+  font-family:var(--data);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--brass);white-space:nowrap;padding-top:2px;
+}
+
+/* selo da cena + crédito */
+.scene-hud{
+  position:absolute;z-index:5;right:var(--pad);bottom:var(--pad);
+  display:flex;flex-direction:column;align-items:flex-end;gap:9px;
+  pointer-events:auto;max-width:min(300px,44vw);
+}
+.slide[data-side="right"] .scene-hud{right:auto;left:var(--pad);align-items:flex-start}
+.scene-hud .now{
+  font-family:var(--data);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--bone);text-align:right;display:flex;align-items:center;gap:9px;
+}
+.slide[data-side="right"] .scene-hud .now{text-align:left;flex-direction:row-reverse}
+.scene-hud .now i{
+  font-style:normal;width:6px;height:6px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 28%,transparent);
+  flex:none;
+}
+.ticks{display:flex;gap:5px}
+.ticks i{display:block;width:26px;height:2px;background:rgba(237,229,214,.22);border-radius:2px;overflow:hidden}
+.ticks i.done{background:rgba(237,229,214,.5)}
+.ticks i.live{background:rgba(237,229,214,.22)}
+.ticks i.live::after{
+  content:"";display:block;height:100%;width:0;background:var(--accent);
+  animation:fill var(--dur,7s) linear forwards;
+}
+@keyframes fill{to{width:100%}}
+.credit{
+  font-family:var(--data);font-size:9px;letter-spacing:.06em;
+  color:var(--bone-faint);text-decoration:none;text-align:right;line-height:1.5;
+}
+.slide[data-side="right"] .credit{text-align:left}
+.credit:hover,.credit:focus{color:var(--bone-dim);text-decoration:underline}
+.credit.generated{color:#4C4A46}
+
+/* ---------- calendário ---------- */
+.sheet{
+  position:relative;z-index:4;height:100%;overflow-y:auto;
+  padding:var(--pad);padding-block:calc(var(--pad) + 34px);
+  background:
+    radial-gradient(90% 60% at 50% 0%,rgba(63,123,168,.16) 0%,rgba(7,9,14,0) 70%),
+    var(--ink);
+  -webkit-overflow-scrolling:touch;
+}
+.sheet h2{
+  font-family:var(--display);font-weight:300;font-size:clamp(32px,6vw,68px);
+  line-height:.92;letter-spacing:-.03em;margin:.2em 0 .5em;text-wrap:balance;
+}
+.sheet h2 em{font-style:normal;font-weight:900}
+.cal{display:grid;gap:1px;background:rgba(237,229,214,.12);border:1px solid rgba(237,229,214,.12)}
+.cal-row{
+  display:grid;grid-template-columns:78px 1fr;gap:0;
+  background:var(--ink);align-items:stretch;
+}
+.cal-day{
+  font-family:var(--data);font-weight:600;font-size:clamp(16px,2.4vw,24px);
+  font-variant-numeric:tabular-nums;color:var(--brass);
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  padding:14px 8px;border-right:1px solid rgba(237,229,214,.12);gap:3px;
+}
+.cal-day small{font-size:8px;letter-spacing:.16em;color:var(--bone-faint)}
+.cal-main{padding:14px 18px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.cal-place{font-family:var(--display);font-weight:600;font-size:clamp(15px,2vw,20px)}
+.cal-detail{font-size:13px;color:var(--bone-dim)}
+.cal-route{font-family:var(--data);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-faint);margin-top:2px}
+
+.log-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px;margin-top:36px}
+.log-item{border-top:2px solid var(--brass);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+.log-item h3{font-family:var(--display);font-weight:600;font-size:19px;margin:0}
+.log-item p{margin:0;font-size:13.5px;color:var(--bone-dim)}
+
+/* ---------- fecho ---------- */
+.end{
+  position:relative;z-index:4;height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;gap:18px;
+  padding:var(--pad);padding-block:var(--pad);
+}
+.end p{
+  font-family:var(--display);font-weight:300;font-style:italic;
+  font-size:clamp(24px,5vw,56px);line-height:1.15;letter-spacing:-.02em;
+  max-width:20ch;margin:0;text-wrap:balance;
+}
+.end span{font-family:var(--data);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass)}
+
+/* ---------- trilho de navegação ---------- */
+.rail{
+  position:fixed;z-index:20;left:0;right:0;top:0;
+  display:flex;align-items:center;gap:2px;
+  padding:10px var(--pad);
+  background:linear-gradient(to bottom,rgba(7,9,14,.85),rgba(7,9,14,0));
+  pointer-events:auto;
+}
+.rail-stop{
+  flex:1;height:26px;display:flex;align-items:center;justify-content:center;
+  position:relative;min-width:0;
+}
+.rail-stop::before{
+  content:"";position:absolute;left:0;right:0;top:50%;height:2px;
+  background:rgba(237,229,214,.16);transform:translateY(-50%);
+}
+.rail-stop.seen::before{background:rgba(237,229,214,.45)}
+.rail-stop.here::before{background:var(--accent)}
+.rail-stop b{
+  position:relative;z-index:1;font-family:var(--data);font-size:8.5px;
+  letter-spacing:.08em;color:var(--bone-faint);background:var(--ink);
+  padding:0 5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  transition:color .3s;
+}
+.rail-stop.here b{color:var(--bone);font-weight:600}
+.rail-stop.seen b{color:var(--bone-dim)}
+
+/* ---------- controles ---------- */
+.hud{
+  position:fixed;z-index:22;left:var(--pad);bottom:var(--pad);
+  display:flex;gap:8px;align-items:center;
+}
+.slide-hero ~ .hud{}
+.hud button{
+  width:44px;height:44px;border-radius:50%;
+  border:1px solid rgba(237,229,214,.22);
+  display:grid;place-items:center;
+  background:rgba(7,9,14,.55);backdrop-filter:blur(8px);
+  transition:border-color .3s,background .3s;
+}
+.hud button:active{background:rgba(237,229,214,.14)}
+.hud button[aria-pressed="true"]{border-color:var(--brass)}
+.hud svg{width:17px;height:17px;fill:none;stroke:var(--bone);stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+.hud button[aria-pressed="true"] svg{stroke:var(--brass)}
+
+.arrows{position:fixed;z-index:21;right:var(--pad);bottom:var(--pad);display:flex;gap:8px}
+.arrows button{
+  width:48px;height:48px;border-radius:50%;
+  border:1px solid rgba(237,229,214,.22);display:grid;place-items:center;
+  background:rgba(7,9,14,.55);backdrop-filter:blur(8px);
+}
+.arrows button:disabled{opacity:.3}
+.arrows svg{width:18px;height:18px;fill:none;stroke:var(--bone);stroke-width:1.8;
+  stroke-linecap:round;stroke-linejoin:round}
+
+.hint{
+  position:fixed;z-index:21;left:50%;bottom:calc(var(--pad) + 6px);transform:translateX(-50%);
+  font-family:var(--data);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--bone-faint);pointer-events:none;transition:opacity .6s;white-space:nowrap;
+}
+
+.is-cover .rail,.is-cover .arrows,.is-cover .hint{opacity:0;pointer-events:none}
+.rail,.arrows,.hint,.hud{transition:opacity .6s}
+
+@media (max-width:760px){
+  .scene-hud{
+    left:var(--pad);right:var(--pad);bottom:auto;top:calc(var(--pad) + 26px);
+    align-items:flex-start;max-width:none;
+  }
+  .slide[data-side="right"] .scene-hud{left:var(--pad);right:var(--pad)}
+  .slide[data-side="right"] .chapter-body{align-items:flex-start;text-align:left}
+  .slide[data-side="right"] .scene-row{
+    border-right:0;border-left:2px solid transparent;text-align:left;
+    grid-template-columns:auto 1fr;direction:ltr;
+  }
+  .slide[data-side="right"] .scene-row.is-live{border-left-color:var(--accent);padding-left:20px;padding-right:14px}
+  .slide[data-side="right"] .scene-name,.slide[data-side="right"] .scene-note{grid-column:2}
+  .slide[data-side="right"] .ch-head{justify-content:flex-start}
+  .slide[data-side="right"] .ch-intro,.slide[data-side="right"] .transit{margin-left:0}
+  .slide[data-side="right"] .transit{flex-direction:row;text-align:left}
+  .chapter-body{padding-bottom:calc(var(--pad) + 56px)}
+  .scene-note{display:none}
+  .hint{display:none}
+  .cal-row{grid-template-columns:60px 1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  .stage img{transform:none!important}
+}
+</style>
+
+</head>
+<body>
+<div class="deck" id="deck"></div>
+
+<nav class="rail" id="rail" aria-label="Etapas da viagem"></nav>
+
+<div class="hud">
+  <button id="sound" aria-pressed="false" aria-label="Ligar ou desligar o som ambiente" title="Som ambiente">
+    <svg viewBox="0 0 24 24" id="sound-icon"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 0 1 0 6" class="wave"/></svg>
+  </button>
+  <button id="full" aria-label="Entrar em tela cheia" title="Tela cheia">
+    <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+  </button>
+  <button id="auto" aria-pressed="true" aria-label="Pausar ou retomar a passagem automática" title="Passagem automática">
+    <svg viewBox="0 0 24 24" id="auto-icon"><path d="M9 6v12M15 6v12"/></svg>
+  </button>
+</div>
+
+<div class="arrows">
+  <button id="prev" aria-label="Etapa anterior"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button id="next" aria-label="Próxima etapa"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+</div>
+
+<p class="hint" id="hint">deslize ou use as setas · toque na imagem para trocar de cena</p>
+<script>
+/* ===== data.js ===== */
+// Roteiro Europa — 8 a 22 de abril de 2027
+window.TRIP = {
+  meta: {
+    start: "08", end: "22", month: "abril", year: "2027",
+    countries: 12, stops: 16, days: 15,
+    dedication: "O melhor destino é aquele que a gente vive junto."
+  },
+  chapters: [
+    {
+      id: "paris", n: "01", city: "Paris", country: "França", cc: "fr",
+      accent: "#3F7BA8",
+      days: "DIA 01", dates: "8 de abril",
+      intro: "Porta de entrada e primeiro contato com a viagem: arquitetura monumental, margens do Sena e bairros que funcionam melhor percorridos a pé, sem pressa.",
+      transit: "RER B desde CDG, mochilas guardadas e o dia concentrado no eixo central. Amanhã, Eurostar cedo para Bruxelas.",
+      scenes: [
+        { name: "Île de la Cité", time: "2h", note: "Notre-Dame, Sainte-Chapelle e as pontes mais antigas. Comece aqui para entender a formação da cidade.", art: { kind: "river-towers", sky: "morning", water: true } },
+        { name: "Louvre e Tuileries", time: "2h30", note: "Mesmo sem entrar no museu, o eixo do palácio até a Place de la Concorde entrega a caminhada mais marcante do centro.", art: { kind: "colonnade", sky: "noon", water: false } },
+        { name: "Trocadéro e Torre Eiffel", time: "fim de tarde", note: "O Trocadéro entrega a vista frontal clássica; depois desça pelos jardins e atravesse o Sena até os pés da torre.", art: { kind: "tower", sky: "gold", water: true } }
+      ]
+    },
+    {
+      id: "brussels", n: "02", city: "Bruxelas", country: "Bélgica", cc: "be",
+      accent: "#B5773F",
+      days: "DIA 02", dates: "9 de abril",
+      intro: "Escala compacta e saborosa: fachadas barrocas, galerias elegantes, cervejas trapistas e chocolate num centro que cabe em poucas horas.",
+      transit: "Bagagem em Bruxelles-Midi, trem local até Central, e volta para seguir de Eurostar a Amsterdam.",
+      scenes: [
+        { name: "Grand-Place", time: "45 min", note: "A praça central, cercada pelas antigas casas das guildas e pela prefeitura gótica — o conjunto mais importante da cidade.", art: { kind: "guild-square", sky: "morning", water: false } },
+        { name: "Galeries Royales", time: "45 min", note: "Galerias cobertas do século XIX: vitrines históricas, chocolate belga e abrigo garantido em caso de chuva.", art: { kind: "arcade", sky: "interior", water: false } },
+        { name: "Mont des Arts", time: "30 min", note: "Jardins em níveis entre a cidade alta e baixa, com uma das melhores vistas urbanas e acesso rápido à Central.", art: { kind: "terrace", sky: "dusk", water: false } }
+      ]
+    },
+    {
+      id: "amsterdam", n: "03", city: "Amsterdam", country: "Países Baixos", cc: "nl",
+      accent: "#3E8891",
+      days: "DIAS 02–03", dates: "9 e 10 de abril",
+      intro: "A melhor versão da cidade está no ritmo dos canais. O centro é compacto, mas cada anel muda a paisagem — das casas estreitas do Jordaan aos museus do Museumplein.",
+      transit: "Tram e metrô resolvem os trechos longos. No fim da tarde, ICE ou conexão rápida em Utrecht rumo a Colônia.",
+      scenes: [
+        { name: "Canais e Jordaan", time: "1h30", note: "Brouwersgracht e Prinsengracht: pontes, casas inclinadas e pátios tranquilos fora do fluxo principal.", art: { kind: "canal-houses", sky: "morning", water: true } },
+        { name: "Cruzeiro pelos canais", time: "1h", note: "A água mostra a lógica urbana do século XVII e deixa descansar sem perder a leitura da cidade. Reserve perto do entardecer.", art: { kind: "canal-boat", sky: "gold", water: true } },
+        { name: "Museumplein", time: "1h30", note: "Rijksmuseum, Van Gogh e o grande gramado formam o polo cultural. Escolha um só museu para não comprimir o dia.", art: { kind: "museum", sky: "noon", water: false } }
+      ]
+    },
+    {
+      id: "cologne", n: "04", city: "Colônia", country: "Alemanha", cc: "de",
+      accent: "#A8433F",
+      days: "DIA 03", dates: "10 de abril",
+      intro: "Tudo gira em torno da catedral monumental e do Reno. Parada eficiente: a atração principal já aparece ao sair da estação e o centro antigo fica ao lado.",
+      transit: "Hospedagem perto da Hauptbahnhof reduz deslocamentos. A saída combina regionais até Luxemburgo e depois Strasbourg.",
+      scenes: [
+        { name: "Catedral de Colônia", time: "1h15", note: "Patrimônio gótico iniciado no século XIII, abriga o relicário dos Três Reis. A nave impressiona; a torre exige disposição.", art: { kind: "spires", sky: "morning", water: false } },
+        { name: "Altstadt", time: "50 min", note: "Ruelas reconstruídas, praças históricas e cervejarias de Kölsch entre a catedral e o rio.", art: { kind: "roofline", sky: "dusk", water: false } },
+        { name: "Ponte Hohenzollern", time: "45 min", note: "A travessia ferroviária e pedonal entrega a vista mais completa da catedral recortada contra o skyline.", art: { kind: "rail-bridge", sky: "night", water: true } }
+      ]
+    },
+    {
+      id: "luxembourg", n: "05", city: "Luxemburgo", country: "Luxemburgo", cc: "lu",
+      accent: "#6B8A54",
+      days: "DIA 04", dates: "11 de abril",
+      intro: "Capital construída em camadas sobre vales profundos. Em poucas horas o percurso alterna mirantes, fortalezas e bairros baixos com aparência de vila.",
+      transit: "Guarda-volumes na estação e transporte público gratuito no país inteiro. Volte à Gare para a conexão a Strasbourg.",
+      scenes: [
+        { name: "Chemin de la Corniche", time: "45 min", note: "A varanda mais bonita da Europa acompanha as antigas muralhas, com vista ampla sobre o vale do Alzette e o Grund.", art: { kind: "cliff-valley", sky: "morning", water: false } },
+        { name: "Casemates du Bock", time: "1h", note: "Galerias defensivas escavadas na rocha mostram por que a fortaleza foi considerada uma das mais poderosas do continente.", art: { kind: "casemate", sky: "interior", water: false } },
+        { name: "Grund", time: "1h", note: "O bairro baixo reúne casas históricas, pontes e o rio Alzette. A descida a pé se compensa com elevadores públicos gratuitos.", art: { kind: "low-village", sky: "gold", water: true } }
+      ]
+    },
+    {
+      id: "strasbourg", n: "06", city: "Strasbourg", country: "França", cc: "fr",
+      accent: "#C2603A",
+      days: "DIAS 04–05", dates: "11 e 12 de abril",
+      intro: "França e Alemanha misturadas na arquitetura, na comida e no idioma. O centro histórico insular concentra catedral, canais e casas enxaimel.",
+      transit: "Tram serve os trechos externos, mas o centro é pedonal. Partida cedo via Basel para aproveitar a tarde em Lucerna.",
+      scenes: [
+        { name: "Catedral Notre-Dame", time: "1h", note: "Fachada em arenito rosado e relógio astronômico fazem dela o grande marco da Alsácia. A praça merece uma volta completa.", art: { kind: "spires", sky: "gold", water: false } },
+        { name: "Petite France", time: "1h30", note: "Antigo bairro de curtidores: canais, pontes cobertas e as fachadas enxaimel mais fotografadas da cidade.", art: { kind: "half-timber", sky: "morning", water: true } },
+        { name: "Barragem Vauban", time: "45 min", note: "A cobertura panorâmica mostra as Ponts Couverts, a torre da catedral e a organização defensiva da cidade.", art: { kind: "covered-bridge", sky: "dusk", water: true } }
+      ]
+    },
+    {
+      id: "lucerne", n: "07", city: "Lucerna", sub: "+ Titlis", country: "Suíça", cc: "ch",
+      accent: "#4E8CB4",
+      days: "DIAS 05–07", dates: "12 a 14 de abril",
+      intro: "A base alpina da viagem: lago, centro medieval e montanhas já visíveis das pontes. O dia seguinte sobe até a neve permanente do Titlis.",
+      transit: "Compre a subida ao Titlis com margem para o clima. Na manhã seguinte, atravesse o Gotthard por Bellinzona e Lugano até Milão.",
+      scenes: [
+        { name: "Centro e Kapellbrücke", time: "1h30", note: "A ponte de madeira coberta atravessa o Reuss e preserva pinturas triangulares históricas. Siga pelas praças do centro antigo.", art: { kind: "wood-bridge", sky: "morning", water: true } },
+        { name: "Monte Titlis", time: "dia inteiro", note: "Trem até Engelberg, teleféricos e cabine giratória acima de 3.000 metros: neve, ponte suspensa e panoramas glaciais.", art: { kind: "snow-peak", sky: "alpine", water: false } },
+        { name: "Margem do lago", time: "1h", note: "O passeio entre a estação e o Museu dos Transportes abre vistas dos Alpes num ritmo mais leve, depois da descida.", art: { kind: "lake-alps", sky: "gold", water: true } }
+      ]
+    },
+    {
+      id: "italy", n: "08", city: "Milão", sub: "+ Veneza", country: "Itália", cc: "it",
+      accent: "#B5613F",
+      days: "DIAS 07–08", dates: "14 e 15 de abril",
+      intro: "Duas cidades completamente diferentes conectadas pela alta velocidade: o mármore vertical de Milão e a água horizontal de Veneza, no mesmo par de dias.",
+      transit: "Frecciarossa entre as duas. Em Veneza, San Marco antes de embarcar no Nightjet para Viena.",
+      scenes: [
+        { name: "Duomo e terraços", time: "2h", note: "A catedral de mármore com suas agulhas e estátuas; os terraços permitem caminhar entre os pináculos com a cidade aos pés.", art: { kind: "duomo", sky: "noon", water: false } },
+        { name: "Galleria Vittorio Emanuele", time: "45 min", note: "A galeria de ferro e vidro do século XIX liga o Duomo ao Scala e é o salão de visitas da cidade.", art: { kind: "glass-arcade", sky: "interior", water: false } },
+        { name: "Rialto e Grande Canal", time: "2h30", note: "A curva do canal, os palácios na água e a ponte de pedra. Em Veneza, o transporte é a própria atração.", art: { kind: "venice-canal", sky: "gold", water: true } }
+      ]
+    },
+    {
+      id: "vienna", n: "09", city: "Viena", country: "Áustria", cc: "at",
+      accent: "#A66B47",
+      days: "DIAS 09, 14 E 15", dates: "16, 21 e 22 de abril",
+      intro: "Aparece em três momentos e funciona como eixo logístico do leste europeu. Palácios imperiais, cafés e transporte exemplar permitem dividir a cidade sem repetição.",
+      transit: "Metrô e tram. Na primeira passagem, Railjet a Budapeste; na última, durma com acesso simples à linha do aeroporto.",
+      scenes: [
+        { name: "Innere Stadt", time: "1h30", note: "O coração imperial reúne a Catedral de Santo Estêvão, Graben, Hofburg e edifícios monumentais dentro do antigo anel de muralhas.", art: { kind: "spires", sky: "night", water: false } },
+        { name: "Schönbrunn", time: "2h30", note: "Residência de verão dos Habsburgo, com salões de aparato e jardins extensos. Priorize o palácio ou os jardins conforme o horário.", art: { kind: "baroque-palace", sky: "morning", water: false } },
+        { name: "Belvedere", time: "2h", note: "Dois palácios barrocos ligados por jardins abrigam a coleção de Klimt, incluindo O Beijo, e uma bela perspectiva urbana.", art: { kind: "baroque-garden", sky: "noon", water: false } }
+      ]
+    },
+    {
+      id: "budapest", n: "10", city: "Budapeste", country: "Hungria", cc: "hu",
+      accent: "#B8903B",
+      days: "DIAS 09–11", dates: "16 a 18 de abril",
+      intro: "Pede um dia inteiro porque são duas cidades complementares: Buda sobe pelas colinas históricas; Pest concentra avenidas, cafés e o Parlamento à margem do Danúbio.",
+      transit: "O metrô conecta os extremos; o tram 2 acompanha o Danúbio. Na saída, trem direto para Bratislava com bagagem pronta para o EuroNight.",
+      scenes: [
+        { name: "Colina do Castelo", time: "2h30", note: "Bastião dos Pescadores, Igreja de Matias e mirantes sobre Pest formam o conjunto mais cenográfico. Suba cedo.", art: { kind: "hill-castle", sky: "morning", water: true } },
+        { name: "Parlamento e memorial", time: "2h", note: "O edifício neogótico domina o rio. Combine a visita com o memorial Sapatos às Margens do Danúbio.", art: { kind: "parliament", sky: "dusk", water: true } },
+        { name: "Termas ou cruzeiro", time: "noite", note: "Escolha entre a experiência termal de Széchenyi e um cruzeiro para ver Parlamento, pontes e castelo iluminados.", art: { kind: "night-water", sky: "night", water: true } }
+      ]
+    },
+    {
+      id: "bratislava", n: "11", city: "Bratislava", country: "Eslováquia", cc: "sk",
+      accent: "#6B8398",
+      days: "DIA 11", dates: "18 de abril",
+      intro: "Capital pequena e legível, perfeita para uma escala a pé. O centro medieval fica entre a estação, o castelo e o Danúbio.",
+      transit: "Guarda-volumes e roteiro compacto. Depois do jantar, embarque no trem noturno em direção à Cracóvia.",
+      scenes: [
+        { name: "Centro histórico", time: "1h15", note: "O Portão de São Miguel conduz a ruas pedonais, praças e palácios compactos, pontuados pelas conhecidas esculturas urbanas.", art: { kind: "gate-tower", sky: "morning", water: false } },
+        { name: "Castelo de Bratislava", time: "1h15", note: "A fortaleza branca domina o Danúbio e abre vistas para a Áustria e a Hungria. A subida é curta, porém inclinada.", art: { kind: "white-fortress", sky: "noon", water: true } },
+        { name: "Margem do Danúbio", time: "45 min", note: "O passeio ribeirinho conecta o centro à ponte SNP e ao bairro contemporâneo, mostrando outra escala da cidade.", art: { kind: "modern-bridge", sky: "dusk", water: true } }
+      ]
+    },
+    {
+      id: "krakow", n: "12", city: "Cracóvia", sub: "+ Wieliczka", country: "Polônia", cc: "pl",
+      accent: "#9A5762",
+      days: "DIA 12", dates: "19 de abril",
+      intro: "Uma das praças medievais mais preservadas da Europa, somada a Wieliczka — uma cidade subterrânea esculpida por séculos de mineração de sal.",
+      transit: "Reserve Wieliczka com antecedência e conte o traslado desde o centro. À noite, embarque rumo a Praga para ganhar um dia.",
+      scenes: [
+        { name: "Rynek Główny", time: "1h30", note: "A grande praça reúne o Mercado dos Tecidos, a Basílica de Santa Maria e cafés históricos. O trompete marca cada hora.", art: { kind: "cloth-hall", sky: "morning", water: false } },
+        { name: "Wawel", time: "1h30", note: "O castelo e a catedral acima do Vístula condensam a história dos reis poloneses e fecham a caminhada pela Via Real.", art: { kind: "hill-castle", sky: "gold", water: true } },
+        { name: "Mina de Wieliczka", time: "3h", note: "O percurso guiado desce por câmaras, lagos e capelas talhadas em sal, com destaque para a Capela de Santa Kinga.", art: { kind: "salt-cave", sky: "underground", water: true } }
+      ]
+    },
+    {
+      id: "prague", n: "13", city: "Praga", country: "Tchéquia", cc: "cz",
+      accent: "#B3603C",
+      days: "DIAS 13–14", dates: "20 e 21 de abril",
+      intro: "Fecha o roteiro com forte impacto visual: torres, cúpulas e telhados atravessados pelo Vltava. Começar cedo transforma completamente a experiência.",
+      transit: "Tram para vencer a subida ao castelo e volta a pé. No dia 21, Railjet via Brno retorna a Viena para a última noite.",
+      scenes: [
+        { name: "Ponte Carlos", time: "1h", note: "Ao amanhecer, a ponte do século XIV revela estátuas, torres e perspectivas sem o fluxo intenso que ocupa o local durante o dia.", art: { kind: "statue-bridge", sky: "dawn", water: true } },
+        { name: "Castelo e Malá Strana", time: "2h30", note: "O maior complexo fortificado da cidade reúne a Catedral de São Vito, palácios, vielas e mirantes sobre os telhados.", art: { kind: "castle-panorama", sky: "noon", water: true } },
+        { name: "Cidade Velha", time: "2h", note: "Praça, Relógio Astronômico e ruelas formam o núcleo mais movimentado. Suba a uma torre para entender o desenho medieval.", art: { kind: "clock-square", sky: "dusk", water: false } }
+      ]
+    }
+  ],
+  calendar: [
+    { d: "08", place: "Paris", detail: "Chegada em CDG às 07:05, guarda-volumes e primeiro passeio.", route: "CDG · Paris" },
+    { d: "09", place: "Bruxelas → Amsterdam", detail: "Eurostar cedo, centro de Bruxelas em escala, noite em Amsterdam.", route: "Paris · Bruxelas · Amsterdam" },
+    { d: "10", place: "Amsterdam → Colônia", detail: "Canais e Museumplein pela manhã; trem no fim da tarde.", route: "Amsterdam · Colônia" },
+    { d: "11", place: "Luxemburgo → Strasbourg", detail: "Regionais pela manhã, Corniche e Casemates, noite na Alsácia.", route: "Colônia · Luxemburgo · Strasbourg" },
+    { d: "12", place: "Strasbourg → Lucerna", detail: "Petite France cedo; via Basel para chegar a tempo do lago.", route: "Strasbourg · Basel · Lucerna" },
+    { d: "13", place: "Monte Titlis", detail: "Dia inteiro na montanha: Engelberg, teleféricos, neve a 3.041 m.", route: "Lucerna · Engelberg · Titlis" },
+    { d: "14", place: "Lucerna → Milão", detail: "Travessia do Gotthard por Bellinzona e Lugano; Duomo à tarde.", route: "Lucerna · Milão" },
+    { d: "15", place: "Veneza → Viena", detail: "Rialto e San Marco; Nightjet noturno para a Áustria.", route: "Milão · Veneza · Viena" },
+    { d: "16", place: "Viena → Budapeste", detail: "Innere Stadt na chegada, Railjet à tarde, noite em Pest.", route: "Viena · Budapeste" },
+    { d: "17", place: "Budapeste", detail: "Colina do Castelo, Parlamento e a noite nas termas ou no rio.", route: "Buda · Pest" },
+    { d: "18", place: "Bratislava → noturno", detail: "Escala a pé na capital eslovaca; EuroNight rumo à Polônia.", route: "Budapeste · Bratislava · EuroNight" },
+    { d: "19", place: "Cracóvia + Wieliczka", detail: "Rynek e Wawel de dia, mina de sal à tarde, noturno para Praga.", route: "Cracóvia · Wieliczka · EuroNight" },
+    { d: "20", place: "Praga", detail: "Ponte Carlos ao amanhecer, castelo e Malá Strana no resto do dia.", route: "Praga" },
+    { d: "21", place: "Praga → Viena", detail: "Cidade Velha pela manhã; Railjet via Brno para a última noite.", route: "Praga · Brno · Viena" },
+    { d: "22", place: "Viena → casa", detail: "Café final, linha do aeroporto e voo de volta.", route: "Viena · VIE" }
+  ],
+  logistics: [
+    { t: "Duas mochilas", d: "Guarda-volumes nas escalas e lavanderia automática no meio da rota." },
+    { t: "Três noites em trem", d: "Veneza–Viena, Bratislava–Cracóvia e Cracóvia–Praga." },
+    { t: "Reservas estratégicas", d: "Eurostar, trechos internacionais e atrações com horário marcado." }
+  ]
+};
+
+/* ===== photos.js ===== */
+// Fotografias por cena. Fonte principal: Wikimedia Commons (redirect estável para thumbnail).
+// Cada entrada corresponde, na ordem, às cenas de TRIP.chapters[].scenes[].
+// Se uma imagem não carregar, o motor de cenas em Canvas assume o lugar dela.
+(function () {
+  const C = (file, w) =>
+    "https://commons.wikimedia.org/wiki/Special:Redirect/file/" + file + "?width=" + (w || 1800);
+
+  const PHOTOS = {
+    paris: [
+      { src: C("Notre_Dame_dalla_Senna.jpg"), by: "Zairon", lic: "CC BY-SA 4.0", href: "https://commons.wikimedia.org/wiki/File:Notre_Dame_dalla_Senna.jpg" },
+      { src: C("Louvre_Museum_Wikimedia_Commons.jpg"), by: "Benh LIEU SONG", lic: "CC BY-SA 3.0", href: "https://commons.wikimedia.org/wiki/File:Louvre_Museum_Wikimedia_Commons.jpg" },
+      { src: C("Eiffel_tower_from_trocadero.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Eiffel_tower_from_trocadero.jpg" }
+    ],
+    brussels: [
+      { src: C("Edificios_en_la_Grand-Place%2C_Bruselas%2C_B%C3%A9lgica%2C_2021-12-15%2C_DD_184-186_HDR.jpg"), by: "Diego Delso", lic: "CC BY-SA 4.0", href: "https://commons.wikimedia.org/wiki/File:Edificios_en_la_Grand-Place,_Bruselas,_B%C3%A9lgica,_2021-12-15,_DD_184-186_HDR.jpg" },
+      { src: C("Galeries_Royales_Saint-Hubert%2C_Brussels%2C_Belgium_-_20071014.jpg"), by: "Rkieferbaum", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Galeries_Royales_Saint-Hubert,_Brussels,_Belgium_-_20071014.jpg" },
+      { src: C("Brussels_view_from_Mont_des_Arts%2C_Brussels%2C_Belgium_%28cropped%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Brussels_view_from_Mont_des_Arts,_Brussels,_Belgium_(cropped).jpg" }
+    ],
+    amsterdam: [
+      { src: C("Canal_in_Jordaan%2C_Amsterdam_%289258952020%29.jpg"), by: "kevinmcgill, Den Bosch", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Canal_in_Jordaan,_Amsterdam_(9258952020).jpg" },
+      { src: C("Amstel_Robijn_tour_boat_%28ENI_02008161%29%2C_Amsterdam_Canal_Cruises%2C_Amsterdam-9148.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Amstel_Robijn_tour_boat_(ENI_02008161),_Amsterdam_Canal_Cruises,_Amsterdam-9148.jpg" },
+      { src: C("Rijksmuseum_Amsterdam.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Rijksmuseum_Amsterdam.jpg" }
+    ],
+    cologne: [
+      { src: C("Cologne_Cathedral_from_Deutz.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Cologne_Cathedral_from_Deutz.jpg" },
+      { src: C("Cologne_-_Panoramic_Image_of_the_old_town_at_dusk.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Cologne_-_Panoramic_Image_of_the_old_town_at_dusk.jpg" },
+      { src: C("Hohenzollernbr%C3%BCcke_K%C3%B6ln.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Hohenzollernbr%C3%BCcke_K%C3%B6ln.jpg" }
+    ],
+    luxembourg: [
+      { src: C("Luxemburg-Grund-von-Corniche.JPG"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Luxemburg-Grund-von-Corniche.JPG" },
+      { src: C("Bock_casemates%2C_Luxembourg_-_panoramio_%281%29.jpg"), by: "panoramio", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Bock_casemates,_Luxembourg_-_panoramio_(1).jpg" },
+      { src: C("Luxembourg_BW_2016-09-15_12-44-12.jpg"), by: "Berthold Werner", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Luxembourg_BW_2016-09-15_12-44-12.jpg" }
+    ],
+    strasbourg: [
+      { src: C("Strasbourg_Cathedral_-_France_-_2024-9.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Strasbourg_Cathedral_-_France_-_2024-9.jpg" },
+      { src: C("Strasbourg-Ancien_entrep%C3%B4t_de_la_Petite_France_%288%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Strasbourg-Ancien_entrep%C3%B4t_de_la_Petite_France_(8).jpg" },
+      { src: C("Tower_%40_Ponts_Couverts_%40_Roof_%40_Barrage_Vauban_%40_Strasbourg_%2845468590932%29.jpg"), by: "Guilhem Vellut, Annecy", lic: "CC BY", href: "https://commons.wikimedia.org/wiki/File:Tower_@_Ponts_Couverts_@_Roof_@_Barrage_Vauban_@_Strasbourg_(45468590932).jpg" }
+    ],
+    lucerne: [
+      { src: C("Chapel_bridge_Lucerne_Switzerland_2014_-_panoramio.jpg"), by: "panoramio", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Chapel_bridge_Lucerne_Switzerland_2014_-_panoramio.jpg" },
+      { src: C("Titlis_-_panoramio.jpg"), by: "panoramio", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Titlis_-_panoramio.jpg" },
+      { src: C("Lucerne_lake_and_mountains.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Lucerne_lake_and_mountains.jpg" }
+    ],
+    italy: [
+      { src: C("Milan_Cathedral_from_Piazza_del_Duomo.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Milan_Cathedral_from_Piazza_del_Duomo.jpg" },
+      { src: C("Galleria_Vittorio_Emanuele_II_%28Milan%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Galleria_Vittorio_Emanuele_II_(Milan).jpg" },
+      { src: C("Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_Ponte_dell%27_Accademia.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_Ponte_dell%27_Accademia.jpg" }
+    ],
+    vienna: [
+      { src: C("Cathedral_Saint_Stephen_at_night_%288442221086%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Cathedral_Saint_Stephen_at_night_(8442221086).jpg" },
+      { src: C("Schloss_Sch%C3%B6nbrunn_Wien_2014_%28Zuschnitt%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Schloss_Sch%C3%B6nbrunn_Wien_2014_(Zuschnitt).jpg" },
+      { src: C("Upper_Belvedere_palace_Vienna.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Upper_Belvedere_palace_Vienna.jpg" }
+    ],
+    budapest: [
+      { src: C("Buda_Castle_and_Danube_River%2C_Budapest%2C_1988.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Buda_Castle_and_Danube_River,_Budapest,_1988.jpg" },
+      { src: C("Hungarian_Parliament_Building_from_across_the_Danube_at_night_further.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Hungarian_Parliament_Building_from_across_the_Danube_at_night_further.jpg" },
+      { src: C("Sz%C3%A9chenyi_Thermal_Bath_Budapest.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Sz%C3%A9chenyi_Thermal_Bath_Budapest.jpg" }
+    ],
+    bratislava: [
+      { src: C("Bratislava-Old_Town%2C_Slovakia_-_panoramio_%28161%29.jpg"), by: "panoramio", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Bratislava-Old_Town,_Slovakia_-_panoramio_(161).jpg" },
+      { src: C("Bratislava_Castle_from_the_Danube.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Bratislava_Castle_from_the_Danube.jpg" },
+      { src: C("Danube_in_Bratislava%2C_Panorama%2C_Winter_2009.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Danube_in_Bratislava,_Panorama,_Winter_2009.jpg" }
+    ],
+    krakow: [
+      { src: C("Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG" },
+      { src: C("Wawel_Castle_Krakow_Poland.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Wawel_Castle_Krakow_Poland.jpg" },
+      { src: C("Saint_Kinga_%283869601170%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Saint_Kinga_(3869601170).jpg" }
+    ],
+    prague: [
+      { src: C("Charles_Bridge%2C_Prague_%285665232622%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Charles_Bridge,_Prague_(5665232622).jpg" },
+      { src: C("Prazsky_hrad_karluv_most_panorama.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Prazsky_hrad_karluv_most_panorama.jpg" },
+      { src: C("Prague_Old_Town%27s_Astronomical_Clock_by_Libor_Skrlik.jpg"), by: "Libor Škrlík", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Prague_Old_Town%27s_Astronomical_Clock_by_Libor_Skrlik.jpg" }
+    ]
+  };
+
+  window.TRIP.chapters.forEach((ch) => {
+    const list = PHOTOS[ch.id] || [];
+    ch.scenes.forEach((sc, i) => {
+      const p = list[i];
+      if (p) { sc.photo = p.src; sc.credit = p; }
+    });
+  });
+})();
+
+/* ===== scenes.js ===== */
+// Motor de cenas: desenha cada atração como estudo de luz e silhueta.
+// Serve de camada-base sob a fotografia e assume sozinho quando a foto não carrega.
+(function () {
+  "use strict";
+
+  const SKY = {
+    dawn:       ["#1d2436", "#4b4258", "#9c6b5c", "#d9a071"],
+    morning:    ["#2d4a63", "#6e94ac", "#b8cbd4", "#e3e0d2"],
+    noon:       ["#2f5d84", "#6ea0c0", "#b9d2e0", "#e8ecec"],
+    gold:       ["#28293f", "#71486a", "#c2724f", "#efb26b"],
+    dusk:       ["#161c2e", "#39355a", "#7a4f63", "#c07a63"],
+    night:      ["#070b16", "#111c33", "#22304d", "#3c4a68"],
+    alpine:     ["#1b3b63", "#4e7fa8", "#a8c8dd", "#eef3f5"],
+    interior:   ["#14110f", "#2e2319", "#5a3f25", "#9a6f38"],
+    underground:["#0b0d12", "#1b2129", "#313c44", "#55646b"]
+  };
+
+  // arquétipo + parâmetros para cada tipo de cena
+  const KIND = {
+    "river-towers":   ["houses",   { spires: 2, water: 1 }],
+    "colonnade":      ["palace",   { dome: 0, wings: 1 }],
+    "tower":          ["tower",    { lattice: 1 }],
+    "guild-square":   ["houses",   { gable: "step", tall: 1 }],
+    "arcade":         ["vault",    { bays: 5 }],
+    "terrace":        ["hill",     { town: 1, soft: 1 }],
+    "canal-houses":   ["houses",   { gable: "bell", narrow: 1 }],
+    "canal-boat":     ["water",    { boats: 3 }],
+    "museum":         ["palace",   { dome: 0, towers: 2 }],
+    "spires":         ["spires",   { count: 2 }],
+    "roofline":       ["houses",   { gable: "tri", low: 1 }],
+    "rail-bridge":    ["bridge",   { arches: 5, truss: 1 }],
+    "cliff-valley":   ["hill",     { cliff: 1 }],
+    "casemate":       ["vault",    { bays: 4, rough: 1 }],
+    "low-village":    ["houses",   { gable: "tri", low: 1, water: 1 }],
+    "half-timber":    ["houses",   { gable: "tri", narrow: 1, water: 1 }],
+    "covered-bridge": ["bridge",   { arches: 3, roof: 1 }],
+    "wood-bridge":    ["bridge",   { arches: 4, roof: 1, tower: 1 }],
+    "snow-peak":      ["mountain", { peaks: 4, snow: 1 }],
+    "lake-alps":      ["mountain", { peaks: 5, snow: 1, far: 1 }],
+    "duomo":          ["spires",   { count: 7, spiky: 1 }],
+    "glass-arcade":   ["vault",    { bays: 5, glass: 1 }],
+    "venice-canal":   ["water",    { boats: 2, dome: 1 }],
+    "baroque-palace": ["palace",   { dome: 1, wings: 1 }],
+    "baroque-garden": ["palace",   { dome: 1, wings: 1, garden: 1 }],
+    "hill-castle":    ["hill",     { castle: 1 }],
+    "parliament":     ["spires",   { count: 3, wide: 1 }],
+    "night-water":    ["water",    { boats: 1, glow: 1 }],
+    "gate-tower":     ["tower",    { gate: 1 }],
+    "white-fortress": ["palace",   { towers: 4, blocky: 1 }],
+    "modern-bridge":  ["bridge",   { arches: 1, pylon: 1 }],
+    "cloth-hall":     ["palace",   { arcadeRow: 1, towers: 1 }],
+    "salt-cave":      ["vault",    { bays: 3, rough: 1, cave: 1 }],
+    "statue-bridge":  ["bridge",   { arches: 6, statues: 1, tower: 1 }],
+    "castle-panorama":["hill",     { castle: 1, town: 1 }],
+    "clock-square":   ["spires",   { count: 2, clock: 1 }]
+  };
+
+  function rng(seed) {
+    let s = seed >>> 0;
+    return function () {
+      s = (s * 1664525 + 1013904223) >>> 0;
+      return s / 4294967296;
+    };
+  }
+  function hash(str) {
+    let h = 2166136261;
+    for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function mix(a, b, t) {
+    const pa = [parseInt(a.slice(1, 3), 16), parseInt(a.slice(3, 5), 16), parseInt(a.slice(5, 7), 16)];
+    const pb = [parseInt(b.slice(1, 3), 16), parseInt(b.slice(3, 5), 16), parseInt(b.slice(5, 7), 16)];
+    const r = pa.map((v, i) => Math.round(v + (pb[i] - v) * t));
+    return "rgb(" + r[0] + "," + r[1] + "," + r[2] + ")";
+  }
+
+  // ---- silhuetas ------------------------------------------------------------
+
+  function silTower(ctx, x, base, w, h, p, r) {
+    const cx = x + w / 2, topW = w * (p.gate ? 0.5 : 0.16);
+    ctx.beginPath();
+    ctx.moveTo(cx - w / 2, base);
+    ctx.lineTo(cx - topW / 2, base - h);
+    ctx.lineTo(cx + topW / 2, base - h);
+    ctx.lineTo(cx + w / 2, base);
+    ctx.closePath(); ctx.fill();
+    if (p.gate) {
+      ctx.beginPath();
+      ctx.moveTo(cx - topW / 2, base - h);
+      ctx.lineTo(cx, base - h - h * 0.28);
+      ctx.lineTo(cx + topW / 2, base - h);
+      ctx.closePath(); ctx.fill();
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.beginPath();
+      ctx.arc(cx, base - w * 0.34, w * 0.2, Math.PI, 0); ctx.rect(cx - w * 0.2, base - w * 0.34, w * 0.4, w * 0.34);
+      ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+    }
+    if (p.lattice) {
+      ctx.globalCompositeOperation = "destination-out";
+      for (let i = 1; i <= 2; i++) {
+        const t = i / 3.2, y = base - h * t, ww = w * (1 - t * 0.78);
+        ctx.fillRect(cx - ww / 2 + ww * 0.12, y, ww * 0.76, h * 0.018);
+      }
+      ctx.beginPath();
+      ctx.arc(cx, base, w * 0.44, Math.PI, 0); ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+    }
+  }
+
+  function silSpires(ctx, x, base, w, h, p, r) {
+    const n = p.count || 2, body = h * (p.wide ? 0.42 : 0.5);
+    ctx.fillRect(x, base - body, w, body);
+    for (let i = 0; i < n; i++) {
+      const cx = x + w * ((i + 0.5) / n);
+      const sh = h * (p.spiky ? (0.55 + r() * 0.45) : (i % 2 ? 0.82 : 1));
+      const sw = w / n * (p.spiky ? 0.16 : 0.34);
+      ctx.beginPath();
+      ctx.moveTo(cx - sw, base - body);
+      ctx.lineTo(cx, base - body - sh);
+      ctx.lineTo(cx + sw, base - body - sh * (p.spiky ? 1 : 0.98));
+      ctx.closePath(); ctx.fill();
+    }
+    if (p.clock) {
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.beginPath(); ctx.arc(x + w * 0.5, base - body * 0.58, w * 0.07, 0, 7); ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+    }
+    ctx.globalCompositeOperation = "destination-out";
+    const cols = Math.max(4, Math.round(w / 34));
+    for (let i = 0; i < cols; i++) {
+      const wx = x + w * ((i + 0.5) / cols);
+      ctx.beginPath();
+      ctx.arc(wx, base - body * 0.34, w / cols * 0.14, Math.PI, 0);
+      ctx.rect(wx - w / cols * 0.14, base - body * 0.34, w / cols * 0.28, body * 0.3);
+      ctx.fill();
+    }
+    ctx.globalCompositeOperation = "source-over";
+  }
+
+  function silPalace(ctx, x, base, w, h, p, r) {
+    const body = h * 0.62;
+    ctx.fillRect(x, base - body, w, body);
+    if (p.dome) {
+      const cx = x + w / 2, dr = w * 0.11;
+      ctx.beginPath(); ctx.arc(cx, base - body, dr, Math.PI, 0); ctx.fill();
+      ctx.fillRect(cx - dr * 0.16, base - body - dr - h * 0.12, dr * 0.32, h * 0.12);
+    } else {
+      ctx.beginPath();
+      ctx.moveTo(x + w * 0.38, base - body);
+      ctx.lineTo(x + w * 0.5, base - body - h * 0.13);
+      ctx.lineTo(x + w * 0.62, base - body);
+      ctx.closePath(); ctx.fill();
+    }
+    const tw = p.towers || 0;
+    for (let i = 0; i < tw; i++) {
+      const cx = x + w * ((i + 0.5) / tw), tw2 = w * 0.05;
+      ctx.fillRect(cx - tw2 / 2, base - body - h * 0.2, tw2, h * 0.2);
+      if (p.blocky) { ctx.beginPath(); ctx.moveTo(cx - tw2, base - body - h * 0.2); ctx.lineTo(cx, base - body - h * 0.32); ctx.lineTo(cx + tw2, base - body - h * 0.2); ctx.closePath(); ctx.fill(); }
+    }
+    ctx.globalCompositeOperation = "destination-out";
+    const cols = Math.max(8, Math.round(w / 26));
+    for (let i = 0; i < cols; i++) {
+      const wx = x + w * ((i + 0.5) / cols), ww = w / cols * 0.3;
+      ctx.beginPath();
+      ctx.arc(wx, base - body * 0.52, ww, Math.PI, 0);
+      ctx.rect(wx - ww, base - body * 0.52, ww * 2, body * 0.3);
+      ctx.fill();
+    }
+    ctx.globalCompositeOperation = "source-over";
+    if (p.garden) {
+      for (let i = 0; i < 9; i++) {
+        const gx = x + w * (i + 0.5) / 9;
+        ctx.beginPath(); ctx.ellipse(gx, base + h * 0.03, w * 0.02, h * 0.035, 0, 0, 7); ctx.fill();
+      }
+    }
+  }
+
+  function silHouses(ctx, x, base, w, h, p, r) {
+    const n = Math.max(6, Math.round(w / (p.narrow ? 46 : 72)));
+    for (let i = 0; i < n; i++) {
+      const bw = w / n, bx = x + i * bw;
+      const bh = h * (p.low ? 0.34 + r() * 0.26 : 0.5 + r() * 0.42);
+      ctx.fillRect(bx + bw * 0.06, base - bh, bw * 0.88, bh);
+      const g = p.gable || "tri";
+      if (g === "tri") {
+        ctx.beginPath();
+        ctx.moveTo(bx, base - bh); ctx.lineTo(bx + bw / 2, base - bh - bw * 0.4); ctx.lineTo(bx + bw, base - bh);
+        ctx.closePath(); ctx.fill();
+      } else if (g === "step") {
+        let sy = base - bh;
+        for (let s = 0; s < 3; s++) {
+          const inset = bw * (0.1 + s * 0.13);
+          ctx.fillRect(bx + inset, sy - bw * 0.12, bw - inset * 2, bw * 0.13);
+          sy -= bw * 0.12;
+        }
+      } else {
+        ctx.beginPath();
+        ctx.moveTo(bx + bw * 0.06, base - bh);
+        ctx.quadraticCurveTo(bx + bw / 2, base - bh - bw * 0.55, bx + bw * 0.94, base - bh);
+        ctx.closePath(); ctx.fill();
+      }
+    }
+    if (p.spires) {
+      for (let i = 0; i < p.spires; i++) {
+        const cx = x + w * (0.34 + i * 0.16), sw = w * 0.022;
+        ctx.fillRect(cx - sw, base - h * 1.05, sw * 2, h * 1.05);
+        ctx.beginPath(); ctx.moveTo(cx - sw * 1.6, base - h * 1.05); ctx.lineTo(cx, base - h * 1.34); ctx.lineTo(cx + sw * 1.6, base - h * 1.05); ctx.closePath(); ctx.fill();
+      }
+    }
+    ctx.globalCompositeOperation = "destination-out";
+    for (let i = 0; i < n * 3; i++) {
+      const wx = x + w * (i + 0.5) / (n * 3);
+      ctx.fillRect(wx - w / (n * 9), base - h * (0.18 + r() * 0.24), w / (n * 4.5), h * 0.055);
+    }
+    ctx.globalCompositeOperation = "source-over";
+  }
+
+  function silBridge(ctx, x, base, w, h, p, r) {
+    const n = p.arches || 4, deck = base - h * 0.42, span = w / n;
+    ctx.fillRect(x, deck, w, h * 0.1);
+    if (p.roof) {
+      ctx.beginPath();
+      ctx.moveTo(x, deck); ctx.lineTo(x + w * 0.5, deck - h * 0.16); ctx.lineTo(x + w, deck);
+      ctx.closePath(); ctx.fill();
+    }
+    for (let i = 0; i < n; i++) {
+      const cx = x + span * (i + 0.5);
+      ctx.fillRect(cx - span * 0.1, deck, span * 0.2, base - deck);
+      ctx.globalCompositeOperation = "destination-out";
+      ctx.beginPath();
+      ctx.arc(cx + span * 0.5, deck + h * 0.1, span * 0.38, Math.PI, 0);
+      ctx.rect(cx + span * 0.5 - span * 0.38, deck + h * 0.1, span * 0.76, base - deck);
+      ctx.fill();
+      ctx.globalCompositeOperation = "source-over";
+    }
+    if (p.pylon) {
+      const cx = x + w * 0.62;
+      ctx.fillRect(cx - w * 0.012, base - h * 1.15, w * 0.024, h * 1.15);
+      ctx.beginPath(); ctx.arc(cx, base - h * 1.18, w * 0.05, 0, 7); ctx.fill();
+      ctx.lineWidth = Math.max(1, w * 0.003); ctx.strokeStyle = ctx.fillStyle;
+      for (let i = 0; i < 6; i++) {
+        ctx.beginPath(); ctx.moveTo(cx, base - h * 1.1);
+        ctx.lineTo(x + w * (0.1 + i * 0.09), deck); ctx.stroke();
+      }
+    }
+    if (p.truss) {
+      ctx.lineWidth = Math.max(1, w * 0.004); ctx.strokeStyle = ctx.fillStyle;
+      for (let i = 0; i < n; i++) {
+        const cx = x + span * i;
+        ctx.beginPath();
+        ctx.moveTo(cx, deck); ctx.lineTo(cx + span * 0.5, deck - h * 0.2); ctx.lineTo(cx + span, deck);
+        ctx.stroke();
+      }
+    }
+    if (p.tower) {
+      [x + w * 0.04, x + w * 0.92].forEach((tx) => {
+        ctx.fillRect(tx, base - h * 0.95, w * 0.045, h * 0.95 - (base - deck) * 0 );
+        ctx.beginPath();
+        ctx.moveTo(tx - w * 0.012, base - h * 0.95);
+        ctx.lineTo(tx + w * 0.0225, base - h * 1.2);
+        ctx.lineTo(tx + w * 0.057, base - h * 0.95);
+        ctx.closePath(); ctx.fill();
+      });
+    }
+    if (p.statues) {
+      for (let i = 1; i < n; i++) {
+        const sx = x + span * i;
+        ctx.fillRect(sx - w * 0.006, deck - h * 0.1, w * 0.012, h * 0.1);
+      }
+    }
+  }
+
+  function silHill(ctx, x, base, w, h, p, r) {
+    ctx.beginPath();
+    ctx.moveTo(x, base);
+    const peak = p.cliff ? 0.3 : 0.45;
+    ctx.lineTo(x, base - h * 0.12);
+    ctx.bezierCurveTo(x + w * 0.2, base - h * 0.2, x + w * (peak - 0.1), base - h * 0.9, x + w * peak, base - h * 0.92);
+    ctx.bezierCurveTo(x + w * (peak + 0.18), base - h * 0.94, x + w * 0.8, base - h * 0.3, x + w, base - h * (p.cliff ? 0.5 : 0.14));
+    ctx.lineTo(x + w, base); ctx.closePath(); ctx.fill();
+    if (p.castle) {
+      const cx = x + w * peak, cw = w * 0.17, cb = base - h * 0.9;
+      ctx.fillRect(cx - cw / 2, cb - h * 0.16, cw, h * 0.16);
+      for (let i = 0; i < 3; i++) {
+        const tx = cx - cw / 2 + cw * (i / 2) - cw * 0.05;
+        ctx.fillRect(tx, cb - h * 0.26, cw * 0.11, h * 0.1);
+        ctx.beginPath();
+        ctx.moveTo(tx - cw * 0.03, cb - h * 0.26); ctx.lineTo(tx + cw * 0.055, cb - h * 0.34); ctx.lineTo(tx + cw * 0.14, cb - h * 0.26);
+        ctx.closePath(); ctx.fill();
+      }
+    }
+    if (p.town) {
+      for (let i = 0; i < 14; i++) {
+        const tx = x + w * (0.06 + r() * 0.88);
+        const ty = base - h * (0.06 + r() * 0.2);
+        ctx.fillRect(tx, ty, w * 0.028, h * 0.06);
+      }
+    }
+  }
+
+  function silMountain(ctx, x, base, w, h, p, r, snowColor) {
+    const n = p.peaks || 4;
+    const pts = [[x, base]];
+    for (let i = 0; i <= n; i++) {
+      const px = x + w * (i / n);
+      const py = base - h * (0.35 + r() * 0.62);
+      pts.push([px, py]);
+    }
+    pts.push([x + w, base]);
+    ctx.beginPath();
+    ctx.moveTo(pts[0][0], pts[0][1]);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+    ctx.closePath(); ctx.fill();
+    if (p.snow && snowColor) {
+      ctx.save(); ctx.clip();
+      ctx.fillStyle = snowColor;
+      for (let i = 1; i < pts.length - 1; i++) {
+        const [px, py] = pts[i];
+        ctx.beginPath();
+        ctx.moveTo(px - w * 0.07, py + h * 0.16);
+        ctx.lineTo(px, py - h * 0.01);
+        ctx.lineTo(px + w * 0.07, py + h * 0.16);
+        ctx.lineTo(px + w * 0.03, py + h * 0.1);
+        ctx.lineTo(px - w * 0.02, py + h * 0.15);
+        ctx.closePath(); ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  function silVault(ctx, x, base, w, h, p, r) {
+    const n = p.bays || 4;
+    for (let i = n; i >= 1; i--) {
+      const t = i / n;
+      const bw = w * t * 0.92, bh = h * (0.55 + t * 0.45);
+      const cx = x + w / 2;
+      ctx.globalAlpha = p.cave ? 0.5 : 0.42;
+      ctx.beginPath();
+      if (p.rough) {
+        ctx.moveTo(cx - bw / 2, base);
+        ctx.lineTo(cx - bw / 2 + bw * 0.06 * r(), base - bh * 0.55);
+        ctx.quadraticCurveTo(cx, base - bh * (1 + r() * 0.1), cx + bw / 2 - bw * 0.06 * r(), base - bh * 0.55);
+        ctx.lineTo(cx + bw / 2, base);
+      } else {
+        ctx.moveTo(cx - bw / 2, base);
+        ctx.lineTo(cx - bw / 2, base - bh * 0.5);
+        ctx.arc(cx, base - bh * 0.5, bw / 2, Math.PI, 0);
+        ctx.lineTo(cx + bw / 2, base);
+      }
+      ctx.closePath(); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    if (p.glass) {
+      ctx.globalAlpha = 0.25;
+      for (let i = 0; i < 9; i++) {
+        const gx = x + w * 0.5 + (i - 4) * w * 0.05;
+        ctx.beginPath(); ctx.moveTo(x + w * 0.5, base - h); ctx.lineTo(gx, base); ctx.lineTo(gx + w * 0.01, base); ctx.closePath(); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  function silWater(ctx, x, base, w, h, p, r) {
+    ctx.fillRect(x, base - h * 0.18, w, h * 0.18);
+    if (p.dome) {
+      const cx = x + w * 0.72, dr = w * 0.07;
+      ctx.beginPath(); ctx.arc(cx, base - h * 0.18, dr, Math.PI, 0); ctx.fill();
+      ctx.fillRect(cx - dr * 0.12, base - h * 0.18 - dr - h * 0.09, dr * 0.24, h * 0.09);
+    }
+    for (let i = 0; i < 10; i++) {
+      const bx = x + w * (i / 10) + w * 0.01;
+      ctx.fillRect(bx, base - h * (0.18 + r() * 0.22), w * 0.035, h * 0.22);
+    }
+    const boats = p.boats || 0;
+    for (let i = 0; i < boats; i++) {
+      const bx = x + w * (0.2 + i * 0.28), by = base + h * 0.1;
+      ctx.beginPath();
+      ctx.moveTo(bx - w * 0.05, by); ctx.quadraticCurveTo(bx, by + h * 0.05, bx + w * 0.05, by);
+      ctx.closePath(); ctx.fill();
+      ctx.fillRect(bx - w * 0.002, by - h * 0.09, w * 0.004, h * 0.09);
+    }
+  }
+
+  const DRAW = {
+    tower: silTower, spires: silSpires, palace: silPalace, houses: silHouses,
+    bridge: silBridge, hill: silHill, mountain: silMountain, vault: silVault, water: silWater
+  };
+
+  // ---- composição -----------------------------------------------------------
+
+  function draw(canvas, scene, accentHex) {
+    const box = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const W = Math.max(2, Math.round(box.width)), H = Math.max(2, Math.round(box.height));
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    const ctx = canvas.getContext("2d");
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+
+    const art = scene.art || {};
+    const pal = SKY[art.sky] || SKY.dusk;
+    const [arch, params] = KIND[art.kind] || ["houses", {}];
+    const r = rng(hash(scene.name + art.kind));
+    const interior = art.sky === "interior" || art.sky === "underground";
+    const horizon = interior ? H * 0.9 : H * (art.water ? 0.62 : 0.74);
+
+    // céu
+    const g = ctx.createLinearGradient(0, 0, 0, horizon);
+    g.addColorStop(0, pal[0]); g.addColorStop(0.45, pal[1]);
+    g.addColorStop(0.8, pal[2]); g.addColorStop(1, pal[3]);
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, horizon + 2);
+
+    // disco de luz
+    const sunX = W * (0.2 + r() * 0.6), sunY = horizon - H * (0.08 + r() * 0.18);
+    const sg = ctx.createRadialGradient(sunX, sunY, 0, sunX, sunY, H * 0.55);
+    sg.addColorStop(0, art.sky === "night" ? "rgba(210,225,255,.5)" : "rgba(255,240,215,.62)");
+    sg.addColorStop(0.35, "rgba(255,230,190,.14)");
+    sg.addColorStop(1, "rgba(255,230,190,0)");
+    ctx.fillStyle = sg; ctx.fillRect(0, 0, W, horizon + 2);
+    if (!interior) {
+      ctx.beginPath(); ctx.arc(sunX, sunY, H * (art.sky === "night" ? 0.022 : 0.034), 0, 7);
+      ctx.fillStyle = art.sky === "night" ? "rgba(226,236,255,.92)" : "rgba(255,247,228,.9)";
+      ctx.fill();
+    }
+
+    // chão / água
+    ctx.fillStyle = art.water ? mix(pal[3], pal[0], 0.62) : mix(pal[3], "#0b0e13", 0.72);
+    ctx.fillRect(0, horizon, W, H - horizon);
+
+    // camadas de silhueta, do fundo para a frente
+    const layers = interior ? 1 : 3;
+    for (let L = 0; L < layers; L++) {
+      const t = layers === 1 ? 1 : L / (layers - 1);
+      const depth = 0.3 + t * 0.7;
+      const base = horizon + (H - horizon) * (interior ? 0 : t * 0.14);
+      const h = H * (interior ? 0.8 : (0.2 + depth * 0.26));
+      const inset = (1 - depth) * W * 0.12;
+      ctx.fillStyle = mix(pal[2], L === layers - 1 ? accentHex : pal[0], 0.42 + t * 0.5);
+      ctx.save();
+      DRAW[arch](ctx, -inset, base, W + inset * 2, h, L === layers - 1 ? params : { ...params, low: 1 }, r,
+        mix("#ffffff", pal[3], 0.18));
+      ctx.restore();
+
+      // reflexo na água
+      if (art.water && L === layers - 1 && !interior) {
+        ctx.save();
+        ctx.globalAlpha = 0.3;
+        ctx.translate(0, base * 2); ctx.scale(1, -1);
+        ctx.fillStyle = mix(pal[2], accentHex, 0.7);
+        DRAW[arch](ctx, -inset, base, W + inset * 2, h * 0.92, params, rng(hash(scene.name)), null);
+        ctx.restore();
+        ctx.globalAlpha = 1;
+        ctx.fillStyle = mix(pal[3], pal[0], 0.55);
+        for (let i = 0; i < 26; i++) {
+          const wy = base + (H - base) * Math.pow(i / 26, 1.5);
+          ctx.globalAlpha = 0.16 + (i / 26) * 0.2;
+          ctx.fillRect(W * r() * 0.9, wy, W * (0.05 + r() * 0.22), Math.max(1, H * 0.004));
+        }
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    // névoa
+    const hg = ctx.createLinearGradient(0, horizon - H * 0.22, 0, horizon + H * 0.06);
+    hg.addColorStop(0, "rgba(255,255,255,0)");
+    hg.addColorStop(1, art.sky === "night" ? "rgba(40,60,95,.34)" : "rgba(255,244,226,.3)");
+    ctx.fillStyle = hg; ctx.fillRect(0, horizon - H * 0.22, W, H * 0.28);
+
+    // vinheta + granulado
+    const vg = ctx.createRadialGradient(W / 2, H * 0.45, H * 0.2, W / 2, H * 0.5, H * 0.95);
+    vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(4,6,11,.62)");
+    ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+    ctx.globalAlpha = 0.05;
+    for (let i = 0; i < (W * H) / 700; i++) {
+      ctx.fillStyle = r() > 0.5 ? "#fff" : "#000";
+      ctx.fillRect(r() * W, r() * H, 1.5, 1.5);
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  window.SceneArt = { draw: draw };
+})();
+
+/* ===== audio.js ===== */
+// Ambiente sonoro sintetizado: um acorde e uma textura por capítulo.
+// Sem arquivos externos — funciona offline e só começa depois de um gesto do usuário.
+(function () {
+  "use strict";
+
+  // root = nota base (Hz) · chord = intervalos em semitons · air = ruído (0–1)
+  // bell = intervalo médio entre sinos (s, 0 = sem sino) · cut = corte do filtro (Hz)
+  const MOODS = {
+    paris:      { root: 146.83, chord: [0, 7, 16, 23], wave: "sawtooth", air: 0.10, bell: 0,  cut: 900,  q: 3 },
+    brussels:   { root: 130.81, chord: [0, 7, 12, 16], wave: "triangle", air: 0.08, bell: 0,  cut: 820,  q: 2 },
+    amsterdam:  { root: 110.00, chord: [0, 7, 14, 21], wave: "sine",     air: 0.30, bell: 0,  cut: 1500, q: 1 },
+    cologne:    { root: 98.00,  chord: [0, 7, 12, 19], wave: "sine",     air: 0.06, bell: 11, cut: 700,  q: 4 },
+    luxembourg: { root: 123.47, chord: [0, 5, 12, 17], wave: "triangle", air: 0.12, bell: 0,  cut: 640,  q: 3 },
+    strasbourg: { root: 138.59, chord: [0, 4, 11, 16], wave: "sawtooth", air: 0.09, bell: 14, cut: 880,  q: 3 },
+    lucerne:    { root: 164.81, chord: [0, 7, 12, 19], wave: "sine",     air: 0.34, bell: 0,  cut: 2200, q: 1 },
+    italy:      { root: 155.56, chord: [0, 4, 7, 14],  wave: "sawtooth", air: 0.22, bell: 0,  cut: 1200, q: 2 },
+    vienna:     { root: 130.81, chord: [0, 4, 7, 16],  wave: "sawtooth", air: 0.07, bell: 0,  cut: 1000, q: 3 },
+    budapest:   { root: 116.54, chord: [0, 3, 10, 15], wave: "triangle", air: 0.26, bell: 0,  cut: 760,  q: 3 },
+    bratislava: { root: 110.00, chord: [0, 5, 10, 17], wave: "sine",     air: 0.16, bell: 0,  cut: 820,  q: 2 },
+    krakow:     { root: 103.83, chord: [0, 3, 7, 14],  wave: "triangle", air: 0.10, bell: 17, cut: 600,  q: 4 },
+    prague:     { root: 98.00,  chord: [0, 3, 10, 14], wave: "sawtooth", air: 0.12, bell: 9,  cut: 720,  q: 4 }
+  };
+
+  let ctx = null, master = null, verb = null, dry = null;
+  let voices = [], noiseGain = null, noiseFilter = null, bellTimer = null;
+  let current = null, enabled = false;
+
+  function impulse(seconds, decay) {
+    const len = Math.floor(ctx.sampleRate * seconds);
+    const buf = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (let c = 0; c < 2; c++) {
+      const d = buf.getChannelData(c);
+      for (let i = 0; i < len; i++) {
+        d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, decay);
+      }
+    }
+    return buf;
+  }
+
+  function build() {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return false;
+    ctx = new AC();
+
+    master = ctx.createGain();
+    master.gain.value = 0;
+    master.connect(ctx.destination);
+
+    verb = ctx.createConvolver();
+    verb.buffer = impulse(3.4, 2.6);
+    const verbGain = ctx.createGain();
+    verbGain.gain.value = 0.55;
+    verb.connect(verbGain); verbGain.connect(master);
+
+    dry = ctx.createGain();
+    dry.gain.value = 0.65;
+    dry.connect(master);
+
+    // leito de ruído (água, vento, sala)
+    const len = ctx.sampleRate * 4;
+    const nb = ctx.createBuffer(1, len, ctx.sampleRate);
+    const nd = nb.getChannelData(0);
+    let last = 0;
+    for (let i = 0; i < len; i++) {
+      const w = Math.random() * 2 - 1;
+      last = (last + 0.02 * w) / 1.02;
+      nd[i] = last * 3.2;
+    }
+    const noise = ctx.createBufferSource();
+    noise.buffer = nb; noise.loop = true;
+    noiseFilter = ctx.createBiquadFilter();
+    noiseFilter.type = "bandpass"; noiseFilter.frequency.value = 700; noiseFilter.Q.value = 0.7;
+    noiseGain = ctx.createGain(); noiseGain.gain.value = 0;
+    noise.connect(noiseFilter); noiseFilter.connect(noiseGain);
+    noiseGain.connect(dry); noiseGain.connect(verb);
+    noise.start();
+
+    // LFO lento na frequência do filtro: dá movimento de respiração
+    const lfo = ctx.createOscillator(), lfoAmt = ctx.createGain();
+    lfo.frequency.value = 0.06; lfoAmt.gain.value = 240;
+    lfo.connect(lfoAmt); lfoAmt.connect(noiseFilter.frequency);
+    lfo.start();
+    return true;
+  }
+
+  function clearVoices(t) {
+    voices.forEach((v) => {
+      v.gain.gain.cancelScheduledValues(t);
+      v.gain.gain.setTargetAtTime(0, t, 0.9);
+      try { v.osc.stop(t + 4); } catch (e) {}
+    });
+    voices = [];
+  }
+
+  function apply(id) {
+    if (!ctx || !enabled) return;
+    const m = MOODS[id] || MOODS.paris;
+    const t = ctx.currentTime;
+    clearVoices(t);
+    if (bellTimer) { clearInterval(bellTimer); bellTimer = null; }
+
+    m.chord.forEach((semi, i) => {
+      const osc = ctx.createOscillator();
+      osc.type = m.wave;
+      osc.frequency.value = m.root * Math.pow(2, semi / 12);
+      osc.detune.value = (i % 2 ? 1 : -1) * (4 + i * 2);
+
+      const filt = ctx.createBiquadFilter();
+      filt.type = "lowpass";
+      filt.frequency.value = m.cut; filt.Q.value = m.q;
+
+      const g = ctx.createGain();
+      g.gain.value = 0;
+      g.gain.setTargetAtTime(0.16 / (i + 1.3), t, 2.2);
+
+      // leve oscilação de amplitude por voz
+      const trem = ctx.createOscillator(), tremAmt = ctx.createGain();
+      trem.frequency.value = 0.05 + i * 0.017;
+      tremAmt.gain.value = 0.03;
+      trem.connect(tremAmt); tremAmt.connect(g.gain); trem.start();
+
+      osc.connect(filt); filt.connect(g);
+      g.connect(dry); g.connect(verb);
+      osc.start();
+      voices.push({ osc: osc, gain: g });
+    });
+
+    noiseGain.gain.setTargetAtTime(m.air * 0.32, t, 2.5);
+    noiseFilter.frequency.setTargetAtTime(m.cut * 1.4, t, 2.5);
+
+    if (m.bell) {
+      const ring = () => {
+        if (!enabled || !ctx) return;
+        const now = ctx.currentTime;
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = "sine";
+        o.frequency.value = m.root * Math.pow(2, (m.chord[1 + Math.floor(Math.random() * 2)] + 24) / 12);
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.exponentialRampToValueAtTime(0.1, now + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 5.5);
+        o.connect(g); g.connect(verb); g.connect(dry);
+        o.start(now); o.stop(now + 6);
+      };
+      bellTimer = setInterval(ring, m.bell * 1000);
+      setTimeout(ring, 1800);
+    } else {
+      noiseGain.gain.setTargetAtTime(m.air * 0.32, t, 2.5);
+    }
+    current = id;
+  }
+
+  const Ambience = {
+    get enabled() { return enabled; },
+    available: function () { return !!(window.AudioContext || window.webkitAudioContext); },
+    start: function (id) {
+      if (!ctx && !build()) return false;
+      if (ctx.state === "suspended") ctx.resume();
+      enabled = true;
+      master.gain.setTargetAtTime(0.5, ctx.currentTime, 1.6);
+      apply(id || current || "paris");
+      return true;
+    },
+    stop: function () {
+      if (!ctx) return;
+      enabled = false;
+      master.gain.setTargetAtTime(0, ctx.currentTime, 0.6);
+      if (bellTimer) { clearInterval(bellTimer); bellTimer = null; }
+    },
+    toggle: function (id) {
+      if (enabled) { this.stop(); return false; }
+      return this.start(id);
+    },
+    setChapter: function (id) {
+      if (id === current) return;
+      if (!enabled) { current = id; return; }
+      apply(id);
+    }
+  };
+
+  window.Ambience = Ambience;
+})();
+
+/* ===== app.js ===== */
+(function () {
+  "use strict";
+
+  const T = window.TRIP;
+  const deck = document.getElementById("deck");
+  const rail = document.getElementById("rail");
+  const hint = document.getElementById("hint");
+  const SCENE_MS = 7000;
+
+  const el = (tag, cls, html) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html != null) n.innerHTML = html;
+    return n;
+  };
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  // ---- montagem dos slides -------------------------------------------------
+
+  const slides = [];
+
+  function stageFor(scenes, accent) {
+    const stage = el("div", "stage");
+    const canvas = el("canvas");
+    canvas.setAttribute("aria-hidden", "true");
+    stage.appendChild(canvas);
+    scenes.forEach((sc, i) => {
+      const img = el("img");
+      img.alt = sc.name;
+      img.decoding = "async";
+      img.loading = i === 0 ? "eager" : "lazy";
+      img.dataset.i = i;
+      if (sc.photo) {
+        img.addEventListener("error", () => { img.dataset.failed = "1"; }, { once: true });
+        img.src = sc.photo;
+      } else {
+        img.dataset.failed = "1";
+      }
+      stage.appendChild(img);
+    });
+    const tint = el("div", "tint");
+    tint.style.background = accent;
+    stage.appendChild(tint);
+    stage.appendChild(el("div", "scrim"));
+    return stage;
+  }
+
+  // capa
+  const coverScenes = [
+    T.chapters[12].scenes[1], // Praga
+    T.chapters[7].scenes[2],  // Veneza
+    T.chapters[9].scenes[1],  // Budapeste
+    T.chapters[6].scenes[1]   // Titlis
+  ];
+  {
+    const s = el("section", "slide slide-hero");
+    s.dataset.kind = "cover";
+    s.appendChild(stageFor(coverScenes, "#3F7BA8"));
+    s.appendChild(el("div", "hero-wrap", `
+      <p class="eyebrow">Uma viagem para nós dois</p>
+      <h1 class="hero-title">Europa<em>em 15 dias</em></h1>
+      <p class="hero-copy">Do primeiro café em Paris à última noite em Viena.
+        Doze países ligados por trilhos, cidades e histórias — entre
+        ${T.meta.start} e ${T.meta.end} de ${T.meta.month} de ${T.meta.year}.</p>
+      <div class="hero-meta">
+        <div><strong>${T.meta.start}&#8202;–&#8202;${T.meta.end}</strong><span>${T.meta.month} ${T.meta.year}</span></div>
+        <div><strong>${T.meta.countries}</strong><span>países</span></div>
+        <div><strong>${T.meta.stops}</strong><span>destinos</span></div>
+        <div><strong>${T.meta.days}</strong><span>dias</span></div>
+      </div>
+      <button class="start" id="begin"><span class="dot"></span> Iniciar a viagem</button>
+    `));
+    deck.appendChild(s);
+    slides.push({ node: s, kind: "cover", scenes: coverScenes, accent: "#3F7BA8", audio: "paris" });
+  }
+
+  // capítulos
+  T.chapters.forEach((ch, ci) => {
+    const s = el("section", "slide slide-chapter");
+    s.dataset.kind = "chapter";
+    s.dataset.side = ci % 2 ? "right" : "left";
+    s.style.setProperty("--accent", ch.accent);
+    s.appendChild(stageFor(ch.scenes, ch.accent));
+
+    const rows = ch.scenes.map((sc, i) => `
+      <li>
+        <button class="scene-row" data-scene="${i}">
+          <span class="scene-time">${esc(sc.time)}</span>
+          <span class="scene-name">${esc(sc.name)}</span>
+          <span class="scene-note">${esc(sc.note)}</span>
+        </button>
+      </li>`).join("");
+
+    s.appendChild(el("div", "chapter-body", `
+      <div class="panel">
+        <div class="ch-head">
+          <span class="ch-n">${ch.n} / 13</span>
+          <span class="ch-country">${esc(ch.country)}</span>
+          <span class="ch-dates">${esc(ch.days)} · ${esc(ch.dates)}</span>
+        </div>
+        <h2 class="ch-city">${esc(ch.city)}${ch.sub ? `<em>${esc(ch.sub)}</em>` : ""}</h2>
+        <p class="ch-intro">${esc(ch.intro)}</p>
+        <ul class="scenes">${rows}</ul>
+        <p class="transit"><b>Como seguir</b><span>${esc(ch.transit)}</span></p>
+      </div>
+    `));
+    s.appendChild(el("div", "scene-hud"));
+    deck.appendChild(s);
+    slides.push({ node: s, kind: "chapter", scenes: ch.scenes, accent: ch.accent, audio: ch.id, ch: ch });
+  });
+
+  // calendário + logística
+  {
+    const rows = T.calendar.map((d) => `
+      <div class="cal-row">
+        <div class="cal-day">${d.d}<small>ABR</small></div>
+        <div class="cal-main">
+          <span class="cal-place">${esc(d.place)}</span>
+          <span class="cal-detail">${esc(d.detail)}</span>
+          <span class="cal-route">${esc(d.route)}</span>
+        </div>
+      </div>`).join("");
+    const logs = T.logistics.map((l) => `
+      <div class="log-item"><h3>${esc(l.t)}</h3><p>${esc(l.d)}</p></div>`).join("");
+    const s = el("section", "slide");
+    s.dataset.kind = "sheet";
+    s.appendChild(el("div", "sheet", `
+      <p class="eyebrow">Calendário</p>
+      <h2>Quinze dias,<em>sem perder o fio.</em></h2>
+      <div class="cal">${rows}</div>
+      <p class="eyebrow" style="margin-top:44px">Logística</p>
+      <div class="log-grid">${logs}</div>
+    `));
+    deck.appendChild(s);
+    slides.push({ node: s, kind: "sheet", scenes: [], accent: "#C9A24B", audio: "vienna" });
+  }
+
+  // fecho
+  {
+    const s = el("section", "slide");
+    s.dataset.kind = "end";
+    s.appendChild(stageFor([T.chapters[8].scenes[0]], "#A66B47"));
+    s.appendChild(el("div", "end", `
+      <p>${esc(T.meta.dedication)}</p>
+      <span>${T.meta.start} a ${T.meta.end} de ${T.meta.month} de ${T.meta.year}</span>
+    `));
+    deck.appendChild(s);
+    slides.push({ node: s, kind: "end", scenes: [T.chapters[8].scenes[0]], accent: "#A66B47", audio: "vienna" });
+  }
+
+  // trilho
+  T.chapters.forEach((ch, i) => {
+    const b = el("button", "rail-stop", `<b>${esc(ch.city)}</b>`);
+    b.title = ch.city + " · " + ch.dates;
+    b.addEventListener("click", () => go(i + 1));
+    rail.appendChild(b);
+  });
+
+  // ---- estado --------------------------------------------------------------
+
+  let idx = 0, scene = 0, timer = null, auto = true;
+
+  function paintCanvas(slide, at) {
+    const i = at == null ? (slide === slides[idx] ? scene : 0) : at;
+    const sc = slide.scenes[i] || slide.scenes[0];
+    if (!sc || !window.SceneArt) return;
+    const canvas = slide.node.querySelector("canvas");
+    if (canvas) {
+      try { window.SceneArt.draw(canvas, sc, slide.accent); } catch (e) {}
+    }
+  }
+
+  function showScene(n, restart) {
+    const slide = slides[idx];
+    if (!slide.scenes.length) return;
+    scene = (n + slide.scenes.length) % slide.scenes.length;
+    const sc = slide.scenes[scene];
+
+    paintCanvas(slide);
+
+    slide.node.querySelectorAll(".stage img").forEach((img) => {
+      const on = Number(img.dataset.i) === scene && !img.dataset.failed;
+      img.classList.toggle("is-on", on);
+      img.classList.toggle("is-out", !on);
+    });
+
+    slide.node.querySelectorAll(".scene-row").forEach((row, i) => {
+      row.classList.toggle("is-live", i === scene);
+    });
+
+    const hud = slide.node.querySelector(".scene-hud");
+    if (hud) {
+      const cr = sc.credit;
+      const total = slide.scenes.length;
+      const ticks = slide.scenes.map((_, i) =>
+        `<i class="${i < scene ? "done" : i === scene ? "live" : ""}"></i>`).join("");
+      const creditHtml = cr
+        ? `<a class="credit" href="${esc(cr.href)}" target="_blank" rel="noopener">Foto: ${esc(cr.by)} · ${esc(cr.lic)} · Wikimedia Commons</a>`
+        : `<span class="credit generated">Cena desenhada em tempo real</span>`;
+      hud.innerHTML =
+        `<span class="now"><i></i>${esc(sc.name)}</span>` +
+        `<span class="ticks" style="--dur:${SCENE_MS}ms">${ticks}</span>` +
+        `<span class="now" style="color:var(--bone-faint)">${String(scene + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}</span>` +
+        creditHtml;
+    }
+
+    if (restart !== false) arm();
+  }
+
+  function arm() {
+    clearTimeout(timer);
+    if (!auto) return;
+    const slide = slides[idx];
+    if (slide.scenes.length < 2) return;
+    timer = setTimeout(() => showScene(scene + 1), SCENE_MS);
+  }
+
+  function go(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === idx) return;
+    slides[idx].node.classList.remove("is-on");
+    idx = n; scene = 0;
+    const slide = slides[idx];
+    slide.node.classList.add("is-on");
+
+    document.body.classList.toggle("is-cover", slide.kind === "cover");
+    rail.querySelectorAll(".rail-stop").forEach((s, i) => {
+      s.classList.toggle("here", i === idx - 1);
+      s.classList.toggle("seen", i < idx - 1);
+    });
+    document.getElementById("prev").disabled = idx === 0;
+    document.getElementById("next").disabled = idx === slides.length - 1;
+
+    if (window.Ambience) window.Ambience.setChapter(slide.audio);
+
+    if (slide.scenes.length) showScene(0);
+    else clearTimeout(timer);
+
+    if (idx > 0 && hint) hint.style.opacity = "0";
+  }
+
+  // ---- controles -----------------------------------------------------------
+
+  document.getElementById("next").addEventListener("click", () => go(idx + 1));
+  document.getElementById("prev").addEventListener("click", () => go(idx - 1));
+
+  document.getElementById("begin").addEventListener("click", () => {
+    if (window.Ambience && window.Ambience.available()) {
+      if (window.Ambience.start(slides[1].audio)) setSoundUI(true);
+    }
+    go(1);
+  });
+
+  function setSoundUI(on) {
+    const b = document.getElementById("sound");
+    b.setAttribute("aria-pressed", String(on));
+    document.getElementById("sound-icon").innerHTML = on
+      ? '<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 6a9 9 0 0 1 0 12"/>'
+      : '<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/>';
+  }
+  document.getElementById("sound").addEventListener("click", () => {
+    if (!window.Ambience || !window.Ambience.available()) return;
+    setSoundUI(window.Ambience.toggle(slides[idx].audio) === true);
+  });
+  setSoundUI(false);
+
+  document.getElementById("auto").addEventListener("click", (e) => {
+    auto = !auto;
+    e.currentTarget.setAttribute("aria-pressed", String(auto));
+    document.getElementById("auto-icon").innerHTML = auto
+      ? '<path d="M9 6v12M15 6v12"/>'
+      : '<path d="M7 5l12 7-12 7z"/>';
+    if (auto) arm(); else clearTimeout(timer);
+  });
+
+  document.getElementById("full").addEventListener("click", () => {
+    const d = document.documentElement;
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      (d.requestFullscreen || d.webkitRequestFullscreen || function () {}).call(d);
+    } else {
+      (document.exitFullscreen || document.webkitExitFullscreen || function () {}).call(document);
+    }
+  });
+
+  // tocar na imagem troca de cena; tocar numa linha vai direto para ela
+  deck.addEventListener("click", (e) => {
+    const row = e.target.closest(".scene-row");
+    if (row) { showScene(Number(row.dataset.scene)); return; }
+    if (e.target.closest(".panel") || e.target.closest(".sheet") || e.target.closest("a") || e.target.closest("button")) return;
+    if (slides[idx].scenes.length > 1) showScene(scene + 1);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); go(idx + 1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(idx - 1); }
+    else if (e.key === "ArrowDown") { e.preventDefault(); showScene(scene + 1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); showScene(scene - 1); }
+    else if (e.key === "Home") go(0);
+    else if (e.key === "End") go(slides.length - 1);
+  });
+
+  let tx = 0, ty = 0, tt = 0;
+  deck.addEventListener("touchstart", (e) => {
+    tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY; tt = Date.now();
+  }, { passive: true });
+  deck.addEventListener("touchend", (e) => {
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Date.now() - tt > 700) return;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+      if (e.target.closest(".sheet")) return;
+      go(idx + (dx < 0 ? 1 : -1));
+    } else if (Math.abs(dy) > 60 && Math.abs(dy) > Math.abs(dx) * 1.4) {
+      if (e.target.closest(".sheet")) return;
+      if (slides[idx].scenes.length > 1) showScene(scene + (dy < 0 ? 1 : -1));
+    }
+  }, { passive: true });
+
+  let rt = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(rt);
+    rt = setTimeout(() => slides.forEach((s) => { if (s.scenes.length) paintCanvas(s); }), 180);
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) clearTimeout(timer); else arm();
+  });
+
+  // estado inicial
+  slides[0].node.classList.add("is-on");
+  document.body.classList.add("is-cover");
+  document.getElementById("prev").disabled = true;
+  slides.forEach((s) => { if (s.scenes.length) paintCanvas(s); });
+  showScene(0);
+})();
+
+</script>
+
+</body>
+</html>
