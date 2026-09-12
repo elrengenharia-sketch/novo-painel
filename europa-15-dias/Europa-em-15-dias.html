@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#07090E">
+<title>Europa em 15 dias</title>
 <style>html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Europa em 15 dias</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,10 +72,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .scrim{
   position:absolute;inset:0;z-index:3;pointer-events:none;
   background:
-    linear-gradient(to top,rgba(7,9,14,.94) 0%,rgba(7,9,14,.55) 30%,rgba(7,9,14,.1) 58%,rgba(7,9,14,.5) 100%),
-    radial-gradient(120% 90% at 18% 60%,rgba(7,9,14,.86) 0%,rgba(7,9,14,0) 62%);
+    linear-gradient(to top,rgba(7,9,14,.9) 0%,rgba(7,9,14,.42) 26%,rgba(7,9,14,0) 54%,rgba(7,9,14,.28) 100%),
+    radial-gradient(105% 85% at 14% 62%,rgba(7,9,14,.82) 0%,rgba(7,9,14,0) 58%);
 }
-.tint{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:soft-light;opacity:.5;background:var(--accent)}
+.tint{position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:soft-light;opacity:.32;background:var(--accent)}
 
 /* ---------- capa ---------- */
 .hero-wrap{
@@ -116,14 +117,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .chapter-body{
   position:relative;z-index:4;height:100%;
   display:flex;flex-direction:column;justify-content:flex-end;
-  padding:var(--pad);padding-block:var(--pad);
+  padding:var(--pad);padding-block:var(--pad) calc(var(--pad) + 66px);
   pointer-events:none;
 }
 .slide[data-side="right"] .chapter-body{align-items:flex-end;text-align:right}
 .slide[data-side="right"] .scrim{
   background:
-    linear-gradient(to top,rgba(7,9,14,.94) 0%,rgba(7,9,14,.55) 30%,rgba(7,9,14,.1) 58%,rgba(7,9,14,.5) 100%),
-    radial-gradient(120% 90% at 82% 60%,rgba(7,9,14,.86) 0%,rgba(7,9,14,0) 62%);
+    linear-gradient(to top,rgba(7,9,14,.9) 0%,rgba(7,9,14,.42) 26%,rgba(7,9,14,0) 54%,rgba(7,9,14,.28) 100%),
+    radial-gradient(105% 85% at 86% 62%,rgba(7,9,14,.82) 0%,rgba(7,9,14,0) 58%);
 }
 .panel{max-width:min(560px,92vw);pointer-events:auto}
 .panel>*,.hero-wrap>*,.end>*{
@@ -157,11 +158,11 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 .ch-city{
   font-family:var(--display);font-variation-settings:"opsz" 144;
-  font-weight:300;font-size:clamp(40px,8.4vw,104px);line-height:.88;
+  font-weight:300;font-size:clamp(34px,6.6vw,82px);line-height:.9;
   letter-spacing:-.03em;margin:.14em 0 .1em;text-wrap:balance;
 }
 .ch-city em{font-style:normal;font-weight:900;font-size:.52em;display:block;color:var(--brass)}
-.ch-intro{color:var(--bone-dim);font-size:clamp(13px,1.5vw,17px);max-width:52ch;margin:0 0 clamp(14px,2.4vh,26px)}
+.ch-intro{color:var(--bone-dim);font-size:clamp(12.5px,1.35vw,16px);max-width:52ch;margin:0 0 clamp(9px,1.6vh,16px)}
 .slide[data-side="right"] .ch-intro{margin-left:auto}
 
 /* lista de cenas — o texto que acompanha a imagem */
@@ -169,7 +170,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   border-top:1px solid rgba(237,229,214,.14)}
 .scene-row{
   display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:baseline;
-  padding:11px 14px;border-bottom:1px solid rgba(237,229,214,.1);
+  padding:8px 14px;border-bottom:1px solid rgba(237,229,214,.1);
   border-left:2px solid transparent;
   opacity:.42;transition:opacity .5s,background .5s,border-color .5s,padding .4s;
   text-align:left;width:100%;
@@ -199,21 +200,63 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   transition:max-height .6s ease,opacity .5s,margin .5s;
 }
 .slide[data-side="right"] .scene-note{grid-column:1}
-.scene-row.is-live .scene-note{max-height:9em;opacity:1;margin-top:5px}
+.scene-row.is-live .scene-note{max-height:7.5em;opacity:1;margin-top:4px}
 
-.transit{
-  display:flex;gap:12px;align-items:flex-start;margin-top:clamp(12px,2vh,20px);
-  font-size:12.5px;color:var(--bone-faint);max-width:54ch;
+/* o trecho de trem que nos trouxe até aqui */
+.leg{
+  display:flex;flex-direction:column;gap:5px;
+  margin:0 0 clamp(9px,1.5vh,15px);padding:8px 13px;
+  border-left:2px solid var(--brass);
+  background:linear-gradient(90deg,rgba(201,162,75,.12),rgba(201,162,75,0));
+  max-width:54ch;
 }
-.slide[data-side="right"] .transit{margin-left:auto;flex-direction:row-reverse;text-align:right}
-.transit b{
+.slide[data-side="right"] .leg{
+  border-left:0;border-right:2px solid var(--brass);margin-left:auto;
+  background:linear-gradient(270deg,rgba(201,162,75,.12),rgba(201,162,75,0));
+  align-items:flex-end;
+}
+.leg.is-night{
+  border-color:#8E7BC4;
+  background:linear-gradient(90deg,rgba(142,123,196,.18),rgba(142,123,196,0));
+}
+.slide[data-side="right"] .leg.is-night{background:linear-gradient(270deg,rgba(142,123,196,.18),rgba(142,123,196,0))}
+.leg-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.slide[data-side="right"] .leg-head{justify-content:flex-end}
+.leg-mode{
+  font-family:var(--data);font-size:9px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink);background:var(--brass);
+  padding:3px 8px;border-radius:2px;white-space:nowrap;
+}
+.leg.is-night .leg-mode{background:#8E7BC4}
+.leg-route{font-family:var(--data);font-size:12px;color:var(--bone);letter-spacing:-.01em}
+.leg-time{
+  font-family:var(--data);font-size:11px;color:var(--bone-dim);
+  font-variant-numeric:tabular-nums;display:flex;gap:9px;align-items:baseline;
+}
+.leg-time i{font-style:normal;color:var(--brass);font-size:10px}
+.leg.is-night .leg-time i{color:#A897D6}
+/* cidades que só veremos pela janela — deliberadamente em segundo plano */
+.leg-via{
+  font-family:var(--data);font-size:9.5px;color:var(--bone-faint);
+  line-height:1.6;letter-spacing:.02em;
+}
+.leg-via i{
+  font-style:normal;display:block;font-size:8px;letter-spacing:.2em;
+  text-transform:uppercase;color:#4A4843;margin-bottom:2px;
+}
+.sleep{
+  display:flex;gap:10px;align-items:baseline;margin:clamp(7px,1.2vh,13px) 0 0;
+  font-size:13px;color:var(--bone-dim);
+}
+.slide[data-side="right"] .sleep{justify-content:flex-end;flex-direction:row-reverse}
+.sleep b{
   font-family:var(--data);font-size:9px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--brass);white-space:nowrap;padding-top:2px;
+  color:var(--brass);white-space:nowrap;font-weight:400;
 }
 
 /* selo da cena + crédito */
 .scene-hud{
-  position:absolute;z-index:5;right:var(--pad);bottom:var(--pad);
+  position:absolute;z-index:5;right:var(--pad);bottom:calc(var(--pad) + 60px);
   display:flex;flex-direction:column;align-items:flex-end;gap:9px;
   pointer-events:auto;max-width:min(300px,44vw);
 }
@@ -261,20 +304,52 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .sheet h2 em{font-style:normal;font-weight:900}
 .cal{display:grid;gap:1px;background:rgba(237,229,214,.12);border:1px solid rgba(237,229,214,.12)}
 .cal-row{
-  display:grid;grid-template-columns:78px 1fr;gap:0;
+  display:grid;grid-template-columns:78px 1fr 148px;gap:0;
   background:var(--ink);align-items:stretch;
 }
+.cal-row.is-night{background:linear-gradient(90deg,rgba(142,123,196,.11),rgba(7,9,14,0) 60%)}
 .cal-day{
   font-family:var(--data);font-weight:600;font-size:clamp(16px,2.4vw,24px);
   font-variant-numeric:tabular-nums;color:var(--brass);
   display:flex;flex-direction:column;justify-content:center;align-items:center;
   padding:14px 8px;border-right:1px solid rgba(237,229,214,.12);gap:3px;
 }
-.cal-day small{font-size:8px;letter-spacing:.16em;color:var(--bone-faint)}
+.cal-row.is-night .cal-day{color:#A897D6}
+.cal-day small{font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--bone-faint)}
 .cal-main{padding:14px 18px;display:flex;flex-direction:column;gap:4px;min-width:0}
 .cal-place{font-family:var(--display);font-weight:600;font-size:clamp(15px,2vw,20px)}
 .cal-detail{font-size:13px;color:var(--bone-dim)}
-.cal-route{font-family:var(--data);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-faint);margin-top:2px}
+/* rota de passagem: recuada de propósito, não conta como cidade visitada */
+.cal-route{
+  font-family:var(--data);font-size:9.5px;letter-spacing:.06em;
+  color:var(--bone-faint);margin-top:4px;line-height:1.5;
+}
+.cal-route i{
+  font-style:normal;font-size:8px;letter-spacing:.2em;text-transform:uppercase;
+  color:#4A4843;display:block;margin-bottom:1px;
+}
+.cal-sleep{
+  padding:14px 16px;border-left:1px solid rgba(237,229,214,.12);
+  display:flex;flex-direction:column;justify-content:center;gap:3px;
+  font-family:var(--data);font-size:10.5px;color:var(--bone-dim);
+}
+.cal-sleep i{
+  font-style:normal;font-size:8px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--bone-faint);
+}
+.cal-row.is-night .cal-sleep{color:#BDB0E2}
+
+.flags{display:flex;flex-wrap:wrap;gap:8px}
+.flag-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 13px 7px 9px;border:1px solid rgba(237,229,214,.18);border-radius:999px;
+  font-size:13px;color:var(--bone-dim);
+}
+.flag-chip i{
+  font-style:normal;font-family:var(--data);font-size:9px;font-weight:600;
+  letter-spacing:.1em;color:var(--ink);background:var(--brass);
+  padding:2px 5px;border-radius:2px;
+}
 
 .log-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:18px;margin-top:36px}
 .log-item{border-top:2px solid var(--brass);padding-top:14px;display:flex;flex-direction:column;gap:6px}
@@ -313,8 +388,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .rail-stop.seen::before{background:rgba(237,229,214,.45)}
 .rail-stop.here::before{background:var(--accent)}
 .rail-stop b{
-  position:relative;z-index:1;font-family:var(--data);font-size:8.5px;
-  letter-spacing:.08em;color:var(--bone-faint);background:var(--ink);
+  position:relative;z-index:1;font-family:var(--data);font-size:7.5px;
+  letter-spacing:.02em;color:var(--bone-faint);background:var(--ink);
   padding:0 5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   transition:color .3s;
 }
@@ -378,7 +453,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   .chapter-body{padding-bottom:calc(var(--pad) + 56px)}
   .scene-note{display:none}
   .hint{display:none}
-  .cal-row{grid-template-columns:60px 1fr}
+  .cal-row{grid-template-columns:56px 1fr}
+  .cal-sleep{
+    grid-column:2;border-left:0;border-top:1px solid rgba(237,229,214,.1);
+    flex-direction:row;align-items:baseline;gap:8px;padding:8px 18px 12px;
+  }
+  .leg{max-width:none}
+  .leg-via{font-size:9px}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}
@@ -412,192 +493,212 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 <p class="hint" id="hint">deslize ou use as setas · toque na imagem para trocar de cena</p>
 <script>
 /* ===== data.js ===== */
-// Roteiro Europa — 8 a 22 de abril de 2027
+// Europa em 15 dias — 8 a 22 de abril de 2027
+// leg = como chegamos até aqui · via = cidades que só veremos pela janela
+// sleep = onde dormimos naquela noite
 window.TRIP = {
   meta: {
     start: "08", end: "22", month: "abril", year: "2027",
-    countries: 12, stops: 16, days: 15,
+    countries: 12, stops: 14, days: 15, nightTrains: 3,
+    eyebrow: "Uma viagem para nós dois",
     dedication: "O melhor destino é aquele que a gente vive junto."
   },
   chapters: [
     {
       id: "paris", n: "01", city: "Paris", country: "França", cc: "fr",
-      accent: "#3F7BA8",
-      days: "DIA 01", dates: "8 de abril",
-      intro: "Porta de entrada e primeiro contato com a viagem: arquitetura monumental, margens do Sena e bairros que funcionam melhor percorridos a pé, sem pressa.",
-      transit: "RER B desde CDG, mochilas guardadas e o dia concentrado no eixo central. Amanhã, Eurostar cedo para Bruxelas.",
+      accent: "#3F7BA8", days: "DIA 01", dates: "quinta, 8 de abril",
+      leg: { mode: "voo", label: "Chegada em CDG", time: "07:05", dur: "", via: [] },
+      sleep: "Paris",
+      intro: "A viagem começa com a cidade inteira pela frente. Deixamos as mochilas e saímos a pé pelo eixo central — o primeiro café da Europa sai numa mesa de calçada, sem pressa nenhuma.",
       scenes: [
-        { name: "Île de la Cité", time: "2h", note: "Notre-Dame, Sainte-Chapelle e as pontes mais antigas. Comece aqui para entender a formação da cidade.", art: { kind: "river-towers", sky: "morning", water: true } },
-        { name: "Louvre e Tuileries", time: "2h30", note: "Mesmo sem entrar no museu, o eixo do palácio até a Place de la Concorde entrega a caminhada mais marcante do centro.", art: { kind: "colonnade", sky: "noon", water: false } },
-        { name: "Trocadéro e Torre Eiffel", time: "fim de tarde", note: "O Trocadéro entrega a vista frontal clássica; depois desça pelos jardins e atravesse o Sena até os pés da torre.", art: { kind: "tower", sky: "gold", water: true } }
+        { name: "Île de la Cité", time: "2h", note: "A ilha onde Paris nasceu. Notre-Dame, a Sainte-Chapelle e as pontes mais antigas da cidade, todas a poucos passos uma da outra.", art: { kind: "notredame", sky: "morning", water: true } },
+        { name: "Louvre e Tuileries", time: "2h30", note: "A pirâmide de vidro no pátio do palácio, e dali o jardim se abre em linha reta até a Concorde. A caminhada mais bonita do centro, mesmo sem entrar no museu.", art: { kind: "louvre", sky: "noon", water: false } },
+        { name: "Trocadéro e Torre Eiffel", time: "fim de tarde", note: "Guardamos a Eiffel para o fim do dia. Do Trocadéro vem a vista frontal que todo mundo conhece; depois descemos os jardins e atravessamos o Sena até ficar embaixo dela.", art: { kind: "eiffel", sky: "gold", water: true } }
       ]
     },
     {
       id: "brussels", n: "02", city: "Bruxelas", country: "Bélgica", cc: "be",
-      accent: "#B5773F",
-      days: "DIA 02", dates: "9 de abril",
-      intro: "Escala compacta e saborosa: fachadas barrocas, galerias elegantes, cervejas trapistas e chocolate num centro que cabe em poucas horas.",
-      transit: "Bagagem em Bruxelles-Midi, trem local até Central, e volta para seguir de Eurostar a Amsterdam.",
+      accent: "#B5773F", days: "DIA 02", dates: "sexta, 9 de abril",
+      leg: { mode: "Eurostar", label: "Paris → Bruxelas", time: "07:15 → 08:45", dur: "1h22", via: [] },
+      sleep: "Amsterdam",
+      intro: "Uma manhã inteira numa cidade que cabe em poucas horas — e que serve chocolate, waffle e cerveja trapista a cada esquina. Deixamos a bagagem na estação e andamos leves.",
       scenes: [
-        { name: "Grand-Place", time: "45 min", note: "A praça central, cercada pelas antigas casas das guildas e pela prefeitura gótica — o conjunto mais importante da cidade.", art: { kind: "guild-square", sky: "morning", water: false } },
-        { name: "Galeries Royales", time: "45 min", note: "Galerias cobertas do século XIX: vitrines históricas, chocolate belga e abrigo garantido em caso de chuva.", art: { kind: "arcade", sky: "interior", water: false } },
-        { name: "Mont des Arts", time: "30 min", note: "Jardins em níveis entre a cidade alta e baixa, com uma das melhores vistas urbanas e acesso rápido à Central.", art: { kind: "terrace", sky: "dusk", water: false } }
+        { name: "Grand-Place", time: "45 min", note: "Uma praça fechada por casas de guilda douradas e pela prefeitura gótica, com a torre fora do eixo. Vale parar no meio e girar devagar.", art: { kind: "grandplace", sky: "morning", water: false } },
+        { name: "Galeries Royales", time: "45 min", note: "Galeria coberta de 1847, vidro e ferro sobre vitrines antigas. É onde provamos o chocolate — e o abrigo perfeito se cair chuva.", art: { kind: "galleria", sky: "interior", water: false } },
+        { name: "Mont des Arts", time: "30 min", note: "Jardins em terraços entre a cidade alta e a baixa, com a melhor vista do centro e a estação logo ali embaixo.", art: { kind: "terrace", sky: "noon", water: false } }
       ]
     },
     {
       id: "amsterdam", n: "03", city: "Amsterdam", country: "Países Baixos", cc: "nl",
-      accent: "#3E8891",
-      days: "DIAS 02–03", dates: "9 e 10 de abril",
-      intro: "A melhor versão da cidade está no ritmo dos canais. O centro é compacto, mas cada anel muda a paisagem — das casas estreitas do Jordaan aos museus do Museumplein.",
-      transit: "Tram e metrô resolvem os trechos longos. No fim da tarde, ICE ou conexão rápida em Utrecht rumo a Colônia.",
+      accent: "#3E8891", days: "DIAS 02–03", dates: "9 e 10 de abril",
+      leg: { mode: "Eurostar", label: "Bruxelas → Amsterdam", time: "17:50 → 19:50", dur: "1h52", via: ["Antuérpia", "Roterdã", "Schiphol"] },
+      sleep: "Amsterdam",
+      intro: "Chegamos de noite e a cidade já está com as luzes na água. No dia seguinte é tudo no ritmo dos canais: cada anel muda a paisagem, e o centro se faz a pé.",
       scenes: [
-        { name: "Canais e Jordaan", time: "1h30", note: "Brouwersgracht e Prinsengracht: pontes, casas inclinadas e pátios tranquilos fora do fluxo principal.", art: { kind: "canal-houses", sky: "morning", water: true } },
-        { name: "Cruzeiro pelos canais", time: "1h", note: "A água mostra a lógica urbana do século XVII e deixa descansar sem perder a leitura da cidade. Reserve perto do entardecer.", art: { kind: "canal-boat", sky: "gold", water: true } },
-        { name: "Museumplein", time: "1h30", note: "Rijksmuseum, Van Gogh e o grande gramado formam o polo cultural. Escolha um só museu para não comprimir o dia.", art: { kind: "museum", sky: "noon", water: false } }
+        { name: "Canais e Jordaan", time: "1h30", note: "Casas estreitas e tortas, empenas de campânula, pontes e pátios silenciosos. Brouwersgracht e Prinsengracht são o melhor par de canais da cidade.", art: { kind: "canalhouses", sky: "morning", water: true } },
+        { name: "Cruzeiro pelos canais", time: "1h", note: "A cidade foi desenhada para ser vista da água. Uma hora sentados, no fim da tarde, com a luz baixa entre as casas.", art: { kind: "canal-boat", sky: "gold", water: true } },
+        { name: "Museumplein", time: "1h30", note: "Rijksmuseum, Van Gogh e um gramado enorme no meio. Escolhemos um museu só — dois comprimem o dia e cansam.", art: { kind: "museum", sky: "noon", water: false } }
       ]
     },
     {
       id: "cologne", n: "04", city: "Colônia", country: "Alemanha", cc: "de",
-      accent: "#A8433F",
-      days: "DIA 03", dates: "10 de abril",
-      intro: "Tudo gira em torno da catedral monumental e do Reno. Parada eficiente: a atração principal já aparece ao sair da estação e o centro antigo fica ao lado.",
-      transit: "Hospedagem perto da Hauptbahnhof reduz deslocamentos. A saída combina regionais até Luxemburgo e depois Strasbourg.",
+      accent: "#A8433F", days: "DIAS 03–04", dates: "10 e 11 de abril",
+      leg: { mode: "ICE", label: "Amsterdam → Colônia", time: "21:01 → 23:45", dur: "2h44", via: ["Utrecht", "Arnhem", "Oberhausen", "Duisburg", "Düsseldorf"] },
+      sleep: "Colônia",
+      intro: "Trem da noite para não perder o dia em Amsterdam. A catedral aparece já na saída da estação — é literalmente a primeira coisa que se vê, e ela é enorme.",
       scenes: [
-        { name: "Catedral de Colônia", time: "1h15", note: "Patrimônio gótico iniciado no século XIII, abriga o relicário dos Três Reis. A nave impressiona; a torre exige disposição.", art: { kind: "spires", sky: "morning", water: false } },
-        { name: "Altstadt", time: "50 min", note: "Ruelas reconstruídas, praças históricas e cervejarias de Kölsch entre a catedral e o rio.", art: { kind: "roofline", sky: "dusk", water: false } },
-        { name: "Ponte Hohenzollern", time: "45 min", note: "A travessia ferroviária e pedonal entrega a vista mais completa da catedral recortada contra o skyline.", art: { kind: "rail-bridge", sky: "night", water: true } }
+        { name: "Catedral de Colônia", time: "1h15", note: "Gótico começado no século XIII e terminado no XIX. As duas agulhas vazadas de 157 metros foram o edifício mais alto do mundo por quatro anos.", art: { kind: "koelnerdom", sky: "morning", water: false } },
+        { name: "Altstadt", time: "50 min", note: "O centro antigo reconstruído, com cervejarias de Kölsch servindo em copos pequenos que o garçom vai trocando sem perguntar.", art: { kind: "roofline", sky: "noon", water: false } },
+        { name: "Ponte Hohenzollern", time: "45 min", note: "A ponte ferroviária tem passarela de pedestres e os cadeados de todo mundo nas grades. De lá vem a vista completa da catedral contra o rio.", art: { kind: "rail-bridge", sky: "dusk", water: true } }
       ]
     },
     {
       id: "luxembourg", n: "05", city: "Luxemburgo", country: "Luxemburgo", cc: "lu",
-      accent: "#6B8A54",
-      days: "DIA 04", dates: "11 de abril",
-      intro: "Capital construída em camadas sobre vales profundos. Em poucas horas o percurso alterna mirantes, fortalezas e bairros baixos com aparência de vila.",
-      transit: "Guarda-volumes na estação e transporte público gratuito no país inteiro. Volte à Gare para a conexão a Strasbourg.",
+      accent: "#6B8A54", days: "DIA 04", dates: "domingo, 11 de abril",
+      leg: { mode: "trem", label: "Colônia → Luxemburgo", time: "07:54 → 12:40", dur: "4h46", via: ["Frankfurt Aeroporto", "Mannheim", "Kaiserslautern", "Saarbrücken"] },
+      sleep: "Strasbourg",
+      intro: "Cinco horas numa capital construída em camadas sobre dois vales profundos. O transporte público do país inteiro é gratuito, então circulamos sem pensar em bilhete.",
       scenes: [
-        { name: "Chemin de la Corniche", time: "45 min", note: "A varanda mais bonita da Europa acompanha as antigas muralhas, com vista ampla sobre o vale do Alzette e o Grund.", art: { kind: "cliff-valley", sky: "morning", water: false } },
-        { name: "Casemates du Bock", time: "1h", note: "Galerias defensivas escavadas na rocha mostram por que a fortaleza foi considerada uma das mais poderosas do continente.", art: { kind: "casemate", sky: "interior", water: false } },
-        { name: "Grund", time: "1h", note: "O bairro baixo reúne casas históricas, pontes e o rio Alzette. A descida a pé se compensa com elevadores públicos gratuitos.", art: { kind: "low-village", sky: "gold", water: true } }
+        { name: "Chemin de la Corniche", time: "45 min", note: "Chamam de a varanda mais bonita da Europa, e não é exagero: o caminho corre sobre as muralhas antigas com o vale do Alzette aberto embaixo.", art: { kind: "corniche", sky: "noon", water: false } },
+        { name: "Casemates du Bock", time: "1h", note: "Vinte e três quilômetros de galerias escavadas na rocha. Sobrou o suficiente para entender por que esta fortaleza era considerada a mais forte do continente.", art: { kind: "casemate", sky: "interior", water: false } },
+        { name: "Grund", time: "1h", note: "O bairro baixo, junto ao rio, com cara de vila. Descemos a pé e voltamos pelo elevador público — que também é gratuito.", art: { kind: "low-village", sky: "gold", water: true } }
       ]
     },
     {
       id: "strasbourg", n: "06", city: "Strasbourg", country: "França", cc: "fr",
-      accent: "#C2603A",
-      days: "DIAS 04–05", dates: "11 e 12 de abril",
-      intro: "França e Alemanha misturadas na arquitetura, na comida e no idioma. O centro histórico insular concentra catedral, canais e casas enxaimel.",
-      transit: "Tram serve os trechos externos, mas o centro é pedonal. Partida cedo via Basel para aproveitar a tarde em Lucerna.",
+      accent: "#C2603A", days: "DIAS 04–05", dates: "11 e 12 de abril",
+      leg: { mode: "trem", label: "Luxemburgo → Strasbourg", time: "18:46 → 21:12", dur: "2h26", via: ["Thionville", "Metz"] },
+      sleep: "Strasbourg",
+      intro: "França e Alemanha misturadas na arquitetura, na comida e até no dialeto. O centro histórico é uma ilha cercada de canais, e é todo caminhável.",
       scenes: [
-        { name: "Catedral Notre-Dame", time: "1h", note: "Fachada em arenito rosado e relógio astronômico fazem dela o grande marco da Alsácia. A praça merece uma volta completa.", art: { kind: "spires", sky: "gold", water: false } },
-        { name: "Petite France", time: "1h30", note: "Antigo bairro de curtidores: canais, pontes cobertas e as fachadas enxaimel mais fotografadas da cidade.", art: { kind: "half-timber", sky: "morning", water: true } },
-        { name: "Barragem Vauban", time: "45 min", note: "A cobertura panorâmica mostra as Ponts Couverts, a torre da catedral e a organização defensiva da cidade.", art: { kind: "covered-bridge", sky: "dusk", water: true } }
+        { name: "Catedral Notre-Dame", time: "1h", note: "Arenito rosa e uma única agulha de 142 metros — a outra torre nunca foi construída, e é essa assimetria que a torna inconfundível.", art: { kind: "strasbourgcath", sky: "gold", water: false } },
+        { name: "Petite France", time: "1h30", note: "O antigo bairro dos curtidores: casas enxaimel debruçadas sobre os canais, pontes baixas e flores nas janelas.", art: { kind: "half-timber", sky: "morning", water: true } },
+        { name: "Barragem Vauban", time: "45 min", note: "Sobe-se até a cobertura para ver as Ponts Couverts alinhadas, a agulha da catedral ao fundo e todo o desenho defensivo da cidade.", art: { kind: "covered-bridge", sky: "noon", water: true } }
       ]
     },
     {
       id: "lucerne", n: "07", city: "Lucerna", sub: "+ Titlis", country: "Suíça", cc: "ch",
-      accent: "#4E8CB4",
-      days: "DIAS 05–07", dates: "12 a 14 de abril",
-      intro: "A base alpina da viagem: lago, centro medieval e montanhas já visíveis das pontes. O dia seguinte sobe até a neve permanente do Titlis.",
-      transit: "Compre a subida ao Titlis com margem para o clima. Na manhã seguinte, atravesse o Gotthard por Bellinzona e Lugano até Milão.",
+      accent: "#4E8CB4", days: "DIAS 05–07", dates: "12 a 14 de abril",
+      leg: { mode: "trem", label: "Strasbourg → Lucerna", time: "06:51 → 09:55", dur: "3h04", via: ["Sélestat", "Colmar", "Mulhouse", "Basel", "Olten"] },
+      sleep: "Lucerna (duas noites)",
+      intro: "Duas noites no mesmo lugar — o único respiro da viagem. Lago, centro medieval e os Alpes já visíveis da ponte. E um dia inteiro reservado para subir à neve.",
       scenes: [
-        { name: "Centro e Kapellbrücke", time: "1h30", note: "A ponte de madeira coberta atravessa o Reuss e preserva pinturas triangulares históricas. Siga pelas praças do centro antigo.", art: { kind: "wood-bridge", sky: "morning", water: true } },
-        { name: "Monte Titlis", time: "dia inteiro", note: "Trem até Engelberg, teleféricos e cabine giratória acima de 3.000 metros: neve, ponte suspensa e panoramas glaciais.", art: { kind: "snow-peak", sky: "alpine", water: false } },
-        { name: "Margem do lago", time: "1h", note: "O passeio entre a estação e o Museu dos Transportes abre vistas dos Alpes num ritmo mais leve, depois da descida.", art: { kind: "lake-alps", sky: "gold", water: true } }
+        { name: "Centro e Kapellbrücke", time: "1h30", note: "A ponte coberta de madeira mais antiga da Europa atravessa o Reuss na diagonal, com pinturas triangulares no teto e a torre octogonal de pedra no meio.", art: { kind: "kapellbruecke", sky: "morning", water: true } },
+        { name: "Monte Titlis", time: "dia inteiro", note: "Trem até Engelberg, depois teleféricos e a cabine giratória até 3.020 metros. Neve o ano todo, geleira, e a ponte suspensa mais alta dos Alpes a 3.041 m.", art: { kind: "titlis", sky: "alpine", water: false } },
+        { name: "Margem do lago", time: "1h", note: "Depois de descer da montanha, o passeio plano à beira d'água com os Alpes do outro lado. O ritmo mais leve de toda a viagem.", art: { kind: "lake-alps", sky: "gold", water: true } }
       ]
     },
     {
-      id: "italy", n: "08", city: "Milão", sub: "+ Veneza", country: "Itália", cc: "it",
-      accent: "#B5613F",
-      days: "DIAS 07–08", dates: "14 e 15 de abril",
-      intro: "Duas cidades completamente diferentes conectadas pela alta velocidade: o mármore vertical de Milão e a água horizontal de Veneza, no mesmo par de dias.",
-      transit: "Frecciarossa entre as duas. Em Veneza, San Marco antes de embarcar no Nightjet para Viena.",
+      id: "milan", n: "08", city: "Milão", country: "Itália", cc: "it",
+      accent: "#B5613F", days: "DIA 07", dates: "quarta, 14 de abril",
+      leg: { mode: "trem", label: "Lucerna → Milão, pelo Gotthard", time: "06:18 → 09:17", dur: "2h59", via: ["Arth-Goldau", "Bellinzona", "Lugano", "Chiasso", "Como", "Monza"] },
+      sleep: "Milão",
+      intro: "A travessia dos Alpes pelo Gotthard é parte do passeio: entra-se na Suíça alemã e sai-se falando italiano, com os lagos aparecendo na janela. Chegamos com o dia todo pela frente.",
       scenes: [
-        { name: "Duomo e terraços", time: "2h", note: "A catedral de mármore com suas agulhas e estátuas; os terraços permitem caminhar entre os pináculos com a cidade aos pés.", art: { kind: "duomo", sky: "noon", water: false } },
-        { name: "Galleria Vittorio Emanuele", time: "45 min", note: "A galeria de ferro e vidro do século XIX liga o Duomo ao Scala e é o salão de visitas da cidade.", art: { kind: "glass-arcade", sky: "interior", water: false } },
-        { name: "Rialto e Grande Canal", time: "2h30", note: "A curva do canal, os palácios na água e a ponte de pedra. Em Veneza, o transporte é a própria atração.", art: { kind: "venice-canal", sky: "gold", water: true } }
+        { name: "Duomo e terraços", time: "2h", note: "Mármore branco, 135 agulhas e a Madonnina dourada no ponto mais alto. Sobe-se aos terraços para caminhar entre os pináculos, com a cidade aos pés.", art: { kind: "duomomilano", sky: "noon", water: false } },
+        { name: "Galleria Vittorio Emanuele II", time: "45 min", note: "Ferro e vidro de 1877 ligando o Duomo ao Scala. É o salão de visitas de Milão — e dá sorte girar o calcanhar no touro do mosaico.", art: { kind: "galleria", sky: "interior", water: false } },
+        { name: "Navigli ao anoitecer", time: "2h", note: "Os canais projetados por Leonardo, hoje cheios de mesas na calçada. É onde Milão relaxa e faz o aperitivo antes do jantar.", art: { kind: "canal-boat", sky: "dusk", water: true } }
       ]
     },
     {
-      id: "vienna", n: "09", city: "Viena", country: "Áustria", cc: "at",
-      accent: "#A66B47",
-      days: "DIAS 09, 14 E 15", dates: "16, 21 e 22 de abril",
-      intro: "Aparece em três momentos e funciona como eixo logístico do leste europeu. Palácios imperiais, cafés e transporte exemplar permitem dividir a cidade sem repetição.",
-      transit: "Metrô e tram. Na primeira passagem, Railjet a Budapeste; na última, durma com acesso simples à linha do aeroporto.",
+      id: "venice", n: "09", city: "Veneza", country: "Itália", cc: "it",
+      accent: "#C07A4A", days: "DIA 08", dates: "quinta, 15 de abril",
+      leg: { mode: "alta velocidade", label: "Milão → Veneza", time: "07:00 → 09:15", dur: "2h15", via: ["Brescia", "Verona", "Vicenza", "Pádua"] },
+      sleep: "no trem, rumo a Viena",
+      intro: "Um dia inteiro numa cidade sem carro nenhum, onde o transporte público é barco. À noite embarcamos no Nightjet — e acordamos na Áustria.",
       scenes: [
-        { name: "Innere Stadt", time: "1h30", note: "O coração imperial reúne a Catedral de Santo Estêvão, Graben, Hofburg e edifícios monumentais dentro do antigo anel de muralhas.", art: { kind: "spires", sky: "night", water: false } },
-        { name: "Schönbrunn", time: "2h30", note: "Residência de verão dos Habsburgo, com salões de aparato e jardins extensos. Priorize o palácio ou os jardins conforme o horário.", art: { kind: "baroque-palace", sky: "morning", water: false } },
-        { name: "Belvedere", time: "2h", note: "Dois palácios barrocos ligados por jardins abrigam a coleção de Klimt, incluindo O Beijo, e uma bela perspectiva urbana.", art: { kind: "baroque-garden", sky: "noon", water: false } }
+        { name: "Rialto e Grande Canal", time: "2h30", note: "A ponte de pedra sobre a curva do canal, os palácios com o pé na água e o mercado de peixe logo atrás. A cidade se entende daqui.", art: { kind: "venice", sky: "morning", water: true } },
+        { name: "Praça San Marco", time: "2h", note: "A basílica dourada, o Palácio Ducal e o campanile de 98 metros. Chegamos cedo ou no fim do dia, quando a praça respira.", art: { kind: "venice", sky: "gold", water: true } },
+        { name: "Canais menores", time: "1h30", note: "Sair da rota principal e se perder de propósito nas vielas: pontes de um vão, roupa no varal, gôndolas passando em silêncio.", art: { kind: "canal-boat", sky: "noon", water: true } }
       ]
     },
     {
-      id: "budapest", n: "10", city: "Budapeste", country: "Hungria", cc: "hu",
-      accent: "#B8903B",
-      days: "DIAS 09–11", dates: "16 a 18 de abril",
-      intro: "Pede um dia inteiro porque são duas cidades complementares: Buda sobe pelas colinas históricas; Pest concentra avenidas, cafés e o Parlamento à margem do Danúbio.",
-      transit: "O metrô conecta os extremos; o tram 2 acompanha o Danúbio. Na saída, trem direto para Bratislava com bagagem pronta para o EuroNight.",
+      id: "vienna", n: "10", city: "Viena", country: "Áustria", cc: "at",
+      accent: "#A66B47", days: "DIAS 09, 14 E 15", dates: "16, 21 e 22 de abril",
+      leg: { mode: "Nightjet", label: "Veneza → Viena, dormindo a bordo", time: "21:05 → 08:00", dur: "11h", via: ["Treviso", "Pordenone", "Udine", "Villach"], night: true },
+      sleep: "cabine privativa no trem",
+      intro: "Viena aparece três vezes: na chegada do trem noturno, e depois no fim, para as duas últimas noites. Palácios imperiais, cafés com mármore e bolo, e o melhor transporte público da rota.",
       scenes: [
-        { name: "Colina do Castelo", time: "2h30", note: "Bastião dos Pescadores, Igreja de Matias e mirantes sobre Pest formam o conjunto mais cenográfico. Suba cedo.", art: { kind: "hill-castle", sky: "morning", water: true } },
-        { name: "Parlamento e memorial", time: "2h", note: "O edifício neogótico domina o rio. Combine a visita com o memorial Sapatos às Margens do Danúbio.", art: { kind: "parliament", sky: "dusk", water: true } },
-        { name: "Termas ou cruzeiro", time: "noite", note: "Escolha entre a experiência termal de Széchenyi e um cruzeiro para ver Parlamento, pontes e castelo iluminados.", art: { kind: "night-water", sky: "night", water: true } }
+        { name: "Innere Stadt", time: "1h30", note: "O centro imperial dentro do anel das antigas muralhas: a catedral de Santo Estêvão com o telhado em losangos, a Hofburg e a Graben.", art: { kind: "stephansdom", sky: "morning", water: false } },
+        { name: "Schönbrunn", time: "2h30", note: "A residência de verão dos Habsburgo, com 1.441 salas e um jardim que sobe até a Gloriette. Escolhemos o palácio ou o parque, conforme a hora.", art: { kind: "schoenbrunn", sky: "noon", water: false } },
+        { name: "Belvedere", time: "2h", note: "Dois palácios barrocos ligados por jardins em terraço. Dentro está O Beijo, de Klimt — e é bem menor do que se imagina.", art: { kind: "baroque-garden", sky: "gold", water: false } }
       ]
     },
     {
-      id: "bratislava", n: "11", city: "Bratislava", country: "Eslováquia", cc: "sk",
-      accent: "#6B8398",
-      days: "DIA 11", dates: "18 de abril",
-      intro: "Capital pequena e legível, perfeita para uma escala a pé. O centro medieval fica entre a estação, o castelo e o Danúbio.",
-      transit: "Guarda-volumes e roteiro compacto. Depois do jantar, embarque no trem noturno em direção à Cracóvia.",
+      id: "budapest", n: "11", city: "Budapeste", country: "Hungria", cc: "hu",
+      accent: "#B8903B", days: "DIAS 09–11", dates: "16 a 18 de abril",
+      leg: { mode: "Railjet", label: "Viena → Budapeste", time: "19:00 → 21:40", dur: "2h40", via: ["Győr"] },
+      sleep: "Budapeste (duas noites)",
+      intro: "São duas cidades que o Danúbio separou: Buda sobe pelas colinas, Pest se espalha em avenidas. Temos um dia cheio sem deslocamento nenhum — o segundo respiro da viagem.",
       scenes: [
-        { name: "Centro histórico", time: "1h15", note: "O Portão de São Miguel conduz a ruas pedonais, praças e palácios compactos, pontuados pelas conhecidas esculturas urbanas.", art: { kind: "gate-tower", sky: "morning", water: false } },
-        { name: "Castelo de Bratislava", time: "1h15", note: "A fortaleza branca domina o Danúbio e abre vistas para a Áustria e a Hungria. A subida é curta, porém inclinada.", art: { kind: "white-fortress", sky: "noon", water: true } },
-        { name: "Margem do Danúbio", time: "45 min", note: "O passeio ribeirinho conecta o centro à ponte SNP e ao bairro contemporâneo, mostrando outra escala da cidade.", art: { kind: "modern-bridge", sky: "dusk", water: true } }
+        { name: "Colina do Castelo", time: "2h30", note: "O Bastião dos Pescadores com suas torres cônicas, a Igreja de Matias e Pest inteira do outro lado do rio. Subimos cedo, antes do movimento.", art: { kind: "fishermans", sky: "morning", water: true } },
+        { name: "Parlamento e memorial", time: "2h", note: "O terceiro maior parlamento do mundo, neogótico, com a cúpula a 96 metros. Ao lado, os Sapatos às Margens do Danúbio — sessenta pares de ferro, e é impossível passar batido.", art: { kind: "parliament", sky: "dusk", water: true } },
+        { name: "Termas ou cruzeiro", time: "noite", note: "Escolhemos entre mergulhar nas piscinas neobarrocas do Széchenyi ou ver do rio o Parlamento, as pontes e o castelo todos iluminados.", art: { kind: "night-water", sky: "night", water: true } }
       ]
     },
     {
-      id: "krakow", n: "12", city: "Cracóvia", sub: "+ Wieliczka", country: "Polônia", cc: "pl",
-      accent: "#9A5762",
-      days: "DIA 12", dates: "19 de abril",
-      intro: "Uma das praças medievais mais preservadas da Europa, somada a Wieliczka — uma cidade subterrânea esculpida por séculos de mineração de sal.",
-      transit: "Reserve Wieliczka com antecedência e conte o traslado desde o centro. À noite, embarque rumo a Praga para ganhar um dia.",
+      id: "bratislava", n: "12", city: "Bratislava", country: "Eslováquia", cc: "sk",
+      accent: "#6B8398", days: "DIA 11", dates: "domingo, 18 de abril",
+      leg: { mode: "trem", label: "Budapeste → Bratislava", time: "07:10 → 09:40", dur: "2h30", via: ["Vác", "Szob", "Štúrovo", "Nové Zámky"] },
+      sleep: "no trem, rumo à Cracóvia",
+      intro: "Uma capital pequena e fácil, toda contida entre a estação, o castelo e o rio. Passamos o dia a pé e à noite embarcamos na cabine com duas camas.",
       scenes: [
-        { name: "Rynek Główny", time: "1h30", note: "A grande praça reúne o Mercado dos Tecidos, a Basílica de Santa Maria e cafés históricos. O trompete marca cada hora.", art: { kind: "cloth-hall", sky: "morning", water: false } },
-        { name: "Wawel", time: "1h30", note: "O castelo e a catedral acima do Vístula condensam a história dos reis poloneses e fecham a caminhada pela Via Real.", art: { kind: "hill-castle", sky: "gold", water: true } },
-        { name: "Mina de Wieliczka", time: "3h", note: "O percurso guiado desce por câmaras, lagos e capelas talhadas em sal, com destaque para a Capela de Santa Kinga.", art: { kind: "salt-cave", sky: "underground", water: true } }
+        { name: "Centro histórico", time: "1h15", note: "Entra-se pelo Portão de São Miguel e o centro se abre em ruas de pedestres, com as esculturas de bronze espalhadas — o Čumil saindo do bueiro é a mais fotografada.", art: { kind: "gate-tower", sky: "morning", water: false } },
+        { name: "Castelo de Bratislava", time: "1h15", note: "O bloco branco com quatro torres domina o Danúbio. Do terraço se vê a Áustria de um lado e a Hungria do outro, as duas a poucos quilômetros.", art: { kind: "bratislavacastle", sky: "noon", water: true } },
+        { name: "Margem do Danúbio", time: "45 min", note: "O passeio ribeirinho até a ponte SNP, com o restaurante em forma de disco voador no alto do pilone. A Bratislava socialista aparece aqui.", art: { kind: "modern-bridge", sky: "dusk", water: true } }
       ]
     },
     {
-      id: "prague", n: "13", city: "Praga", country: "Tchéquia", cc: "cz",
-      accent: "#B3603C",
-      days: "DIAS 13–14", dates: "20 e 21 de abril",
-      intro: "Fecha o roteiro com forte impacto visual: torres, cúpulas e telhados atravessados pelo Vltava. Começar cedo transforma completamente a experiência.",
-      transit: "Tram para vencer a subida ao castelo e volta a pé. No dia 21, Railjet via Brno retorna a Viena para a última noite.",
+      id: "krakow", n: "13", city: "Cracóvia", sub: "+ Wieliczka", country: "Polônia", cc: "pl",
+      accent: "#9A5762", days: "DIA 12", dates: "segunda, 19 de abril",
+      leg: { mode: "EuroNight", label: "Bratislava → Cracóvia, cabine com duas camas", time: "21:58 → 07:15", dur: "9h17", via: ["Břeclav", "Bohumín", "Ostrava"], night: true },
+      sleep: "no trem, rumo a Praga",
+      intro: "A maior praça medieval da Europa em cima, e uma cidade esculpida em sal embaixo. Cracóvia escapou da destruição da guerra, então o que se vê é original.",
       scenes: [
-        { name: "Ponte Carlos", time: "1h", note: "Ao amanhecer, a ponte do século XIV revela estátuas, torres e perspectivas sem o fluxo intenso que ocupa o local durante o dia.", art: { kind: "statue-bridge", sky: "dawn", water: true } },
-        { name: "Castelo e Malá Strana", time: "2h30", note: "O maior complexo fortificado da cidade reúne a Catedral de São Vito, palácios, vielas e mirantes sobre os telhados.", art: { kind: "castle-panorama", sky: "noon", water: true } },
-        { name: "Cidade Velha", time: "2h", note: "Praça, Relógio Astronômico e ruelas formam o núcleo mais movimentado. Suba a uma torre para entender o desenho medieval.", art: { kind: "clock-square", sky: "dusk", water: false } }
+        { name: "Rynek Główny", time: "1h30", note: "Duzentos metros de lado, com o Mercado dos Tecidos no meio. A cada hora um trompetista toca da torre de Santa Maria e interrompe no meio — em memória do vigia flechado.", art: { kind: "clothhall", sky: "morning", water: false } },
+        { name: "Wawel", time: "1h30", note: "O castelo e a catedral no alto, sobre o Vístula, onde os reis poloneses foram coroados e enterrados. Fecha a caminhada pela Via Real.", art: { kind: "hill-castle", sky: "gold", water: true } },
+        { name: "Mina de Wieliczka", time: "3h", note: "Cento e trinta e cinco metros abaixo do chão, câmaras, lagos e capelas inteiras talhadas no sal. A Capela de Santa Kinga tem até os candelabros feitos de cristal de sal.", art: { kind: "saltchapel", sky: "underground", water: true } }
+      ]
+    },
+    {
+      id: "prague", n: "14", city: "Praga", country: "Tchéquia", cc: "cz",
+      accent: "#B3603C", days: "DIAS 13–14", dates: "20 e 21 de abril",
+      leg: { mode: "EuroNight", label: "Cracóvia → Praga, cabine privativa", time: "21:00 → 07:00", dur: "10h", via: ["Bohumín", "Ostrava", "Olomouc", "Pardubice"], night: true },
+      sleep: "Praga",
+      intro: "O fecho da viagem, e talvez o mais bonito: torres, cúpulas e telhados vermelhos cortados pelo Vltava. Chegamos de manhã cedo, que é exatamente a melhor hora.",
+      scenes: [
+        { name: "Ponte Carlos", time: "1h", note: "Ao amanhecer a ponte do século XIV fica quase vazia, e dá para ver as trinta estátuas e as torres sem ninguém na frente. Algumas horas depois é impossível.", art: { kind: "charlesbridge", sky: "dawn", water: true } },
+        { name: "Castelo e Malá Strana", time: "2h30", note: "O maior complexo de castelo do mundo, com a Catedral de São Vito no meio e as vielas de Malá Strana descendo até o rio.", art: { kind: "praguecastle", sky: "noon", water: true } },
+        { name: "Cidade Velha", time: "2h", note: "O Relógio Astronômico de 1410 ainda funcionando, com os apóstolos desfilando a cada hora, e as duas torres desiguais do Týn atrás da praça.", art: { kind: "astroclock", sky: "dusk", water: false } }
       ]
     }
   ],
   calendar: [
-    { d: "08", place: "Paris", detail: "Chegada em CDG às 07:05, guarda-volumes e primeiro passeio.", route: "CDG · Paris" },
-    { d: "09", place: "Bruxelas → Amsterdam", detail: "Eurostar cedo, centro de Bruxelas em escala, noite em Amsterdam.", route: "Paris · Bruxelas · Amsterdam" },
-    { d: "10", place: "Amsterdam → Colônia", detail: "Canais e Museumplein pela manhã; trem no fim da tarde.", route: "Amsterdam · Colônia" },
-    { d: "11", place: "Luxemburgo → Strasbourg", detail: "Regionais pela manhã, Corniche e Casemates, noite na Alsácia.", route: "Colônia · Luxemburgo · Strasbourg" },
-    { d: "12", place: "Strasbourg → Lucerna", detail: "Petite France cedo; via Basel para chegar a tempo do lago.", route: "Strasbourg · Basel · Lucerna" },
-    { d: "13", place: "Monte Titlis", detail: "Dia inteiro na montanha: Engelberg, teleféricos, neve a 3.041 m.", route: "Lucerna · Engelberg · Titlis" },
-    { d: "14", place: "Lucerna → Milão", detail: "Travessia do Gotthard por Bellinzona e Lugano; Duomo à tarde.", route: "Lucerna · Milão" },
-    { d: "15", place: "Veneza → Viena", detail: "Rialto e San Marco; Nightjet noturno para a Áustria.", route: "Milão · Veneza · Viena" },
-    { d: "16", place: "Viena → Budapeste", detail: "Innere Stadt na chegada, Railjet à tarde, noite em Pest.", route: "Viena · Budapeste" },
-    { d: "17", place: "Budapeste", detail: "Colina do Castelo, Parlamento e a noite nas termas ou no rio.", route: "Buda · Pest" },
-    { d: "18", place: "Bratislava → noturno", detail: "Escala a pé na capital eslovaca; EuroNight rumo à Polônia.", route: "Budapeste · Bratislava · EuroNight" },
-    { d: "19", place: "Cracóvia + Wieliczka", detail: "Rynek e Wawel de dia, mina de sal à tarde, noturno para Praga.", route: "Cracóvia · Wieliczka · EuroNight" },
-    { d: "20", place: "Praga", detail: "Ponte Carlos ao amanhecer, castelo e Malá Strana no resto do dia.", route: "Praga" },
-    { d: "21", place: "Praga → Viena", detail: "Cidade Velha pela manhã; Railjet via Brno para a última noite.", route: "Praga · Brno · Viena" },
-    { d: "22", place: "Viena → casa", detail: "Café final, linha do aeroporto e voo de volta.", route: "Viena · VIE" }
+    { d: "08", wd: "qui", place: "Paris", detail: "Chegada em CDG às 07:05. Île de la Cité, Louvre e a Eiffel no fim da tarde.", route: "CDG · Paris", sleep: "Paris" },
+    { d: "09", wd: "sex", place: "Paris → Bruxelas → Amsterdam", detail: "Eurostar cedo, manhã em Bruxelas, e à noite os canais de Amsterdam.", route: "Antuérpia · Roterdã · Schiphol", sleep: "Amsterdam" },
+    { d: "10", wd: "sáb", place: "Amsterdam → Colônia", detail: "Canais e Museumplein de dia; ICE das 21:01 para a Alemanha.", route: "Utrecht · Arnhem · Duisburg · Düsseldorf", sleep: "Colônia" },
+    { d: "11", wd: "dom", place: "Colônia → Luxemburgo → Strasbourg", detail: "Catedral pela manhã, cinco horas em Luxemburgo, noite na Alsácia.", route: "Mannheim · Saarbrücken · Metz", sleep: "Strasbourg" },
+    { d: "12", wd: "seg", place: "Strasbourg → Lucerna", detail: "Petite France de manhã cedo, e à tarde já estamos no lago suíço.", route: "Colmar · Mulhouse · Basel · Olten", sleep: "Lucerna" },
+    { d: "13", wd: "ter", place: "Monte Titlis", detail: "Dia inteiro na montanha: Engelberg, teleféricos e a neve a 3.020 m.", route: "Engelberg · Titlis", sleep: "Lucerna" },
+    { d: "14", wd: "qua", place: "Lucerna → Milão", detail: "Travessia dos Alpes pelo Gotthard; Duomo e Navigli à tarde.", route: "Bellinzona · Lugano · Como", sleep: "Milão" },
+    { d: "15", wd: "qui", place: "Milão → Veneza → trem noturno", detail: "Rialto e San Marco, e às 21:05 o Nightjet para a Áustria.", route: "Verona · Vicenza · Pádua", sleep: "cabine no trem", night: true },
+    { d: "16", wd: "sex", place: "Viena → Budapeste", detail: "Acordamos em Viena, centro imperial de dia, Railjet à noite.", route: "Győr", sleep: "Budapeste" },
+    { d: "17", wd: "sáb", place: "Budapeste", detail: "Sem trem nenhum: colina do castelo, Parlamento e termas à noite.", route: "Buda · Pest", sleep: "Budapeste" },
+    { d: "18", wd: "dom", place: "Budapeste → Bratislava → trem noturno", detail: "Dia a pé na capital eslovaca; EuroNight das 21:58 para a Polônia.", route: "Štúrovo · Břeclav · Ostrava", sleep: "cabine no trem", night: true },
+    { d: "19", wd: "seg", place: "Cracóvia + Wieliczka", detail: "Rynek e Wawel de manhã, mina de sal à tarde, noturno para Praga.", route: "Olomouc · Pardubice", sleep: "cabine no trem", night: true },
+    { d: "20", wd: "ter", place: "Praga", detail: "Ponte Carlos ao amanhecer, castelo e Malá Strana o resto do dia.", route: "Praga", sleep: "Praga" },
+    { d: "21", wd: "qua", place: "Praga → Viena", detail: "Cidade Velha e o relógio pela manhã; Railjet à tarde para a última noite.", route: "Brno · Břeclav", sleep: "Viena" },
+    { d: "22", wd: "qui", place: "Viena → casa", detail: "Um último café vienense e o voo de volta às 09:25.", route: "Viena · VIE", sleep: "—" }
+  ],
+  countries: [
+    ["fr", "França"], ["be", "Bélgica"], ["nl", "Países Baixos"], ["de", "Alemanha"],
+    ["lu", "Luxemburgo"], ["ch", "Suíça"], ["it", "Itália"], ["at", "Áustria"],
+    ["hu", "Hungria"], ["sk", "Eslováquia"], ["pl", "Polônia"], ["cz", "Tchéquia"]
   ],
   logistics: [
-    { t: "Duas mochilas", d: "Guarda-volumes nas escalas e lavanderia automática no meio da rota." },
-    { t: "Três noites em trem", d: "Veneza–Viena, Bratislava–Cracóvia e Cracóvia–Praga." },
-    { t: "Reservas estratégicas", d: "Eurostar, trechos internacionais e atrações com horário marcado." }
+    { t: "Três noites sobre trilhos", d: "Veneza–Viena, Bratislava–Cracóvia e Cracóvia–Praga, sempre em cabine só nossa, com cama. O trem anda enquanto dormimos e o dia seguinte começa numa cidade nova." },
+    { t: "Caminhar onde vale a pena", d: "Duas a três horas a pé dentro de cada região, conhecendo tudo com calma — e metrô, tram ou táxi para ir de uma região a outra. Nada de andar quilômetros só por economia." },
+    { t: "Duas mochilas", d: "Guarda-volumes nas estações durante as escalas e uma lavanderia automática no meio do caminho. Viajamos leves do começo ao fim." }
   ]
 };
 
@@ -645,9 +746,11 @@ window.TRIP = {
       { src: C("Titlis_-_panoramio.jpg"), by: "panoramio", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Titlis_-_panoramio.jpg" },
       { src: C("Lucerne_lake_and_mountains.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Lucerne_lake_and_mountains.jpg" }
     ],
-    italy: [
+    milan: [
       { src: C("Milan_Cathedral_from_Piazza_del_Duomo.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Milan_Cathedral_from_Piazza_del_Duomo.jpg" },
-      { src: C("Galleria_Vittorio_Emanuele_II_%28Milan%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Galleria_Vittorio_Emanuele_II_(Milan).jpg" },
+      { src: C("Galleria_Vittorio_Emanuele_II_%28Milan%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Galleria_Vittorio_Emanuele_II_(Milan).jpg" }
+    ],
+    venice: [
       { src: C("Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_Ponte_dell%27_Accademia.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_Ponte_dell%27_Accademia.jpg" }
     ],
     vienna: [
@@ -704,7 +807,8 @@ window.TRIP = {
     luxembourg: ["Chemin de la Corniche Luxembourg City", "Bock Casemates Luxembourg", "Grund Luxembourg City Alzette"],
     strasbourg: ["Strasbourg Cathedral facade", "Petite France Strasbourg canal", "Barrage Vauban Strasbourg"],
     lucerne: ["Kapellbrücke Chapel Bridge Lucerne", "Mount Titlis snow Switzerland", "Lake Lucerne Alps panorama"],
-    italy: ["Milan Cathedral Duomo facade", "Galleria Vittorio Emanuele II Milan interior", "Grand Canal Venice Rialto"],
+    milan: ["Milan Cathedral Duomo facade", "Galleria Vittorio Emanuele II Milan interior", "Navigli canal Milan evening"],
+    venice: ["Rialto Bridge Grand Canal Venice", "Piazza San Marco Venice campanile", "Venice narrow canal gondola"],
     vienna: ["St Stephen's Cathedral Vienna", "Schönbrunn Palace Vienna garden", "Belvedere Palace Vienna"],
     budapest: ["Fisherman's Bastion Buda Castle Budapest", "Hungarian Parliament Building Danube Budapest", "Széchenyi Thermal Bath Budapest"],
     bratislava: ["Bratislava old town Michael's Gate", "Bratislava Castle Danube", "SNP Bridge Danube Bratislava"],
@@ -785,6 +889,879 @@ window.TRIP = {
   };
 })();
 
+/* ===== landmarks.js ===== */
+// Monumentos desenhados com a proporção real de cada um.
+// Assinatura igual à dos arquétipos: (ctx, x, base, w, h, p, r) — cor já definida.
+// A cor é usada como silhueta; recortes usam destination-out para abrir vãos.
+(function () {
+  "use strict";
+
+  const cut = (ctx, fn) => {
+    ctx.globalCompositeOperation = "destination-out";
+    fn();
+    ctx.globalCompositeOperation = "source-over";
+  };
+
+  // traça um perfil simétrico a partir de meia-largura em função da altura
+  function profile(ctx, cx, base, H, halfAt, steps) {
+    const n = steps || 44;
+    ctx.beginPath();
+    for (let i = 0; i <= n; i++) {
+      const t = i / n, y = base - H * t, hw = halfAt(t);
+      i === 0 ? ctx.moveTo(cx - hw, y) : ctx.lineTo(cx - hw, y);
+    }
+    for (let i = n; i >= 0; i--) {
+      const t = i / n, y = base - H * t, hw = halfAt(t);
+      ctx.lineTo(cx + hw, y);
+    }
+    ctx.closePath();
+  }
+
+  // agulha gótica: corpo que afina e termina em ponta, com pináculos
+  function spire(ctx, cx, base, wBase, H, openwork) {
+    const body = H * 0.58, tip = H * 0.42;
+    ctx.beginPath();
+    ctx.moveTo(cx - wBase / 2, base);
+    ctx.lineTo(cx - wBase * 0.34, base - body);
+    ctx.lineTo(cx, base - body - tip);
+    ctx.lineTo(cx + wBase * 0.34, base - body);
+    ctx.lineTo(cx + wBase / 2, base);
+    ctx.closePath(); ctx.fill();
+    if (openwork) {
+      cut(ctx, () => {
+        for (let i = 1; i <= 5; i++) {
+          const t = i / 6.5, y = base - body * t;
+          const hw = wBase * (0.5 - t * 0.16) * 0.52;
+          ctx.beginPath();
+          ctx.arc(cx, y - hw * 0.5, hw, Math.PI, 0);
+          ctx.rect(cx - hw, y - hw * 0.5, hw * 2, body * 0.1);
+          ctx.fill();
+        }
+        // vão na agulha
+        for (let i = 1; i <= 3; i++) {
+          const t = i / 4.4;
+          const yy = base - body - tip * t;
+          const hw = wBase * 0.2 * (1 - t);
+          ctx.beginPath(); ctx.moveTo(cx - hw, yy);
+          ctx.lineTo(cx, yy - tip * 0.13); ctx.lineTo(cx + hw, yy);
+          ctx.closePath(); ctx.fill();
+        }
+      });
+    }
+  }
+
+  function rose(ctx, cx, cy, rad) {
+    cut(ctx, () => {
+      ctx.beginPath(); ctx.arc(cx, cy, rad, 0, 6.3); ctx.fill();
+    });
+    ctx.beginPath(); ctx.arc(cx, cy, rad * 0.2, 0, 6.3); ctx.fill();
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * 6.283;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + Math.cos(a) * rad, cy + Math.sin(a) * rad);
+      ctx.lineTo(cx + Math.cos(a + 0.16) * rad, cy + Math.sin(a + 0.16) * rad);
+      ctx.closePath(); ctx.fill();
+    }
+  }
+
+  function windows(ctx, x, base, w, h, cols, arch) {
+    cut(ctx, () => {
+      for (let i = 0; i < cols; i++) {
+        const wx = x + w * ((i + 0.5) / cols), ww = (w / cols) * 0.3;
+        if (arch) {
+          ctx.beginPath();
+          ctx.arc(wx, base - h * 0.55, ww, Math.PI, 0);
+          ctx.rect(wx - ww, base - h * 0.55, ww * 2, h * 0.34);
+          ctx.fill();
+        } else {
+          ctx.fillRect(wx - ww, base - h * 0.62, ww * 2, h * 0.3);
+        }
+      }
+    });
+  }
+
+  const L = {};
+
+  // ---- Paris ---------------------------------------------------------------
+
+  // Torre Eiffel: 330 m de altura, 125 m de base. Perfil exponencial,
+  // plataformas a 57, 115 e 276 m, e o arco entre os pés.
+  L.eiffel = function (ctx, x, base, w, h, p, r) {
+    const H = h * 1.15, cx = x + w / 2;
+    const halfAt = (t) => H * (0.0085 + 0.175 * Math.exp(-4.0 * t));
+
+    profile(ctx, cx, base, H, halfAt); ctx.fill();
+    // vaza o interior, deixando os pés como bandas
+    cut(ctx, () => { profile(ctx, cx, base, H, (t) => Math.max(0, halfAt(t) - H * 0.016)); ctx.fill(); });
+
+    // plataformas
+    [[0.173, 1.45, 0.02], [0.348, 1.5, 0.016], [0.837, 2.4, 0.012]].forEach(([t, ext, th]) => {
+      const hw = halfAt(t) * ext;
+      ctx.fillRect(cx - hw, base - H * t - H * th, hw * 2, H * th * 1.6);
+    });
+
+    // mastro central acima da 2ª plataforma + antena
+    ctx.fillRect(cx - H * 0.0075, base - H * 0.86, H * 0.015, H * 0.52);
+    ctx.fillRect(cx - H * 0.004, base - H, H * 0.008, H * 0.145);
+
+    // treliça: barras horizontais e diagonais
+    ctx.lineWidth = Math.max(1, H * 0.0045);
+    ctx.strokeStyle = ctx.fillStyle;
+    for (let i = 1; i < 16; i++) {
+      const t = 0.02 + (i / 16) * 0.8, hw = halfAt(t);
+      ctx.beginPath();
+      ctx.moveTo(cx - hw, base - H * t); ctx.lineTo(cx + hw, base - H * t); ctx.stroke();
+      if (t < 0.34) {
+        const t2 = t + 0.05, hw2 = halfAt(t2);
+        ctx.beginPath();
+        ctx.moveTo(cx - hw, base - H * t); ctx.lineTo(cx - hw2 * 0.2, base - H * t2);
+        ctx.moveTo(cx + hw, base - H * t); ctx.lineTo(cx + hw2 * 0.2, base - H * t2);
+        ctx.stroke();
+      }
+    }
+
+    // o arco da base
+    cut(ctx, () => {
+      const ah = H * 0.135, aw = halfAt(0) * 0.98;
+      ctx.beginPath();
+      ctx.moveTo(cx - aw, base);
+      ctx.quadraticCurveTo(cx - aw * 0.55, base - ah, cx, base - ah * 0.92);
+      ctx.quadraticCurveTo(cx + aw * 0.55, base - ah, cx + aw, base);
+      ctx.closePath(); ctx.fill();
+    });
+  };
+
+  // Notre-Dame: duas torres quadradas de 69 m, nave, flecha e rosácea
+  L.notredame = function (ctx, x, base, w, h, p, r) {
+    const nave = h * 0.52, tw = w * 0.2, th = h * 0.82;
+    ctx.fillRect(x + w * 0.16, base - nave, w * 0.68, nave);
+    [x + w * 0.16, x + w * 0.64].forEach((tx) => {
+      ctx.fillRect(tx, base - th, tw, th);
+      cut(ctx, () => {
+        const ww = tw * 0.16;
+        [0.3, 0.62].forEach((o) => {
+          const wx = tx + tw * o + ww;
+          ctx.beginPath();
+          ctx.arc(wx, base - th * 0.86, ww, Math.PI, 0);
+          ctx.rect(wx - ww, base - th * 0.86, ww * 2, th * 0.2);
+          ctx.fill();
+        });
+      });
+    });
+    // flecha
+    const sx = x + w * 0.5;
+    ctx.beginPath();
+    ctx.moveTo(sx - w * 0.035, base - nave);
+    ctx.lineTo(sx, base - h * 1.02); ctx.lineTo(sx + w * 0.035, base - nave);
+    ctx.closePath(); ctx.fill();
+    // arcobotantes
+    ctx.lineWidth = Math.max(1, w * 0.008); ctx.strokeStyle = ctx.fillStyle;
+    for (let i = 0; i < 4; i++) {
+      const bx = x + w * (0.2 + i * 0.17);
+      ctx.beginPath();
+      ctx.moveTo(bx, base);
+      ctx.quadraticCurveTo(bx + w * 0.05, base - nave * 0.6, bx + w * 0.1, base - nave * 0.95);
+      ctx.stroke();
+    }
+    rose(ctx, x + w * 0.5, base - nave * 0.62, w * 0.075);
+  };
+
+  // Louvre: a pirâmide de vidro diante das alas do palácio
+  L.louvre = function (ctx, x, base, w, h, p, r) {
+    const pal = h * 0.46;
+    ctx.fillRect(x, base - pal, w, pal);
+    // pavilhão central com frontão
+    ctx.fillRect(x + w * 0.38, base - pal - h * 0.1, w * 0.24, h * 0.1);
+    windows(ctx, x, base, w, pal, 16, true);
+    // pirâmide: 35 m de base, 21,6 m de altura
+    const px = x + w * 0.5, pw = w * 0.3, ph = pw * 0.617;
+    ctx.beginPath();
+    ctx.moveTo(px - pw / 2, base); ctx.lineTo(px, base - ph); ctx.lineTo(px + pw / 2, base);
+    ctx.closePath(); ctx.fill();
+    cut(ctx, () => {
+      ctx.lineWidth = Math.max(1, w * 0.004);
+      ctx.strokeStyle = "#000";
+      for (let i = 1; i < 7; i++) {
+        const t = i / 7;
+        ctx.beginPath();
+        ctx.moveTo(px - (pw / 2) * (1 - t), base - ph * t);
+        ctx.lineTo(px + (pw / 2) * (1 - t), base - ph * t); ctx.stroke();
+      }
+      for (let i = 1; i < 5; i++) {
+        const o = (i / 5 - 0.5) * pw;
+        ctx.beginPath(); ctx.moveTo(px + o, base); ctx.lineTo(px, base - ph); ctx.stroke();
+      }
+    });
+  };
+
+  // ---- Bruxelas ------------------------------------------------------------
+
+  // Grand-Place: torre da prefeitura fora do eixo + empenas das guildas
+  L.grandplace = function (ctx, x, base, w, h, p, r) {
+    const n = 7;
+    for (let i = 0; i < n; i++) {
+      const bw = w / n, bx = x + i * bw, bh = h * (0.44 + (i % 3) * 0.06);
+      ctx.fillRect(bx + bw * 0.05, base - bh, bw * 0.9, bh);
+      // empena em degraus com volutas
+      let sy = base - bh;
+      for (let s = 0; s < 4; s++) {
+        const ins = bw * (0.08 + s * 0.1);
+        ctx.fillRect(bx + ins, sy - bw * 0.1, bw - ins * 2, bw * 0.11);
+        sy -= bw * 0.1;
+      }
+      ctx.beginPath(); ctx.arc(bx + bw * 0.5, sy, bw * 0.05, 0, 6.3); ctx.fill();
+      windows(ctx, bx, base, bw, bh, 2, true);
+    }
+    // torre da prefeitura, 96 m, deslocada do centro
+    const tx = x + w * 0.3, tw = w * 0.09;
+    ctx.fillRect(tx, base - h * 0.72, tw, h * 0.72);
+    spire(ctx, tx + tw / 2, base - h * 0.72, tw * 1.5, h * 0.42, true);
+    windows(ctx, tx, base - h * 0.3, tw, h * 0.4, 1, true);
+  };
+
+  // ---- Colônia -------------------------------------------------------------
+
+  // Dom: duas agulhas vazadas de 157 m, altíssimas e estreitas
+  L.koelnerdom = function (ctx, x, base, w, h, p, r) {
+    const nave = h * 0.4;
+    ctx.fillRect(x + w * 0.2, base - nave, w * 0.6, nave);
+    // transepto com telhado alto
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.2, base - nave);
+    ctx.lineTo(x + w * 0.5, base - nave - h * 0.12);
+    ctx.lineTo(x + w * 0.8, base - nave);
+    ctx.closePath(); ctx.fill();
+    windows(ctx, x + w * 0.2, base, w * 0.6, nave, 7, true);
+    // as duas agulhas
+    [0.26, 0.74].forEach((o) => {
+      const cx = x + w * o, tw = w * 0.14;
+      ctx.fillRect(cx - tw / 2, base - h * 0.58, tw, h * 0.58);
+      windows(ctx, cx - tw / 2, base - h * 0.16, tw, h * 0.42, 2, true);
+      spire(ctx, cx, base - h * 0.58, tw, h * 0.46, true);
+    });
+  };
+
+  // ---- Strasbourg ----------------------------------------------------------
+
+  // Notre-Dame de Strasbourg: assimétrica, uma só agulha a 142 m
+  L.strasbourgcath = function (ctx, x, base, w, h, p, r) {
+    const nave = h * 0.46;
+    ctx.fillRect(x + w * 0.24, base - nave, w * 0.52, nave);
+    const bx = x + w * 0.24, bw = w * 0.52;
+    ctx.fillRect(bx, base - h * 0.6, bw, h * 0.6 - 0);
+    windows(ctx, bx, base, bw, h * 0.6, 5, true);
+    rose(ctx, bx + bw * 0.5, base - h * 0.4, w * 0.08);
+    // torre norte, única, com a agulha
+    const tx = bx + bw * 0.22, tw = bw * 0.34;
+    ctx.fillRect(tx, base - h * 0.78, tw, h * 0.78);
+    windows(ctx, tx, base - h * 0.42, tw, h * 0.36, 2, true);
+    spire(ctx, tx + tw / 2, base - h * 0.78, tw * 0.9, h * 0.4, true);
+    // plataforma no lado sul, inacabado
+    ctx.fillRect(bx + bw * 0.66, base - h * 0.66, bw * 0.3, h * 0.66);
+  };
+
+  // ---- Lucerna -------------------------------------------------------------
+
+  // Kapellbrücke: ponte coberta de madeira na diagonal + Wasserturm octogonal
+  L.kapellbruecke = function (ctx, x, base, w, h, p, r) {
+    const deck = base - h * 0.2;
+    // tabuleiro levemente inclinado
+    ctx.save();
+    ctx.beginPath(); ctx.moveTo(x, deck + h * 0.04);
+    ctx.lineTo(x + w, deck - h * 0.04);
+    ctx.lineTo(x + w, deck + h * 0.1); ctx.lineTo(x, deck + h * 0.18);
+    ctx.closePath(); ctx.fill();
+    // telhado de duas águas correndo sobre a ponte
+    ctx.beginPath();
+    ctx.moveTo(x, deck + h * 0.04);
+    ctx.lineTo(x, deck - h * 0.1);
+    ctx.lineTo(x + w, deck - h * 0.18);
+    ctx.lineTo(x + w, deck - h * 0.04);
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+    // estacas na água
+    for (let i = 0; i < 9; i++) {
+      const px = x + w * (0.05 + i * 0.107);
+      const dy = deck + h * 0.16 - (i / 9) * h * 0.08;
+      ctx.fillRect(px, dy, w * 0.012, h * 0.22);
+    }
+    // Wasserturm: torre octogonal de pedra
+    const tx = x + w * 0.66, tw = w * 0.1;
+    ctx.fillRect(tx, base - h * 0.74, tw, h * 0.74);
+    ctx.beginPath();
+    ctx.moveTo(tx - tw * 0.16, base - h * 0.74);
+    ctx.lineTo(tx + tw * 0.5, base - h * 0.94);
+    ctx.lineTo(tx + tw * 1.16, base - h * 0.74);
+    ctx.closePath(); ctx.fill();
+    windows(ctx, tx, base - h * 0.3, tw, h * 0.44, 1, true);
+  };
+
+  // Titlis: pico nevado, teleférico e a ponte suspensa
+  L.titlis = function (ctx, x, base, w, h, p, r) {
+    const peaks = [[0.0, 0.34], [0.18, 0.72], [0.36, 0.52], [0.56, 0.96], [0.78, 0.6], [1, 0.4]];
+    ctx.beginPath(); ctx.moveTo(x, base);
+    peaks.forEach(([px, py]) => ctx.lineTo(x + w * px, base - h * py));
+    ctx.lineTo(x + w, base); ctx.closePath(); ctx.fill();
+    // neve nas cristas
+    ctx.save(); ctx.clip();
+    ctx.fillStyle = "rgba(255,255,255,.5)";
+    peaks.forEach(([px, py]) => {
+      if (py < 0.5) return;
+      ctx.beginPath();
+      ctx.moveTo(x + w * px - w * 0.07, base - h * (py - 0.18));
+      ctx.lineTo(x + w * px, base - h * py);
+      ctx.lineTo(x + w * px + w * 0.07, base - h * (py - 0.18));
+      ctx.lineTo(x + w * px + w * 0.02, base - h * (py - 0.12));
+      ctx.closePath(); ctx.fill();
+    });
+    ctx.restore();
+    // cabo do teleférico com uma cabine
+    ctx.lineWidth = Math.max(1, w * 0.003); ctx.strokeStyle = ctx.fillStyle;
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.04, base - h * 0.5);
+    ctx.quadraticCurveTo(x + w * 0.3, base - h * 0.72, x + w * 0.56, base - h * 0.92);
+    ctx.stroke();
+    ctx.fillRect(x + w * 0.27, base - h * 0.66, w * 0.035, h * 0.05);
+    // ponte suspensa entre dois pontos altos
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.56, base - h * 0.9);
+    ctx.quadraticCurveTo(x + w * 0.67, base - h * 0.82, x + w * 0.78, base - h * 0.58);
+    ctx.stroke();
+  };
+
+  // ---- Itália --------------------------------------------------------------
+
+  // Duomo de Milão: fachada larga e floresta de pináculos, Madonnina ao centro
+  L.duomomilano = function (ctx, x, base, w, h, p, r) {
+    const body = h * 0.5;
+    ctx.fillRect(x + w * 0.06, base - body, w * 0.88, body);
+    // frontão triangular escalonado
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.06, base - body);
+    ctx.lineTo(x + w * 0.5, base - body - h * 0.2);
+    ctx.lineTo(x + w * 0.94, base - body);
+    ctx.closePath(); ctx.fill();
+    // floresta de pináculos
+    const n = 17;
+    for (let i = 0; i < n; i++) {
+      const t = i / (n - 1);
+      const px = x + w * (0.08 + t * 0.84);
+      const d = Math.abs(t - 0.5);
+      const ph = h * (0.5 - d * 0.62) * (0.62 + (i % 2) * 0.2);
+      const pw = w * 0.017;
+      const py = base - body - h * 0.2 * (1 - d * 1.9);
+      ctx.fillRect(px - pw / 2, py, pw, ph * 0.4);
+      ctx.beginPath();
+      ctx.moveTo(px - pw, py); ctx.lineTo(px, py - ph * 0.44); ctx.lineTo(px + pw, py);
+      ctx.closePath(); ctx.fill();
+    }
+    // Madonnina no ponto mais alto
+    ctx.beginPath(); ctx.arc(x + w * 0.5, base - body - h * 0.44, w * 0.013, 0, 6.3); ctx.fill();
+    windows(ctx, x + w * 0.06, base, w * 0.88, body, 9, true);
+  };
+
+  // Galleria Vittorio Emanuele: abóbada de ferro e vidro com cúpula central
+  L.galleria = function (ctx, x, base, w, h, p, r) {
+    const cx = x + w / 2, span = w * 0.72, top = base - h * 0.72;
+    ctx.globalAlpha = 0.85;
+    ctx.fillRect(cx - span / 2, base - h * 0.5, span, h * 0.5);
+    ctx.beginPath();
+    ctx.moveTo(cx - span / 2, base - h * 0.5);
+    ctx.arc(cx, base - h * 0.5, span / 2, Math.PI, 0);
+    ctx.closePath(); ctx.fill();
+    // cúpula
+    ctx.beginPath(); ctx.arc(cx, top + h * 0.1, span * 0.24, Math.PI, 0); ctx.fill();
+    ctx.globalAlpha = 1;
+    // nervuras de ferro
+    cut(ctx, () => {
+      ctx.lineWidth = Math.max(1, w * 0.0055); ctx.strokeStyle = "#000";
+      for (let i = 1; i < 12; i++) {
+        const a = Math.PI + (i / 12) * Math.PI;
+        ctx.beginPath();
+        ctx.moveTo(cx, base - h * 0.5);
+        ctx.lineTo(cx + Math.cos(a) * span * 0.5, base - h * 0.5 + Math.sin(a) * span * 0.5);
+        ctx.stroke();
+      }
+      for (let i = 1; i < 4; i++) {
+        ctx.beginPath();
+        ctx.arc(cx, base - h * 0.5, span * 0.5 * (i / 4), Math.PI, 0); ctx.stroke();
+      }
+    });
+  };
+
+  // Veneza: campanile de San Marco, cúpula da Salute e uma gôndola
+  L.venice = function (ctx, x, base, w, h, p, r) {
+    // Salute, à direita
+    const dx = x + w * 0.76, dr = w * 0.1;
+    ctx.fillRect(dx - dr, base - h * 0.3, dr * 2, h * 0.3);
+    ctx.beginPath(); ctx.arc(dx, base - h * 0.3, dr, Math.PI, 0); ctx.fill();
+    ctx.fillRect(dx - dr * 0.1, base - h * 0.3 - dr - h * 0.07, dr * 0.2, h * 0.07);
+    // Palácio Ducal, arcadas baixas
+    ctx.fillRect(x + w * 0.28, base - h * 0.26, w * 0.34, h * 0.26);
+    windows(ctx, x + w * 0.28, base, w * 0.34, h * 0.26, 9, true);
+    // campanile: 98 m, fuste quadrado, cela, pirâmide
+    const cx = x + w * 0.18, cw = w * 0.075;
+    ctx.fillRect(cx - cw / 2, base - h * 0.88, cw, h * 0.88);
+    ctx.fillRect(cx - cw * 0.62, base - h * 0.88, cw * 1.24, h * 0.1);
+    ctx.beginPath();
+    ctx.moveTo(cx - cw * 0.56, base - h * 0.98);
+    ctx.lineTo(cx, base - h * 1.14); ctx.lineTo(cx + cw * 0.56, base - h * 0.98);
+    ctx.closePath(); ctx.fill();
+    cut(ctx, () => {
+      const ww = cw * 0.18;
+      ctx.beginPath();
+      ctx.arc(cx, base - h * 0.8, ww, Math.PI, 0);
+      ctx.rect(cx - ww, base - h * 0.8, ww * 2, h * 0.06); ctx.fill();
+    });
+    // gôndola
+    const gx = x + w * 0.5, gy = base + h * 0.1;
+    ctx.beginPath();
+    ctx.moveTo(gx - w * 0.075, gy);
+    ctx.quadraticCurveTo(gx, gy + h * 0.045, gx + w * 0.075, gy);
+    ctx.quadraticCurveTo(gx + w * 0.05, gy - h * 0.012, gx - w * 0.075, gy);
+    ctx.closePath(); ctx.fill();
+    ctx.fillRect(gx - w * 0.085, gy - h * 0.055, w * 0.007, h * 0.055);
+    ctx.fillRect(gx + w * 0.03, gy - h * 0.07, w * 0.005, h * 0.07);
+  };
+
+  // ---- Viena ---------------------------------------------------------------
+
+  // Stephansdom: agulha sul de 136 m, torre norte baixa e telhado em ziguezague
+  L.stephansdom = function (ctx, x, base, w, h, p, r) {
+    const nave = h * 0.34;
+    ctx.fillRect(x + w * 0.2, base - nave, w * 0.62, nave);
+    // telhado muito inclinado
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.2, base - nave);
+    ctx.lineTo(x + w * 0.48, base - nave - h * 0.26);
+    ctx.lineTo(x + w * 0.82, base - nave - h * 0.16);
+    ctx.lineTo(x + w * 0.82, base - nave);
+    ctx.closePath(); ctx.fill();
+    // padrão de telhas em losango
+    cut(ctx, () => {
+      for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 3; j++) {
+          const zx = x + w * (0.26 + i * 0.077), zy = base - nave - h * (0.05 + j * 0.06);
+          ctx.beginPath();
+          ctx.moveTo(zx, zy - h * 0.016); ctx.lineTo(zx + w * 0.016, zy);
+          ctx.lineTo(zx, zy + h * 0.016); ctx.lineTo(zx - w * 0.016, zy);
+          ctx.closePath(); ctx.fill();
+        }
+      }
+    });
+    // torre sul, alta
+    const sx = x + w * 0.26, sw = w * 0.1;
+    ctx.fillRect(sx - sw / 2, base - h * 0.6, sw, h * 0.6);
+    windows(ctx, sx - sw / 2, base - h * 0.22, sw, h * 0.38, 1, true);
+    spire(ctx, sx, base - h * 0.6, sw, h * 0.48, true);
+    // torre norte, inacabada, com cúpula
+    const nx = x + w * 0.78, nw = w * 0.085;
+    ctx.fillRect(nx - nw / 2, base - h * 0.46, nw, h * 0.46);
+    ctx.beginPath(); ctx.arc(nx, base - h * 0.46, nw * 0.58, Math.PI, 0); ctx.fill();
+    ctx.fillRect(nx - nw * 0.05, base - h * 0.52 - nw * 0.5, nw * 0.1, nw * 0.5);
+  };
+
+  // Schönbrunn: palácio barroco longo, corpo central destacado, jardim
+  L.schoenbrunn = function (ctx, x, base, w, h, p, r) {
+    const body = h * 0.4;
+    ctx.fillRect(x + w * 0.02, base - body, w * 0.96, body);
+    ctx.fillRect(x + w * 0.36, base - body - h * 0.12, w * 0.28, h * 0.12);
+    // frontão e lanternim
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.4, base - body - h * 0.12);
+    ctx.lineTo(x + w * 0.5, base - body - h * 0.2);
+    ctx.lineTo(x + w * 0.6, base - body - h * 0.12);
+    ctx.closePath(); ctx.fill();
+    windows(ctx, x + w * 0.02, base, w * 0.96, body, 22, true);
+    // parterre em canteiros
+    for (let i = 0; i < 12; i++) {
+      const gx = x + w * (0.06 + i * 0.078);
+      ctx.beginPath();
+      ctx.ellipse(gx, base + h * 0.05, w * 0.022, h * 0.03, 0, 0, 6.3); ctx.fill();
+    }
+  };
+
+  // ---- Budapeste -----------------------------------------------------------
+
+  // Parlamento: cúpula central de 96 m e alas simétricas na margem do Danúbio
+  L.parliament = function (ctx, x, base, w, h, p, r) {
+    const body = h * 0.34, cx = x + w / 2;
+    ctx.fillRect(x, base - body, w, body);
+    windows(ctx, x, base, w, body, 26, true);
+    // cúpula central
+    const dr = w * 0.085;
+    ctx.fillRect(cx - dr * 1.1, base - body - h * 0.1, dr * 2.2, h * 0.1);
+    ctx.beginPath(); ctx.arc(cx, base - body - h * 0.1, dr, Math.PI, 0); ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(cx - dr * 0.4, base - body - h * 0.1 - dr);
+    ctx.lineTo(cx, base - body - h * 0.1 - dr - h * 0.16);
+    ctx.lineTo(cx + dr * 0.4, base - body - h * 0.1 - dr);
+    ctx.closePath(); ctx.fill();
+    // agulhas neogóticas ao longo da fachada
+    for (let i = 0; i < 14; i++) {
+      const t = i / 13;
+      if (Math.abs(t - 0.5) < 0.1) continue;
+      const px = x + w * (0.03 + t * 0.94), pw = w * 0.014;
+      const ph = h * (0.16 + (i % 2) * 0.07);
+      ctx.fillRect(px - pw / 2, base - body - ph * 0.4, pw, ph * 0.4);
+      ctx.beginPath();
+      ctx.moveTo(px - pw, base - body - ph * 0.4);
+      ctx.lineTo(px, base - body - ph); ctx.lineTo(px + pw, base - body - ph * 0.4);
+      ctx.closePath(); ctx.fill();
+    }
+  };
+
+  // Bastião dos Pescadores: torres cônicas e arcadas sobre a colina
+  L.fishermans = function (ctx, x, base, w, h, p, r) {
+    const wall = h * 0.28;
+    ctx.fillRect(x, base - wall, w, wall);
+    cut(ctx, () => {
+      for (let i = 0; i < 9; i++) {
+        const ax = x + w * ((i + 0.5) / 9), aw = (w / 9) * 0.3;
+        ctx.beginPath();
+        ctx.arc(ax, base - wall * 0.5, aw, Math.PI, 0);
+        ctx.rect(ax - aw, base - wall * 0.5, aw * 2, wall * 0.5); ctx.fill();
+      }
+    });
+    // torres cônicas
+    [0.12, 0.34, 0.66, 0.88].forEach((o, i) => {
+      const tx = x + w * o, tw = w * (i === 1 || i === 2 ? 0.1 : 0.075);
+      const th = h * (i === 1 || i === 2 ? 0.44 : 0.34);
+      ctx.fillRect(tx - tw / 2, base - wall - th, tw, th);
+      ctx.beginPath();
+      ctx.moveTo(tx - tw * 0.66, base - wall - th);
+      ctx.lineTo(tx, base - wall - th - h * 0.2);
+      ctx.lineTo(tx + tw * 0.66, base - wall - th);
+      ctx.closePath(); ctx.fill();
+    });
+    // agulha da Igreja de Matias ao fundo
+    const mx = x + w * 0.5;
+    ctx.fillRect(mx - w * 0.022, base - wall - h * 0.66, w * 0.044, h * 0.66);
+    spire(ctx, mx, base - wall - h * 0.66, w * 0.05, h * 0.24, true);
+  };
+
+  // ---- Bratislava ----------------------------------------------------------
+
+  // Castelo: bloco branco com quatro torres de canto, no alto
+  L.bratislavacastle = function (ctx, x, base, w, h, p, r) {
+    // colina
+    ctx.beginPath();
+    ctx.moveTo(x, base); ctx.lineTo(x, base - h * 0.1);
+    ctx.bezierCurveTo(x + w * 0.3, base - h * 0.34, x + w * 0.7, base - h * 0.34, x + w, base - h * 0.08);
+    ctx.lineTo(x + w, base); ctx.closePath(); ctx.fill();
+    const bw = w * 0.46, bx = x + w * 0.27, bh = h * 0.3, bb = base - h * 0.3;
+    ctx.fillRect(bx, bb - bh, bw, bh);
+    windows(ctx, bx, bb, bw, bh, 8, false);
+    // quatro torres de canto
+    [0, 1].forEach((s) => {
+      const tx = s ? bx + bw - w * 0.055 : bx;
+      ctx.fillRect(tx, bb - bh - h * 0.12, w * 0.055, h * 0.12 + bh);
+      ctx.beginPath();
+      ctx.moveTo(tx - w * 0.012, bb - bh - h * 0.12);
+      ctx.lineTo(tx + w * 0.0275, bb - bh - h * 0.24);
+      ctx.lineTo(tx + w * 0.067, bb - bh - h * 0.12);
+      ctx.closePath(); ctx.fill();
+    });
+    // telhado de quatro águas
+    ctx.beginPath();
+    ctx.moveTo(bx - w * 0.02, bb - bh);
+    ctx.lineTo(bx + bw * 0.5, bb - bh - h * 0.1);
+    ctx.lineTo(bx + bw + w * 0.02, bb - bh);
+    ctx.closePath(); ctx.fill();
+  };
+
+  // ---- Cracóvia ------------------------------------------------------------
+
+  // Rynek: Sukiennice alongada e as torres desiguais de Santa Maria
+  L.clothhall = function (ctx, x, base, w, h, p, r) {
+    const body = h * 0.26, bx = x + w * 0.04, bw = w * 0.6;
+    ctx.fillRect(bx, base - body, bw, body);
+    cut(ctx, () => {
+      for (let i = 0; i < 11; i++) {
+        const ax = bx + bw * ((i + 0.5) / 11), aw = (bw / 11) * 0.32;
+        ctx.beginPath();
+        ctx.arc(ax, base - body * 0.52, aw, Math.PI, 0);
+        ctx.rect(ax - aw, base - body * 0.52, aw * 2, body * 0.52); ctx.fill();
+      }
+    });
+    // ático com arcos e telhado
+    ctx.fillRect(bx, base - body - h * 0.07, bw, h * 0.07);
+    ctx.beginPath();
+    ctx.moveTo(bx - w * 0.015, base - body - h * 0.07);
+    ctx.lineTo(bx + bw * 0.5, base - body - h * 0.15);
+    ctx.lineTo(bx + bw + w * 0.015, base - body - h * 0.07);
+    ctx.closePath(); ctx.fill();
+    // Santa Maria: duas torres de alturas diferentes
+    const t1 = x + w * 0.74, t2 = x + w * 0.88;
+    ctx.fillRect(t1 - w * 0.035, base - h * 0.72, w * 0.07, h * 0.72);
+    spire(ctx, t1, base - h * 0.72, w * 0.075, h * 0.3, true);
+    ctx.fillRect(t2 - w * 0.032, base - h * 0.54, w * 0.064, h * 0.54);
+    ctx.beginPath();
+    ctx.moveTo(t2 - w * 0.045, base - h * 0.54);
+    ctx.lineTo(t2, base - h * 0.66); ctx.lineTo(t2 + w * 0.045, base - h * 0.54);
+    ctx.closePath(); ctx.fill();
+  };
+
+  // Wieliczka: câmara de sal com escoras de madeira e candelabro
+  L.saltchapel = function (ctx, x, base, w, h, p, r) {
+    // abóbada escavada
+    for (let i = 3; i >= 1; i--) {
+      const t = i / 3, bw = w * t * 0.96, bh = h * (0.5 + t * 0.48), cx = x + w / 2;
+      ctx.globalAlpha = 0.46;
+      ctx.beginPath();
+      ctx.moveTo(cx - bw / 2, base);
+      ctx.lineTo(cx - bw / 2 + bw * 0.05, base - bh * 0.5);
+      ctx.quadraticCurveTo(cx, base - bh * 1.06, cx + bw / 2 - bw * 0.05, base - bh * 0.5);
+      ctx.lineTo(cx + bw / 2, base);
+      ctx.closePath(); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+    // escoras de madeira cruzadas
+    ctx.lineWidth = Math.max(1.5, w * 0.008); ctx.strokeStyle = ctx.fillStyle;
+    [0.16, 0.84].forEach((o) => {
+      const px = x + w * o;
+      ctx.beginPath();
+      ctx.moveTo(px, base); ctx.lineTo(px, base - h * 0.5);
+      ctx.moveTo(px, base - h * 0.5); ctx.lineTo(px + (o < 0.5 ? w * 0.1 : -w * 0.1), base - h * 0.62);
+      ctx.stroke();
+    });
+    // candelabro de cristais de sal
+    const cx = x + w / 2;
+    ctx.fillRect(cx - w * 0.004, base - h * 0.92, w * 0.008, h * 0.2);
+    for (let i = 0; i < 3; i++) {
+      const ry = base - h * (0.72 - i * 0.05), rw = w * (0.1 - i * 0.026);
+      ctx.lineWidth = Math.max(1, w * 0.004);
+      ctx.beginPath(); ctx.ellipse(cx, ry, rw, h * 0.014, 0, 0, 6.3); ctx.stroke();
+      for (let k = 0; k < 6; k++) {
+        const a = (k / 6) * 6.283;
+        ctx.beginPath();
+        ctx.arc(cx + Math.cos(a) * rw, ry + Math.sin(a) * h * 0.014, w * 0.007, 0, 6.3);
+        ctx.fill();
+      }
+    }
+  };
+
+  // ---- Praga ---------------------------------------------------------------
+
+  // Ponte Carlos: arcos, torre gótica e as estátuas no parapeito
+  L.charlesbridge = function (ctx, x, base, w, h, p, r) {
+    const deck = base - h * 0.34, n = 8, span = w / n;
+    ctx.fillRect(x, deck, w, h * 0.08);
+    for (let i = 0; i < n; i++) {
+      const cx2 = x + span * (i + 0.5);
+      ctx.fillRect(cx2 - span * 0.09, deck, span * 0.18, base - deck);
+      cut(ctx, () => {
+        ctx.beginPath();
+        ctx.arc(cx2 + span * 0.5, deck + h * 0.08, span * 0.38, Math.PI, 0);
+        ctx.rect(cx2 + span * 0.5 - span * 0.38, deck + h * 0.08, span * 0.76, base - deck);
+        ctx.fill();
+      });
+    }
+    // estátuas sobre os pilares
+    for (let i = 1; i < n; i++) {
+      const sx = x + span * i;
+      ctx.fillRect(sx - w * 0.005, deck - h * 0.075, w * 0.01, h * 0.075);
+      ctx.beginPath(); ctx.arc(sx, deck - h * 0.082, w * 0.008, 0, 6.3); ctx.fill();
+    }
+    // torre da ponte, gótica
+    const tx = x + w * 0.12, tw = w * 0.1;
+    ctx.fillRect(tx - tw / 2, deck - h * 0.62, tw, h * 0.62);
+    windows(ctx, tx - tw / 2, deck - h * 0.2, tw, h * 0.42, 1, true);
+    ctx.beginPath();
+    ctx.moveTo(tx - tw * 0.7, deck - h * 0.62);
+    ctx.lineTo(tx, deck - h * 0.86); ctx.lineTo(tx + tw * 0.7, deck - h * 0.62);
+    ctx.closePath(); ctx.fill();
+    [-1, 1].forEach((s) => {
+      ctx.fillRect(tx + s * tw * 0.56 - w * 0.012, deck - h * 0.7, w * 0.024, h * 0.1);
+    });
+  };
+
+  // Castelo de Praga: São Vito com duas agulhas sobre os telhados de Malá Strana
+  L.praguecastle = function (ctx, x, base, w, h, p, r) {
+    // telhados baixos em primeiro plano
+    for (let i = 0; i < 12; i++) {
+      const bw = w / 12, bx = x + i * bw, bh = h * (0.14 + (i % 4) * 0.045);
+      ctx.fillRect(bx, base - bh, bw * 0.92, bh);
+      ctx.beginPath();
+      ctx.moveTo(bx - bw * 0.05, base - bh);
+      ctx.lineTo(bx + bw * 0.46, base - bh - bw * 0.3);
+      ctx.lineTo(bx + bw * 0.97, base - bh);
+      ctx.closePath(); ctx.fill();
+    }
+    // muralha do castelo
+    const cb = base - h * 0.3;
+    ctx.fillRect(x + w * 0.18, cb - h * 0.2, w * 0.68, h * 0.2);
+    windows(ctx, x + w * 0.18, cb, w * 0.68, h * 0.2, 16, false);
+    // São Vito: nave alta e duas agulhas gêmeas
+    const vx = x + w * 0.46;
+    ctx.fillRect(vx - w * 0.11, cb - h * 0.46, w * 0.22, h * 0.46);
+    ctx.beginPath();
+    ctx.moveTo(vx - w * 0.11, cb - h * 0.46);
+    ctx.lineTo(vx, cb - h * 0.56); ctx.lineTo(vx + w * 0.11, cb - h * 0.46);
+    ctx.closePath(); ctx.fill();
+    [-0.075, 0.075].forEach((o) => spire(ctx, vx + w * o, cb - h * 0.52, w * 0.055, h * 0.4, true));
+    // torre sul, mais robusta
+    ctx.fillRect(x + w * 0.66, cb - h * 0.4, w * 0.075, h * 0.4);
+    ctx.beginPath(); ctx.arc(x + w * 0.6975, cb - h * 0.4, w * 0.045, Math.PI, 0); ctx.fill();
+  };
+
+  // Relógio Astronômico: torre da prefeitura, mostradores e as torres do Týn
+  L.astroclock = function (ctx, x, base, w, h, p, r) {
+    // casas da praça
+    for (let i = 0; i < 6; i++) {
+      const bw = w / 6, bx = x + i * bw, bh = h * (0.3 + (i % 3) * 0.06);
+      ctx.fillRect(bx + bw * 0.04, base - bh, bw * 0.92, bh);
+      let sy = base - bh;
+      for (let s = 0; s < 3; s++) {
+        const ins = bw * (0.1 + s * 0.12);
+        ctx.fillRect(bx + ins, sy - bw * 0.1, bw - ins * 2, bw * 0.11);
+        sy -= bw * 0.1;
+      }
+      windows(ctx, bx, base, bw, bh, 2, false);
+    }
+    // torre da prefeitura com os dois mostradores
+    const tx = x + w * 0.26, tw = w * 0.13;
+    ctx.fillRect(tx - tw / 2, base - h * 0.8, tw, h * 0.8);
+    ctx.fillRect(tx - tw * 0.66, base - h * 0.8, tw * 1.32, h * 0.08);
+    ctx.beginPath();
+    ctx.moveTo(tx - tw * 0.6, base - h * 0.88);
+    ctx.lineTo(tx, base - h * 1.04); ctx.lineTo(tx + tw * 0.6, base - h * 0.88);
+    ctx.closePath(); ctx.fill();
+    [0.42, 0.6].forEach((o, k) => {
+      const cy = base - h * o, rad = tw * (k ? 0.3 : 0.33);
+      cut(ctx, () => { ctx.beginPath(); ctx.arc(tx, cy, rad, 0, 6.3); ctx.fill(); });
+      ctx.lineWidth = Math.max(1, w * 0.003); ctx.strokeStyle = ctx.fillStyle;
+      ctx.beginPath(); ctx.arc(tx, cy, rad, 0, 6.3); ctx.stroke();
+      ctx.beginPath(); ctx.arc(tx, cy, rad * 0.4, 0, 6.3); ctx.fill();
+      for (let i = 0; i < 12; i++) {
+        const a = (i / 12) * 6.283;
+        ctx.beginPath();
+        ctx.moveTo(tx + Math.cos(a) * rad * 0.72, cy + Math.sin(a) * rad * 0.72);
+        ctx.lineTo(tx + Math.cos(a) * rad, cy + Math.sin(a) * rad); ctx.stroke();
+      }
+    });
+    // torres do Týn ao fundo
+    [0.68, 0.83].forEach((o) => {
+      const bx = x + w * o;
+      ctx.fillRect(bx - w * 0.035, base - h * 0.74, w * 0.07, h * 0.74);
+      spire(ctx, bx, base - h * 0.74, w * 0.075, h * 0.3, true);
+      [-1, 1].forEach((s) => {
+        ctx.beginPath();
+        ctx.moveTo(bx + s * w * 0.03, base - h * 0.76);
+        ctx.lineTo(bx + s * w * 0.042, base - h * 0.86);
+        ctx.lineTo(bx + s * w * 0.054, base - h * 0.76);
+        ctx.closePath(); ctx.fill();
+      });
+    });
+  };
+
+  // ---- Amsterdam / Luxemburgo ---------------------------------------------
+
+  // Casas de canal: fachadas estreitas, empenas variadas, ponte e bicicletas
+  L.canalhouses = function (ctx, x, base, w, h, p, r) {
+    const n = 11;
+    for (let i = 0; i < n; i++) {
+      const bw = w / n, bx = x + i * bw, bh = h * (0.5 + ((i * 7) % 5) * 0.07);
+      ctx.fillRect(bx + bw * 0.07, base - bh, bw * 0.86, bh);
+      const g = i % 3;
+      let sy = base - bh;
+      if (g === 0) { // empena em degraus
+        for (let s = 0; s < 4; s++) {
+          const ins = bw * (0.1 + s * 0.09);
+          ctx.fillRect(bx + ins, sy - bw * 0.11, bw - ins * 2, bw * 0.12);
+          sy -= bw * 0.11;
+        }
+      } else if (g === 1) { // empena de campânula
+        ctx.beginPath();
+        ctx.moveTo(bx + bw * 0.07, sy);
+        ctx.quadraticCurveTo(bx + bw * 0.5, sy - bw * 0.62, bx + bw * 0.93, sy);
+        ctx.closePath(); ctx.fill();
+      } else { // bico triangular com gancho de içamento
+        ctx.beginPath();
+        ctx.moveTo(bx + bw * 0.04, sy);
+        ctx.lineTo(bx + bw * 0.5, sy - bw * 0.44);
+        ctx.lineTo(bx + bw * 0.96, sy); ctx.closePath(); ctx.fill();
+        ctx.fillRect(bx + bw * 0.47, sy - bw * 0.5, bw * 0.06, bw * 0.1);
+      }
+      cut(ctx, () => {
+        for (let f = 0; f < 4; f++) {
+          for (let c = 0; c < 2; c++) {
+            ctx.fillRect(bx + bw * (0.22 + c * 0.34), base - bh + h * 0.03 + f * bh * 0.21,
+              bw * 0.22, bh * 0.13);
+          }
+        }
+      });
+    }
+    // ponte em arco sobre o canal
+    const bx2 = x + w * 0.62, bwd = w * 0.3;
+    ctx.fillRect(bx2, base - h * 0.05, bwd, h * 0.035);
+    cut(ctx, () => {
+      ctx.beginPath();
+      ctx.arc(bx2 + bwd * 0.5, base - h * 0.015, bwd * 0.3, Math.PI, 0); ctx.fill();
+    });
+    // bicicletas encostadas no parapeito
+    for (let i = 0; i < 4; i++) {
+      const wx = x + w * (0.08 + i * 0.1);
+      ctx.lineWidth = Math.max(1, w * 0.0035); ctx.strokeStyle = ctx.fillStyle;
+      ctx.beginPath(); ctx.arc(wx, base - h * 0.022, w * 0.013, 0, 6.3); ctx.stroke();
+      ctx.beginPath(); ctx.arc(wx + w * 0.032, base - h * 0.022, w * 0.013, 0, 6.3); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(wx, base - h * 0.022); ctx.lineTo(wx + w * 0.016, base - h * 0.055);
+      ctx.lineTo(wx + w * 0.032, base - h * 0.022); ctx.stroke();
+    }
+  };
+
+  // Luxemburgo: a cidade alta sobre o vale, casamatas na rocha e o Grund
+  L.corniche = function (ctx, x, base, w, h, p, r) {
+    // penhasco
+    ctx.beginPath();
+    ctx.moveTo(x, base);
+    ctx.lineTo(x, base - h * 0.24);
+    ctx.bezierCurveTo(x + w * 0.22, base - h * 0.3, x + w * 0.34, base - h * 0.74, x + w * 0.52, base - h * 0.76);
+    ctx.bezierCurveTo(x + w * 0.72, base - h * 0.78, x + w * 0.86, base - h * 0.4, x + w, base - h * 0.3);
+    ctx.lineTo(x + w, base); ctx.closePath(); ctx.fill();
+    // muralha no alto
+    ctx.fillRect(x + w * 0.28, base - h * 0.86, w * 0.48, h * 0.11);
+    cut(ctx, () => {
+      for (let i = 0; i < 7; i++) {
+        ctx.fillRect(x + w * (0.3 + i * 0.066), base - h * 0.88, w * 0.026, h * 0.035);
+      }
+    });
+    // torres e casas da cidade alta
+    [0.34, 0.5, 0.66].forEach((o, i) => {
+      const tx = x + w * o, tw = w * 0.05;
+      ctx.fillRect(tx - tw / 2, base - h * (0.98 + i * 0.02), tw, h * 0.14);
+      ctx.beginPath();
+      ctx.moveTo(tx - tw * 0.7, base - h * (0.98 + i * 0.02));
+      ctx.lineTo(tx, base - h * (1.1 + i * 0.02));
+      ctx.lineTo(tx + tw * 0.7, base - h * (0.98 + i * 0.02));
+      ctx.closePath(); ctx.fill();
+    });
+    // casamatas: vãos escavados na rocha
+    cut(ctx, () => {
+      for (let i = 0; i < 5; i++) {
+        const ax = x + w * (0.3 + i * 0.1), ay = base - h * (0.42 + (i % 2) * 0.1);
+        const aw = w * 0.022;
+        ctx.beginPath();
+        ctx.arc(ax, ay, aw, Math.PI, 0);
+        ctx.rect(ax - aw, ay, aw * 2, h * 0.045); ctx.fill();
+      }
+    });
+    // casario do Grund, embaixo
+    for (let i = 0; i < 8; i++) {
+      const bx = x + w * (0.04 + i * 0.055), bh = h * (0.08 + (i % 3) * 0.025);
+      ctx.fillRect(bx, base - bh, w * 0.042, bh);
+      ctx.beginPath();
+      ctx.moveTo(bx - w * 0.006, base - bh);
+      ctx.lineTo(bx + w * 0.021, base - bh - h * 0.03);
+      ctx.lineTo(bx + w * 0.048, base - bh); ctx.closePath(); ctx.fill();
+    }
+  };
+
+  window.Landmarks = L;
+})();
+
 /* ===== scenes.js ===== */
 // Motor de cenas: desenha cada atração como estudo de luz e silhueta.
 // Serve de camada-base sob a fotografia e assume sozinho quando a foto não carrega.
@@ -841,6 +1818,19 @@ window.TRIP = {
     "statue-bridge":  ["bridge",   { arches: 6, statues: 1, tower: 1 }],
     "castle-panorama":["hill",     { castle: 1, town: 1 }],
     "clock-square":   ["spires",   { count: 2, clock: 1 }]
+  };
+
+  // arquétipo de fundo por trás de cada monumento
+  const LMBG = {
+    eiffel: "houses", notredame: "houses", louvre: "palace",
+    grandplace: "houses", koelnerdom: "houses", strasbourgcath: "houses",
+    kapellbruecke: "mountain", titlis: "mountain",
+    duomomilano: "houses", galleria: "vault", venice: "water",
+    stephansdom: "houses", schoenbrunn: "palace",
+    parliament: "houses", fishermans: "hill",
+    bratislavacastle: "hill", clothhall: "houses", saltchapel: "vault",
+    charlesbridge: "houses", praguecastle: "hill", astroclock: "houses",
+    canalhouses: "houses", corniche: "hill"
   };
 
   function rng(seed) {
@@ -1188,15 +2178,20 @@ window.TRIP = {
 
     const art = scene.art || {};
     const pal = SKY[art.sky] || SKY.dusk;
-    const [arch, params] = KIND[art.kind] || ["houses", {}];
+    // monumento desenhado tem prioridade no primeiro plano;
+    // o fundo recebe um arquétipo genérico que combine com ele
+    const mark = (window.Landmarks && window.Landmarks[art.kind]) || null;
+    const [arch, params] = mark
+      ? [LMBG[art.kind] || "houses", {}]
+      : (KIND[art.kind] || ["houses", {}]);
     const r = rng(hash(scene.name + art.kind));
     const interior = art.sky === "interior" || art.sky === "underground";
-    const horizon = interior ? H * 0.9 : H * (art.water ? 0.62 : 0.74);
+    const horizon = interior ? H * 0.9 : H * (art.water ? 0.66 : 0.78);
 
     // céu
     const g = ctx.createLinearGradient(0, 0, 0, horizon);
-    g.addColorStop(0, pal[0]); g.addColorStop(0.45, pal[1]);
-    g.addColorStop(0.8, pal[2]); g.addColorStop(1, pal[3]);
+    g.addColorStop(0, mix(pal[0], pal[1], 0.3)); g.addColorStop(0.34, pal[1]);
+    g.addColorStop(0.66, pal[2]); g.addColorStop(1, pal[3]);
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, horizon + 2);
 
     // disco de luz
@@ -1224,19 +2219,32 @@ window.TRIP = {
       const base = horizon + (H - horizon) * (interior ? 0 : t * 0.14);
       const h = H * (interior ? 0.8 : (0.2 + depth * 0.26));
       const inset = (1 - depth) * W * 0.12;
-      ctx.fillStyle = mix(pal[2], L === layers - 1 ? accentHex : pal[0], 0.42 + t * 0.5);
+      const isFront = L === layers - 1;
+      // o monumento ocupa o centro e recebe mais altura: é o assunto da cena
+      const mw = W * (interior ? 1 : 0.66), mx = (W - mw) / 2;
+      const mh = H * (interior ? 0.84 : 0.5);
+
+      // o primeiro plano vira silhueta escura: é o contraste que faz o monumento ler
+      ctx.fillStyle = isFront
+        ? mix(mix(accentHex, pal[0], 0.4), "#05070D", 0.5)
+        : mix(pal[2], pal[0], 0.2 + t * 0.34);
       ctx.save();
-      DRAW[arch](ctx, -inset, base, W + inset * 2, h, L === layers - 1 ? params : { ...params, low: 1 }, r,
-        mix("#ffffff", pal[3], 0.18));
+      if (isFront && mark) {
+        mark(ctx, mx, base, mw, mh, params, r);
+      } else {
+        DRAW[arch](ctx, -inset, base, W + inset * 2, h, isFront ? params : { ...params, low: 1 }, r,
+          mix("#ffffff", pal[3], 0.18));
+      }
       ctx.restore();
 
       // reflexo na água
-      if (art.water && L === layers - 1 && !interior) {
+      if (art.water && isFront && !interior) {
         ctx.save();
         ctx.globalAlpha = 0.3;
         ctx.translate(0, base * 2); ctx.scale(1, -1);
         ctx.fillStyle = mix(pal[2], accentHex, 0.7);
-        DRAW[arch](ctx, -inset, base, W + inset * 2, h * 0.92, params, rng(hash(scene.name)), null);
+        if (mark) mark(ctx, mx, base, mw, mh * 0.92, params, rng(hash(scene.name)));
+        else DRAW[arch](ctx, -inset, base, W + inset * 2, h * 0.92, params, rng(hash(scene.name)), null);
         ctx.restore();
         ctx.globalAlpha = 1;
         ctx.fillStyle = mix(pal[3], pal[0], 0.55);
@@ -1257,7 +2265,7 @@ window.TRIP = {
 
     // vinheta + granulado
     const vg = ctx.createRadialGradient(W / 2, H * 0.45, H * 0.2, W / 2, H * 0.5, H * 0.95);
-    vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(4,6,11,.62)");
+    vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(4,6,11,.34)");
     ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
     ctx.globalAlpha = 0.05;
     for (let i = 0; i < (W * H) / 700; i++) {
@@ -1482,7 +2490,8 @@ window.TRIP = {
     luxembourg: { root: 277.18, chord: [0, 4, 7, 9, 14],  bpm: 100, beats: 4, pat: "updown", wave: "sine",     cut: 2400, air: 0.07 },
     strasbourg: { root: 311.13, chord: [0, 4, 7, 11, 14], bpm: 106, beats: 3, pat: "up",     wave: "sawtooth", cut: 2600, air: 0.06 },
     lucerne:    { root: 329.63, chord: [0, 7, 12, 16, 19], bpm: 96, beats: 4, pat: "updown", wave: "sine",     cut: 3600, air: 0.20 },
-    italy:      { root: 311.13, chord: [0, 4, 7, 9, 16],  bpm: 118, beats: 4, pat: "skip",   wave: "sawtooth", cut: 3000, air: 0.12 },
+    milan:      { root: 311.13, chord: [0, 4, 7, 9, 16],  bpm: 120, beats: 4, pat: "skip",   wave: "sawtooth", cut: 3100, air: 0.06 },
+    venice:     { root: 329.63, chord: [0, 4, 7, 11, 14], bpm: 104, beats: 3, pat: "updown", wave: "triangle", cut: 3000, air: 0.20 },
     vienna:     { root: 293.66, chord: [0, 4, 7, 11, 16], bpm: 168, beats: 3, pat: "up",     wave: "sawtooth", cut: 2800, air: 0.04 },
     budapest:   { root: 329.63, chord: [0, 4, 6, 11, 16], bpm: 124, beats: 4, pat: "skip",   wave: "sawtooth", cut: 3000, air: 0.10 },
     bratislava: { root: 293.66, chord: [0, 4, 7, 14, 16], bpm: 114, beats: 4, pat: "up",     wave: "triangle", cut: 2600, air: 0.07 },
@@ -1752,26 +2761,26 @@ window.TRIP = {
 
   // capa
   const coverScenes = [
-    T.chapters[12].scenes[1], // Praga
-    T.chapters[7].scenes[2],  // Veneza
-    T.chapters[9].scenes[1],  // Budapeste
-    T.chapters[6].scenes[1]   // Titlis
+    T.chapters[0].scenes[2],  // Torre Eiffel
+    T.chapters[8].scenes[0],  // Veneza
+    T.chapters[6].scenes[1],  // Titlis
+    T.chapters[13].scenes[1]  // Praga
   ];
   {
     const s = el("section", "slide slide-hero");
     s.dataset.kind = "cover";
     s.appendChild(stageFor(coverScenes, "#3F7BA8"));
     s.appendChild(el("div", "hero-wrap", `
-      <p class="eyebrow">Uma viagem para nós dois</p>
+      <p class="eyebrow">${esc(T.meta.eyebrow)}</p>
       <h1 class="hero-title">Europa<em>em 15 dias</em></h1>
       <p class="hero-copy">Do primeiro café em Paris à última noite em Viena.
-        Doze países ligados por trilhos, cidades e histórias — entre
-        ${T.meta.start} e ${T.meta.end} de ${T.meta.month} de ${T.meta.year}.</p>
+        Doze países ligados por trilhos — e três noites dormindo sobre eles,
+        entre ${T.meta.start} e ${T.meta.end} de ${T.meta.month} de ${T.meta.year}.</p>
       <div class="hero-meta">
         <div><strong>${T.meta.start}&#8202;–&#8202;${T.meta.end}</strong><span>${T.meta.month} ${T.meta.year}</span></div>
         <div><strong>${T.meta.countries}</strong><span>países</span></div>
-        <div><strong>${T.meta.stops}</strong><span>destinos</span></div>
-        <div><strong>${T.meta.days}</strong><span>dias</span></div>
+        <div><strong>${T.meta.stops}</strong><span>cidades nossas</span></div>
+        <div><strong>${T.meta.nightTrains}</strong><span>noites no trem</span></div>
       </div>
       <button class="start" id="begin"><span class="dot"></span> Iniciar a viagem</button>
     `));
@@ -1796,17 +2805,32 @@ window.TRIP = {
         </button>
       </li>`).join("");
 
+    const leg = ch.leg || {};
+    const via = (leg.via && leg.via.length)
+      ? `<span class="leg-via"><i>só pela janela</i>${leg.via.map(esc).join(" · ")}</span>`
+      : "";
+    const legBlock = `
+      <div class="leg${leg.night ? " is-night" : ""}">
+        <span class="leg-head">
+          <span class="leg-mode">${esc(leg.mode || "")}</span>
+          <span class="leg-route">${esc(leg.label || "")}</span>
+        </span>
+        ${leg.time ? `<span class="leg-time">${esc(leg.time)}${leg.dur ? "<i>" + esc(leg.dur) + "</i>" : ""}</span>` : ""}
+        ${via}
+      </div>`;
+
     s.appendChild(el("div", "chapter-body", `
       <div class="panel">
         <div class="ch-head">
-          <span class="ch-n">${ch.n} / 13</span>
+          <span class="ch-n">${ch.n} / ${String(T.chapters.length).padStart(2, "0")}</span>
           <span class="ch-country">${esc(ch.country)}</span>
-          <span class="ch-dates">${esc(ch.days)} · ${esc(ch.dates)}</span>
+          <span class="ch-dates">${esc(ch.dates)}</span>
         </div>
         <h2 class="ch-city">${esc(ch.city)}${ch.sub ? `<em>${esc(ch.sub)}</em>` : ""}</h2>
+        ${legBlock}
         <p class="ch-intro">${esc(ch.intro)}</p>
         <ul class="scenes">${rows}</ul>
-        <p class="transit"><b>Como seguir</b><span>${esc(ch.transit)}</span></p>
+        <p class="sleep"><b>dormimos em</b><span>${esc(ch.sleep || "")}</span></p>
       </div>
     `));
     s.appendChild(el("div", "scene-hud"));
@@ -1817,23 +2841,28 @@ window.TRIP = {
   // calendário + logística
   {
     const rows = T.calendar.map((d) => `
-      <div class="cal-row">
-        <div class="cal-day">${d.d}<small>ABR</small></div>
+      <div class="cal-row${d.night ? " is-night" : ""}">
+        <div class="cal-day">${d.d}<small>${esc(d.wd)}</small></div>
         <div class="cal-main">
           <span class="cal-place">${esc(d.place)}</span>
           <span class="cal-detail">${esc(d.detail)}</span>
-          <span class="cal-route">${esc(d.route)}</span>
+          <span class="cal-route"><i>só pela janela</i>${esc(d.route)}</span>
         </div>
+        <div class="cal-sleep"><i>noite</i>${esc(d.sleep)}</div>
       </div>`).join("");
     const logs = T.logistics.map((l) => `
       <div class="log-item"><h3>${esc(l.t)}</h3><p>${esc(l.d)}</p></div>`).join("");
+    const flags = T.countries.map(([cc, nm]) =>
+      `<span class="flag-chip"><i>${esc(cc.toUpperCase())}</i>${esc(nm)}</span>`).join("");
     const s = el("section", "slide");
     s.dataset.kind = "sheet";
     s.appendChild(el("div", "sheet", `
       <p class="eyebrow">Calendário</p>
       <h2>Quinze dias,<em>sem perder o fio.</em></h2>
       <div class="cal">${rows}</div>
-      <p class="eyebrow" style="margin-top:44px">Logística</p>
+      <p class="eyebrow" style="margin-top:46px">Os doze países</p>
+      <div class="flags">${flags}</div>
+      <p class="eyebrow" style="margin-top:46px">Como vamos viajar</p>
       <div class="log-grid">${logs}</div>
     `));
     deck.appendChild(s);
@@ -1844,13 +2873,13 @@ window.TRIP = {
   {
     const s = el("section", "slide");
     s.dataset.kind = "end";
-    s.appendChild(stageFor([T.chapters[8].scenes[0]], "#A66B47"));
+    s.appendChild(stageFor([T.chapters[9].scenes[0]], "#A66B47"));
     s.appendChild(el("div", "end", `
       <p>${esc(T.meta.dedication)}</p>
       <span>${T.meta.start} a ${T.meta.end} de ${T.meta.month} de ${T.meta.year}</span>
     `));
     deck.appendChild(s);
-    slides.push({ node: s, kind: "end", scenes: [T.chapters[8].scenes[0]], accent: "#A66B47", audio: "vienna" });
+    slides.push({ node: s, kind: "end", scenes: [T.chapters[9].scenes[0]], accent: "#A66B47", audio: "vienna" });
   }
 
   // trilho
@@ -2097,7 +3126,7 @@ window.TRIP = {
   showScene(0);
 
   // busca as fotos da capa e das primeiras etapas assim que a página abre
-  [13, 8, 10, 7, 1, 2].forEach((n, k) => setTimeout(() => warm(n), k * 260));
+  [1, 9, 7, 14, 2, 3].forEach((n, k) => setTimeout(() => warm(n), k * 260));
 })();
 
 </script>

@@ -55,6 +55,19 @@
     "clock-square":   ["spires",   { count: 2, clock: 1 }]
   };
 
+  // arquétipo de fundo por trás de cada monumento
+  const LMBG = {
+    eiffel: "houses", notredame: "houses", louvre: "palace",
+    grandplace: "houses", koelnerdom: "houses", strasbourgcath: "houses",
+    kapellbruecke: "mountain", titlis: "mountain",
+    duomomilano: "houses", galleria: "vault", venice: "water",
+    stephansdom: "houses", schoenbrunn: "palace",
+    parliament: "houses", fishermans: "hill",
+    bratislavacastle: "hill", clothhall: "houses", saltchapel: "vault",
+    charlesbridge: "houses", praguecastle: "hill", astroclock: "houses",
+    canalhouses: "houses", corniche: "hill"
+  };
+
   function rng(seed) {
     let s = seed >>> 0;
     return function () {
@@ -400,15 +413,20 @@
 
     const art = scene.art || {};
     const pal = SKY[art.sky] || SKY.dusk;
-    const [arch, params] = KIND[art.kind] || ["houses", {}];
+    // monumento desenhado tem prioridade no primeiro plano;
+    // o fundo recebe um arquétipo genérico que combine com ele
+    const mark = (window.Landmarks && window.Landmarks[art.kind]) || null;
+    const [arch, params] = mark
+      ? [LMBG[art.kind] || "houses", {}]
+      : (KIND[art.kind] || ["houses", {}]);
     const r = rng(hash(scene.name + art.kind));
     const interior = art.sky === "interior" || art.sky === "underground";
-    const horizon = interior ? H * 0.9 : H * (art.water ? 0.62 : 0.74);
+    const horizon = interior ? H * 0.9 : H * (art.water ? 0.66 : 0.78);
 
     // céu
     const g = ctx.createLinearGradient(0, 0, 0, horizon);
-    g.addColorStop(0, pal[0]); g.addColorStop(0.45, pal[1]);
-    g.addColorStop(0.8, pal[2]); g.addColorStop(1, pal[3]);
+    g.addColorStop(0, mix(pal[0], pal[1], 0.3)); g.addColorStop(0.34, pal[1]);
+    g.addColorStop(0.66, pal[2]); g.addColorStop(1, pal[3]);
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, horizon + 2);
 
     // disco de luz
@@ -436,19 +454,32 @@
       const base = horizon + (H - horizon) * (interior ? 0 : t * 0.14);
       const h = H * (interior ? 0.8 : (0.2 + depth * 0.26));
       const inset = (1 - depth) * W * 0.12;
-      ctx.fillStyle = mix(pal[2], L === layers - 1 ? accentHex : pal[0], 0.42 + t * 0.5);
+      const isFront = L === layers - 1;
+      // o monumento ocupa o centro e recebe mais altura: é o assunto da cena
+      const mw = W * (interior ? 1 : 0.66), mx = (W - mw) / 2;
+      const mh = H * (interior ? 0.84 : 0.5);
+
+      // o primeiro plano vira silhueta escura: é o contraste que faz o monumento ler
+      ctx.fillStyle = isFront
+        ? mix(mix(accentHex, pal[0], 0.4), "#05070D", 0.5)
+        : mix(pal[2], pal[0], 0.2 + t * 0.34);
       ctx.save();
-      DRAW[arch](ctx, -inset, base, W + inset * 2, h, L === layers - 1 ? params : { ...params, low: 1 }, r,
-        mix("#ffffff", pal[3], 0.18));
+      if (isFront && mark) {
+        mark(ctx, mx, base, mw, mh, params, r);
+      } else {
+        DRAW[arch](ctx, -inset, base, W + inset * 2, h, isFront ? params : { ...params, low: 1 }, r,
+          mix("#ffffff", pal[3], 0.18));
+      }
       ctx.restore();
 
       // reflexo na água
-      if (art.water && L === layers - 1 && !interior) {
+      if (art.water && isFront && !interior) {
         ctx.save();
         ctx.globalAlpha = 0.3;
         ctx.translate(0, base * 2); ctx.scale(1, -1);
         ctx.fillStyle = mix(pal[2], accentHex, 0.7);
-        DRAW[arch](ctx, -inset, base, W + inset * 2, h * 0.92, params, rng(hash(scene.name)), null);
+        if (mark) mark(ctx, mx, base, mw, mh * 0.92, params, rng(hash(scene.name)));
+        else DRAW[arch](ctx, -inset, base, W + inset * 2, h * 0.92, params, rng(hash(scene.name)), null);
         ctx.restore();
         ctx.globalAlpha = 1;
         ctx.fillStyle = mix(pal[3], pal[0], 0.55);
@@ -469,7 +500,7 @@
 
     // vinheta + granulado
     const vg = ctx.createRadialGradient(W / 2, H * 0.45, H * 0.2, W / 2, H * 0.5, H * 0.95);
-    vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(4,6,11,.62)");
+    vg.addColorStop(0, "rgba(0,0,0,0)"); vg.addColorStop(1, "rgba(4,6,11,.34)");
     ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
     ctx.globalAlpha = 0.05;
     for (let i = 0; i < (W * H) / 700; i++) {

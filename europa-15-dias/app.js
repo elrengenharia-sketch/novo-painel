@@ -46,26 +46,26 @@
 
   // capa
   const coverScenes = [
-    T.chapters[12].scenes[1], // Praga
-    T.chapters[7].scenes[2],  // Veneza
-    T.chapters[9].scenes[1],  // Budapeste
-    T.chapters[6].scenes[1]   // Titlis
+    T.chapters[0].scenes[2],  // Torre Eiffel
+    T.chapters[8].scenes[0],  // Veneza
+    T.chapters[6].scenes[1],  // Titlis
+    T.chapters[13].scenes[1]  // Praga
   ];
   {
     const s = el("section", "slide slide-hero");
     s.dataset.kind = "cover";
     s.appendChild(stageFor(coverScenes, "#3F7BA8"));
     s.appendChild(el("div", "hero-wrap", `
-      <p class="eyebrow">Uma viagem para nós dois</p>
+      <p class="eyebrow">${esc(T.meta.eyebrow)}</p>
       <h1 class="hero-title">Europa<em>em 15 dias</em></h1>
       <p class="hero-copy">Do primeiro café em Paris à última noite em Viena.
-        Doze países ligados por trilhos, cidades e histórias — entre
-        ${T.meta.start} e ${T.meta.end} de ${T.meta.month} de ${T.meta.year}.</p>
+        Doze países ligados por trilhos — e três noites dormindo sobre eles,
+        entre ${T.meta.start} e ${T.meta.end} de ${T.meta.month} de ${T.meta.year}.</p>
       <div class="hero-meta">
         <div><strong>${T.meta.start}&#8202;–&#8202;${T.meta.end}</strong><span>${T.meta.month} ${T.meta.year}</span></div>
         <div><strong>${T.meta.countries}</strong><span>países</span></div>
-        <div><strong>${T.meta.stops}</strong><span>destinos</span></div>
-        <div><strong>${T.meta.days}</strong><span>dias</span></div>
+        <div><strong>${T.meta.stops}</strong><span>cidades nossas</span></div>
+        <div><strong>${T.meta.nightTrains}</strong><span>noites no trem</span></div>
       </div>
       <button class="start" id="begin"><span class="dot"></span> Iniciar a viagem</button>
     `));
@@ -90,17 +90,32 @@
         </button>
       </li>`).join("");
 
+    const leg = ch.leg || {};
+    const via = (leg.via && leg.via.length)
+      ? `<span class="leg-via"><i>só pela janela</i>${leg.via.map(esc).join(" · ")}</span>`
+      : "";
+    const legBlock = `
+      <div class="leg${leg.night ? " is-night" : ""}">
+        <span class="leg-head">
+          <span class="leg-mode">${esc(leg.mode || "")}</span>
+          <span class="leg-route">${esc(leg.label || "")}</span>
+        </span>
+        ${leg.time ? `<span class="leg-time">${esc(leg.time)}${leg.dur ? "<i>" + esc(leg.dur) + "</i>" : ""}</span>` : ""}
+        ${via}
+      </div>`;
+
     s.appendChild(el("div", "chapter-body", `
       <div class="panel">
         <div class="ch-head">
-          <span class="ch-n">${ch.n} / 13</span>
+          <span class="ch-n">${ch.n} / ${String(T.chapters.length).padStart(2, "0")}</span>
           <span class="ch-country">${esc(ch.country)}</span>
-          <span class="ch-dates">${esc(ch.days)} · ${esc(ch.dates)}</span>
+          <span class="ch-dates">${esc(ch.dates)}</span>
         </div>
         <h2 class="ch-city">${esc(ch.city)}${ch.sub ? `<em>${esc(ch.sub)}</em>` : ""}</h2>
+        ${legBlock}
         <p class="ch-intro">${esc(ch.intro)}</p>
         <ul class="scenes">${rows}</ul>
-        <p class="transit"><b>Como seguir</b><span>${esc(ch.transit)}</span></p>
+        <p class="sleep"><b>dormimos em</b><span>${esc(ch.sleep || "")}</span></p>
       </div>
     `));
     s.appendChild(el("div", "scene-hud"));
@@ -111,23 +126,28 @@
   // calendário + logística
   {
     const rows = T.calendar.map((d) => `
-      <div class="cal-row">
-        <div class="cal-day">${d.d}<small>ABR</small></div>
+      <div class="cal-row${d.night ? " is-night" : ""}">
+        <div class="cal-day">${d.d}<small>${esc(d.wd)}</small></div>
         <div class="cal-main">
           <span class="cal-place">${esc(d.place)}</span>
           <span class="cal-detail">${esc(d.detail)}</span>
-          <span class="cal-route">${esc(d.route)}</span>
+          <span class="cal-route"><i>só pela janela</i>${esc(d.route)}</span>
         </div>
+        <div class="cal-sleep"><i>noite</i>${esc(d.sleep)}</div>
       </div>`).join("");
     const logs = T.logistics.map((l) => `
       <div class="log-item"><h3>${esc(l.t)}</h3><p>${esc(l.d)}</p></div>`).join("");
+    const flags = T.countries.map(([cc, nm]) =>
+      `<span class="flag-chip"><i>${esc(cc.toUpperCase())}</i>${esc(nm)}</span>`).join("");
     const s = el("section", "slide");
     s.dataset.kind = "sheet";
     s.appendChild(el("div", "sheet", `
       <p class="eyebrow">Calendário</p>
       <h2>Quinze dias,<em>sem perder o fio.</em></h2>
       <div class="cal">${rows}</div>
-      <p class="eyebrow" style="margin-top:44px">Logística</p>
+      <p class="eyebrow" style="margin-top:46px">Os doze países</p>
+      <div class="flags">${flags}</div>
+      <p class="eyebrow" style="margin-top:46px">Como vamos viajar</p>
       <div class="log-grid">${logs}</div>
     `));
     deck.appendChild(s);
@@ -138,13 +158,13 @@
   {
     const s = el("section", "slide");
     s.dataset.kind = "end";
-    s.appendChild(stageFor([T.chapters[8].scenes[0]], "#A66B47"));
+    s.appendChild(stageFor([T.chapters[9].scenes[0]], "#A66B47"));
     s.appendChild(el("div", "end", `
       <p>${esc(T.meta.dedication)}</p>
       <span>${T.meta.start} a ${T.meta.end} de ${T.meta.month} de ${T.meta.year}</span>
     `));
     deck.appendChild(s);
-    slides.push({ node: s, kind: "end", scenes: [T.chapters[8].scenes[0]], accent: "#A66B47", audio: "vienna" });
+    slides.push({ node: s, kind: "end", scenes: [T.chapters[9].scenes[0]], accent: "#A66B47", audio: "vienna" });
   }
 
   // trilho
@@ -391,5 +411,5 @@
   showScene(0);
 
   // busca as fotos da capa e das primeiras etapas assim que a página abre
-  [13, 8, 10, 7, 1, 2].forEach((n, k) => setTimeout(() => warm(n), k * 260));
+  [1, 9, 7, 14, 2, 3].forEach((n, k) => setTimeout(() => warm(n), k * 260));
 })();

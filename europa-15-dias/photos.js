@@ -41,9 +41,11 @@
       { src: C("Titlis_-_panoramio.jpg"), by: "panoramio", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Titlis_-_panoramio.jpg" },
       { src: C("Lucerne_lake_and_mountains.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Lucerne_lake_and_mountains.jpg" }
     ],
-    italy: [
+    milan: [
       { src: C("Milan_Cathedral_from_Piazza_del_Duomo.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Milan_Cathedral_from_Piazza_del_Duomo.jpg" },
-      { src: C("Galleria_Vittorio_Emanuele_II_%28Milan%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Galleria_Vittorio_Emanuele_II_(Milan).jpg" },
+      { src: C("Galleria_Vittorio_Emanuele_II_%28Milan%29.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Galleria_Vittorio_Emanuele_II_(Milan).jpg" }
+    ],
+    venice: [
       { src: C("Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_Ponte_dell%27_Accademia.jpg"), by: "Wikimedia Commons", lic: "CC BY-SA", href: "https://commons.wikimedia.org/wiki/File:Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_Ponte_dell%27_Accademia.jpg" }
     ],
     vienna: [
